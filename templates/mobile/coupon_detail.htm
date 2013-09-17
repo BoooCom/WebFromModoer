@@ -1,0 +1,24 @@
+{eval 
+	$_HEAD[title] = $detail[subject];
+	$_HEAD[description] = $detail[des];
+}
+{include mobile_template('header')}
+<div class="coupon_detail">
+	<ul class="coupon_detail_ul">
+		<li class="title">$detail[subject]</li>
+		<li class="des">优惠券编号：$couponid</li>
+		<li class="des">适用商户：<a href="{url item/mobile/do/detail/id/$detail[sid]}">$subject[name]{if $subject[subname]}($subject[subname]){/if}</a></li>
+		<li class="des">$detail[des]</li>
+		<li class="time">有效期：{date $detail[starttime], 'Y-m-d'} ~ {date $detail[endtime], 'Y-m-d'}</li>
+		<li>将此页展示既可使用</li>
+		<li class="sendbtn">
+			{if $detail[sms_text] && $MOD[sendsms] && check_module('sms')}
+			<span class="abtn"><a href="{url coupon/mobile/do/detail/op/sendsms/id/$couponid}">发送短信</a></span>
+			{/if}
+		</li>
+	</ul>
+	<div class="coupon_image">
+		<img src="{URLROOT}/$detail[picture]" alt="$detail[subject]">
+	</div>
+</div>
+{include mobile_template('footer')}

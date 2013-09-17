@@ -1,0 +1,23 @@
+{eval
+    $_HEAD[title] = "新闻资讯列表";
+}
+{include mobile_template('header')}
+<div class="item-list">
+    <div class="info-operation">
+        <div class="fl">
+            {if $urlpath}
+                {print implode('&nbsp;&gt;&nbsp;', $urlpath)}
+            {/if}
+        </div>
+        <div class="fr">
+            <span class="abtn"><a href="{url article/mobile/do/list/op/filter/catid/$pid/}">筛选</a></span>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="item-list-lst">
+        {include mobile_template('article_list_li')}
+        {if $multipage}<div class="multipage">$multipage</div>{/if}
+        <div id="loadingmessage"></div>
+    </div>
+</div>
+{include mobile_template('footer')}

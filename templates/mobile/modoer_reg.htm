@@ -1,0 +1,55 @@
+{eval
+    $_HEAD[title] = "会员注册";
+}
+{include mobile_template('header')}
+<div class="form-box">
+	<form action="{url member/mobile/do/reg}" method="POST">
+		<div class="form-item">
+            <label>用户名
+                <input name="username" id="username" placeholder="请输入用户名" value="" type="text">
+            </label>
+        </div>
+        <div class="form-item">
+            <label>E-Mail：
+                <input name="email" id="email" placeholder="请输入电子邮箱" value="" type="text">
+            </label>
+        </div>
+		<div class="form-item">
+            <label>密码：
+            <input name="password" id="password" placeholder="请输入密码" value="" type="password">
+            </label>
+        </div>
+        <div class="form-item">
+            <label>确认密码：
+            <input name="password2" id="password2" placeholder="请重新输入密码" value="" type="password">
+            </label>
+        </div>
+        <!--{if $MOD['seccode_reg']}-->
+        <div class="form-item">
+            <label>验证码：
+                <input name="seccode" id="seccode" placeholder="请输入验证码" value="" type="text">
+            </label>
+            <span id="seecode"></span>
+        </div>
+        <script type="text/javascript">
+        $(function(){
+            var sec = $('#seecode').empty();
+            var img = $('<img />')
+                .css({weight:"80px", height:"25px", cursor:"pointer"})
+                .attr("title",'点击更新验证码')
+                .click(function() {
+                    this.src= Url('modoer/seccode/x/'+getRandom());
+                    $('#seecode').show();
+                });
+            sec.append(img);
+            img.click();
+        });
+        </script>
+        <!--{/if}-->
+		<div class="form-item"><input type="submit" value="注册" name="dosubmit" class="sub_btn" /></div>
+	</form>
+</div>
+<script>
+		//App custom javascript
+</script>
+{include mobile_template('footer')}

@@ -1,0 +1,62 @@
+{eval 
+    $_HEAD[title] = '随便看看';
+}
+{include mobile_template('header')}
+<link rel="stylesheet" href="{URLROOT}/{$_G[tplurl_mobile]}/css/dropkick.css" />
+<script type="text/javascript" src="{URLROOT}/{$_G[tplurl_mobile]}/js/dropkick.js"></script>
+<div class="item-list">
+    <div class="info-operation">
+        <div class="fl">
+            <select id="catid" name="name">
+                {get:item val=category(pid/0)}
+                <option value="{url item/mobile/do/rand/catid/$val[catid]}"{if $catid==$val[catid]} selected="selected"{/if}>$val[name]</option>
+                {/get}
+            </select>
+            <script type="text/javascript">
+                $('#catid').dropkick({
+                    change: function (value, label) {
+                        if(value) jslocation(value);
+                    }
+                });
+            </script>
+        </div>
+        <div class="fr">
+            <span class="abtn"><a href="javascript:void(0)" id="reload">换一批</a></span>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="item-list-lst" id="list_item">
+        {include mobile_template('item_list_li')}
+    </div>
+</div>
+<script>
+
+    window.onload=function(){
+        $(document).on("click", "#reload", function() {
+            setTimeout("common_rand_subject('list_item', '{url item/mobile/do/rand/catid/$catid}')", 300 );
+        });
+    }
+
+    var ajaxing = false;
+    function common_rand_subject(boxid, url) {
+        if(ajaxing) return;
+        ajaxing = true;
+        while (url.indexOf('&amp;') > 0) {
+            url = url.replace('&amp;', '&');
+        }
+        $('#reload').text('加载中');
+        $.post(url, { 'in_ajax':1 }, function(result) {
+            //alert(result);
+            $('#reload').text('换一批');
+            ajaxing = false;
+            if(result == null) {
+                alert('信息读取失败，请稍后尝试。');
+            } else if (is_message(result)) {
+                myAlert(result);
+            } else if(result != '') {
+                $('#'+boxid).empty().append(result);
+            }
+        });
+    }
+</script>
+{include mobile_template('footer')}

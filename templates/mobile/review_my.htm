@@ -1,0 +1,7 @@
+{eval $_HEAD[title] = $header_title = "我的点评";}
+{include mobile_template('header')}
+<div class="review_list">
+    {include mobile_template('review_my_li')}
+</div>
+{if $multipage}<div class="multipage">$multipage</div>{/if}
+{include mobile_template('footer')}

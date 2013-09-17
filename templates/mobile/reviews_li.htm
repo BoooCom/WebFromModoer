@@ -1,0 +1,25 @@
+<ul class="review-ul">
+    <!--{dbres $list $val}-->
+    <li>
+        <div class="li-header">
+            <cite>{date $val[posttime],'w2style'}</cite>
+            <div>
+                {if $val[uid]}$val[username]&nbsp;({print:member group(groupid/$val[groupid]/color/0)}){else}游客{/if}
+                <!--{if $val[price] && $catcfg['useprice']}-->
+                &nbsp;<span>$catcfg[useprice_title]: $val[price]{$catcfg[useprice_unit]}</span>
+                <!--{/if}-->
+            </div>
+        </div>
+        <div class="li-grades">
+            <!--{loop $reviewpot $_val}-->
+            $_val[name]:<span class="sorce">{print cfloat($val[$_val[flag]])}</span>
+            <!--{/loop}-->
+        </div>
+        {if $show_full}
+            <div class="li-content">{print nl2br($val[content])}</div>
+        {else}
+            <div class="li-content">{sublen $val[content],200,'...'}</div>
+        {/if}
+    </li>
+    <!--{/dbres}-->
+</ul>

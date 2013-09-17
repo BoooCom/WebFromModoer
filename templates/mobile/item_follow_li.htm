@@ -1,0 +1,29 @@
+{eval $i=0;}
+{dbres $list $val}
+<li class="list_item_box">
+        <div class="clear" style="width:96%">
+            <a href="{url item/mobile/do/detail/id/$val[sid]}" class="list_item_a">
+                <div class="thumb">
+                    <img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[name]"/>
+                </div>
+                <div class="fl" style="margin-top:8px;margin-left:5px;">
+                    <span class="list_item_a">$val[name]{if $val[subname]}($val[subname]){/if}</span>
+                    <div class="list_item_info" style="margin-top:5px;">
+                        <div class="list_start list_start_price s{print get_star($val[avgsort],$reviewcfg[scoretype])}">
+                            {if $catcfg[useprice] && $val[avgprice]}
+                                ￥$val[avgprice]
+                            {/if}
+                        </div>
+                        <div>
+                            <span>{$val[reviews]}个点评</span>
+                            <span class="split"></span>
+                            <span>{$val[favorites]}个关注</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <span class="menu-botton-arrow"></span>
+    <div style="clear:both;"></div>
+</li>
+{/dbres}

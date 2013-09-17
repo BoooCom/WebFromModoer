@@ -1,0 +1,18 @@
+<ul class="review-ul">
+<!--{dbres $list $val}-->
+<li>
+    <a href="{url item/mobile/do/detail/id/$val[id]}">
+    <div class="li-header">
+        <cite>{date $val[posttime],'w2style'}</cite>
+        <div>评: $val[subject]</div>
+    </div>
+    <div class="li-grades">
+        <!--{get:review _val=reviewopt(catid/$val[pcatid])}-->
+        $_val[name]:<span class="sorce">{print cfloat($val[$_val[flag]])}</span>
+        <!--{/get}-->
+    </div>
+    <div class="li-content">$val[content]</div>
+    </a>
+</li>
+<!--{/dbres}-->
+</ul>

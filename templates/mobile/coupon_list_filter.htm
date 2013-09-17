@@ -1,0 +1,25 @@
+{eval 
+	$_HEAD[title] = $header_title="优惠券筛选";
+}
+{include mobile_template('header')}
+<link rel="stylesheet" href="{URLROOT}/{$_G[tplurl_mobile]}/css/dropkick.css" />
+<script type="text/javascript" src="{URLROOT}/{$_G[tplurl_mobile]}/js/dropkick.js"></script>
+<div class="form-box">
+	<form action="{print url('coupon/mobile','',0,1)}" method="GET">
+		<input type="hidden" name="act" value="mobile">
+		<input type="hidden" name="do" value="list">
+		<div class="form-item">
+			<label for="catid">分类:</label>
+			<select name="catid" id="catid">
+				<option value="$pid">分类</option>
+				<!--{get:coupon val=category(pid/$catid)}-->
+				<option value="$val[catid]">$val[name]</option>
+				<!--{/get}-->
+			</select>
+			<div class="clear"></div>
+		 </div>
+		<input type="submit" value="提交" name="dosubmit" class="sub_btn" />
+        <script>$('#catid').dropkick();</script>
+	</form>
+</div>
+{include mobile_template('footer')}

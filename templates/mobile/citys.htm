@@ -1,0 +1,24 @@
+{eval 
+    $_HEAD[title] = "选择城市";
+    $header_title="选择访问城市";
+    !$_CITY[aid] && $header_forward = false;
+    $header_frbtn_hide = true;
+}
+{include mobile_template('header')}
+<div class="mobile-city">
+    <ul class="listview">
+        <!--{loop $list $initial $val}-->
+        <li class="heading">{$initial}</li>
+        <!--{loop $val $k $v}-->
+        <li>
+            <a href="{print:modoer cityurl(city_id/$k/in_mobile/Y/forward/$forward)}">
+            <div class="clear" style="width:96%">$v[name]</div>
+            <span class="menu-botton-arrow"></span>
+            </a>
+            <div class="clear"></div>
+        </li>
+        <!--{/loop}-->
+        <!--{/loop}-->
+    </ul>
+</div>
+{include mobile_template('footer')}

@@ -1,0 +1,72 @@
+{eval 
+    $_HEAD[title] = $fullname . $_G['cfg']['titlesplit'] .'点评列表';
+}
+{include mobile_template('header')}
+<div class="info-operation">
+    <div class="fl">
+        {if $urlpath}
+        <li data-role="list-divider" role="heading">
+            {print implode('&nbsp;&gt;&nbsp;', $urlpath)}
+            (<span class="ui-li-count">{$total} 条</span>)
+        </li>
+        {/if}
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="review_list" id="page_reviews">
+    {eval $show_full=true;}
+    {include mobile_template('reviews_li')}
+    {if $multipage}<div class="multipage">$multipage</div>{/if}
+    <div id="loadingmessage"></div>
+</div>
+
+    <script>
+        var ajax_loading = true;
+        $('#page_reviews').live('pageshow', function (event) {
+            $('#nextpage').find('a').click(function(event) {
+                load_next_page();
+            });
+        });
+        function load_next_page() {
+            if(!ajax_loading) return;
+            ajax_loading = false;
+            var nexturl = $('#multipage').find('[nextpage="Y"]').attr('href');
+            $('#multipage').remove();
+            if(!nexturl) {
+                show_wf_message('end');
+                return;
+            }
+            show_wf_message('正在加载...请稍后');
+            $.post(nexturl, { 'in_ajax':1, 'waterfall':'Y' },
+            function(result) {
+                $('#loadingmessage').html('');
+                if(result == null) {
+                    show_wf_message('信息读取失败，请稍后尝试。');
+                } else if (is_message(result)) {
+                    myAlert(result);
+                } else if(result != '') {
+                    $('#reviews').append(result);
+                    if($('#multipage').find('[nextpage="Y"]')[0]) {
+                        ajax_loading = true;
+                        show_wf_message('succeed');  
+                    } else {
+                        show_wf_message('end');  
+                    }
+                    $('#reviews').append($('#nextpage'));
+                    $("#reviews").listview('refresh');
+                }
+            });
+        }
+
+        function show_wf_message(msg) {
+            if(msg=='end') {
+                $('#nextpage').remove();
+            } else if(msg=='succeed') {
+                $('#nextpage').find('a').text('加载更多...');
+            } else {
+                $('#nextpage').find('a').text(msg);
+            }
+        }
+    </script>
+
+{include mobile_template('footer')}

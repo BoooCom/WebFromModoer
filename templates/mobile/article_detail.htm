@@ -1,0 +1,16 @@
+{eval
+    $_HEAD[title] = $detail[subject];
+}
+{include mobile_template('header')}
+<div class="article_detail">
+	<div class="article_detail_title">
+		<h1>$detail[subject]</h1>
+		<span>$detail[author]</span>
+		<span class="split"></span>
+		<span>{date $detail[dateline]}</span>
+	</div>
+	<div class="article_detail_content">
+		$detail[content]
+	</div>
+</div>
+{include mobile_template('footer')}

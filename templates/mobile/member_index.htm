@@ -1,0 +1,24 @@
+{eval
+    $_HEAD[title] = "我的助手";
+}
+{include mobile_template('header')}
+<div class="item-list">
+    <div class="info-operation">
+        <div class="fl">
+            欢迎您回来，$user->username
+        </div>
+        <div class="clear"></div>
+    </div>
+    <ul class="listview">
+		{loop $links $link}
+		<li>
+            <a href="$link[url]">
+			<div class="clear" style="width:96%">$link[title]</div>
+			<span class="menu-botton-arrow"></span>
+            </a>
+			<div class="clear"></div>
+		</li>
+		{/loop}
+    </ul>
+</div>
+{include mobile_template('footer')}

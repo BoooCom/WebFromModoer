@@ -1,0 +1,81 @@
+{eval 
+    $_HEAD[title] = '主题筛选';
+}
+{include mobile_template('header')}
+<link rel="stylesheet" href="{URLROOT}/{$_G[tplurl_mobile]}/css/dropkick.css" />
+<script type="text/javascript" src="{URLROOT}/{$_G[tplurl_mobile]}/js/dropkick.js"></script>
+<div class="form-box">
+    <form action="{print url('item/mobile','',0,1)}" method="GET">
+    <input type="hidden" name="act" value="mobile">
+    <input type="hidden" name="do" value="list">
+    <div class="form-item">
+        <label for="catid">分类:</label>
+        <select name="catid" id="catid">
+            <option value="$pid">分类</option>
+            <!--{get:item val=category(pid/$catid)}-->
+            <option value="$val[catid]">$val[name]</option>
+            <!--{/get}-->
+        </select>
+        <script>$('#catid').dropkick();</script>
+        <div class="clear"></div>
+    </div>
+    <!--{if $model['usearea']}-->
+    <div class="form-item">
+        <label for="aid">地区:</label>
+        <select name="aid" id="aid">
+            <option value="">地区</option>
+            <!--{loop $boroughs $key $val}-->
+            <option value="$key">$val</option>
+            <!--{/loop}-->
+        </select>
+        <script>$('#aid').dropkick();</script>
+        <div class="clear"></div>
+    </div>
+    <!--{/if}-->
+    <!--{if $attcats}-->
+    <input type="hidden" name="att" id="att" value="">
+    <!--{eval $att_cats = $_G['loader']->variable('att_cat','item');}-->
+    <!--{loop $attcats $att_catid}-->
+    <!--{if $att_cats[$att_catid]}-->
+    <div class="form-item">
+        <label for="att$att_catid">{$att_cats[$att_catid][name]}:</label>
+        <!--{eval $att_url = item_att_url($att_catid,0,1);}-->
+        <select id="att$att_catid" onchange="attlink()" attsel='Y'>
+            <option value="$att_url">{$att_cats[$att_catid][name]}</option>
+            <!--{eval $ix=0;}-->
+            <!--{get:item val=attlist(catid/$att_catid)}-->
+            <!--{eval $att_url = item_att_url($att_catid,$val_k);}-->
+            <option value="$att_url">$val[name]</option>
+            <!--{/get}-->
+        </select>
+        <script>
+            $('#att$att_catid').dropkick({
+                change: function (value, label) {
+                    attlink();
+                }
+            });
+        </script>
+        <div class="clear"></div>
+    </div>
+    <!--{/if}-->
+    <!--{/loop}-->
+    <!--{/if}-->
+    <input type="submit" value="提交" name="dosubmit" class="sub_btn" />
+    </form>
+</div>
+
+<script>
+    function attlink() {
+        var atts = new Array();
+        var x = 0;
+        $("select").each(function(i){
+            if($(this).attr('attsel')=='Y') {
+                if($(this).val() != '') {
+                    atts[x++]=$(this).val();
+                }
+            }
+        })
+        $('#att').val(atts.join('_'));
+    }
+</script>
+{include mobile_template('footer')}

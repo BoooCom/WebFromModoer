@@ -1,0 +1,55 @@
+{eval $header_title="发表点评";}
+{include mobile_template('header')}
+{if $_G['in_dlg']}
+<script type="text/javascript">
+jslocation("{url review/mobile/do/review/op/add/sid/$sid}");
+</script>
+{/if}
+<div class="form-box">
+    <form id="postform" name="postform" action="{url review/mobile/do/review/op/save}" method="POST">
+        <input type="hidden" name="review[idtype]" value="item_subject" />
+        <input type="hidden" name="review[id]" value="$sid" />
+        <input type="hidden" name="review[subject]" value="$subject" />
+        <div class="form-item">
+            <fieldset>
+                <legend>总体评价:</legend>
+                <input type="radio" name="review[best]" id="review_best_2" value="2" checked="checked" />
+                <label for="review_best_2">好</label>
+                <input type="radio" name="review[best]" id="review_best_1" value="1"  />
+                <label for="review_best_1">一般</label>
+                <input type="radio" name="review[best]" id="review_best_0" value="0"  />
+                <label for="review_best_0">不好</label>
+            </fieldset>
+        </div>
+        <div class="form-item">
+            <fieldset>
+                <legend>点评分数:</legend>
+                <!--{loop $review_opts $key $val}-->
+                <div class="form-item-inline">
+                    <label for="review_$key">$val[name]</label>
+                    <select name="review[$key]" id="review_$key">
+                        <option value="0">$val[name]</option>
+                        <option value="5">非常好(5)</option>
+                        <option value="4">很好(5)</option>
+                        <option value="3">好(3)</option>
+                        <option value="2">中(2)</option>
+                        <option value="1">差(1)</option>
+                    </select>
+                </div>
+                <!--{/loop}-->
+            </fieldset>
+        </div>
+        <!--{if $config['useprice']}-->
+        <div class="form-item">
+            <input name="review[price]" placeholder="$config[useprice_title]({if !$config[useprice_required]}选填{else}填写数字{/if})" type="text">
+        </div>
+        <!--{/if}-->
+        <div class="form-item">
+            <textarea name="review[content]" id="textarea3" placeholder="点评内容"></textarea>
+        </div>
+        <div class="form-item">
+            <input type="submit" name="dosubmit" value="提交" class="sub_btn" />
+        </div>
+    </form>
+</div>
+{include mobile_template('footer')}

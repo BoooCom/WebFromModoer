@@ -1,0 +1,22 @@
+{include mobile_template('header')}
+<div class="coupon_detail">
+	<form action="{url coupon/mobile/do/detail/op/sendsms/id/$couponid/rand/$_G[random]}" method="POST">
+	<div class="coupon-sendsms-box">
+		<p>
+			<label>优惠券：</label>$detail[subject]
+		</p>
+		<p style="margin-top:10px">
+			<input name="mobile" id="mobile" placeholder="请输入手机号" value="" type="text" />
+		</p>
+		<p style="margin-top:10px">
+			<input name="seccode" id="mobile" placeholder="请输入下方验证码" value="" type="text" onfocus="show_seccode('seccode9');" />
+			<div id="seccode9" class="none" style="margin-top:10px;width:80px;"></div>
+			<script type="text/javascript">
+				show_seccode('seccode9');
+			</script>
+		</p>
+	</div>
+	<input type="submit"  value="发送" class="sub_btn" name="dosubmit" />
+	</form>
+</div>
+{include mobile_template('footer')}

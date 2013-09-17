@@ -1,0 +1,17 @@
+{eval
+    $_HEAD[title] = "会员登录";
+}
+{include mobile_template('header')}
+<div class="form-box">
+	<form action="{url member/mobile/do/login}" method="POST">
+		<div class="form-item"><input name="username" id="username" placeholder="请输入用户名" value="" type="text" /></div>
+		<div class="form-item"><input name="password" id="password" placeholder="请输入密码" value="" type="password" /></div>
+		<div class="form-item"><input name="life" id="life" type="checkbox" value="2592000" /><label for="life">记住密码</label></div>
+		<input type="hidden" name="forward" value="$forward" />
+		<div class="form-item"><input type="submit" value="登录" name="dosubmit" class="sub_btn" /></div>
+	</form>
+</div>
+<script>
+		//App custom javascript
+</script>
+{include mobile_template('footer')}

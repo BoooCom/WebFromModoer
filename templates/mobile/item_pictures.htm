@@ -1,0 +1,40 @@
+{eval 
+    $_HEAD[title] = $album[name];
+}
+{include mobile_template('header')}
+<div class="info-operation">
+    <div class="fl">
+        <span class="abtn"><a href="{url item/mobile/do/detail/id/$album[sid]}" data-role="button">访问主题</a></span>
+    </div>
+    <div class="fr">
+        <span {if $total<2} class="abtn-disabled"{else}class="abtn"{/if}><a href="javascript:void(0)" onclick="common_picture_nav('F');">上页</a></span>
+        <span {if $total<2} class="abtn-disabled"{else}class="abtn"{/if}><a href="javascript:void(0)" onclick="common_picture_nav('N');"{if $total<2} class="abtn-disabled"{/if}>下页</a></span>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="album_picture" id="album_picture">
+    <ul class="album_picture">
+        {eval $i=0;}
+        {dbres $list $val}
+        <li id="pic_$val[picid]" {if $i++}style="display:none" show='N'{/if}>
+            <div class="picbox">
+                <img src="{URLROOT}/$val[filename]" alt="$val[title]"  />
+                <div class="picinfo">
+                    <span>[$i/$total] $val[title]</span>
+                    <span>$val[username] @ {date $val[addtime],'Y-m-d H:i'}</span>
+                    {if $val[comments]}<span>$val[comments]</span>{/if}
+                </div>
+            </div>
+        </li>
+        {/dbres}
+    </ul>
+</div>
+<script>
+    $('#page_picture').live('swiperight',function(event){
+        common_picture_nav('N');
+    });
+    $('#page_picture').live('swipeleft',function(event){
+        common_picture_nav('F');
+    });
+</script>
+{include mobile_template('footer')}

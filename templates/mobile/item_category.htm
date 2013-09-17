@@ -1,0 +1,43 @@
+{eval 
+    $_HEAD[title] = '分类大全';
+}
+{include mobile_template('header')}
+<div class="item_category">
+    <ul class="category-lst">
+        {get:item val=category(pid/0)}
+        <li class="category-li">
+            <a href="javascript:void(0);" id="$val[catid]" class="category-a">$val[name]</a>
+            <ul class="category2-lst" id="category{$val[catid]}" style="display:none">
+                <li class="category2-li">
+                    <a href="{url $nextpag/catid/$val[catid]}" class="category2-a"><span style="color:green;">$val[name]</span></a>
+                    {eval $i=2;}
+                    {get:item val2=category(pid/$val[catid])}
+                    <a href="{url $nextpag/catid/$val2[catid]}" class="category2-a">{if $i++%3!='1'}<span class="bar"></span>{/if}$val2[name]</a>
+                    {/get}
+                    {eval $xc = 3-($i-1)%3; if($xc<3)for($ix=0;$ix<$xc;$ix++):}
+                    <a href="javascript:void(0);" class="category2-a">{if !$ix}<span class="bar"></span>{/if}&nbsp;</a>
+                    {eval endfor;}
+                </li>
+            </ul>
+        </li>
+        {/get}
+    </ul>
+</div>
+<script>
+    $(function(){
+        $("li.category-li>a").click(function(){
+            var obj = $(this).parent().children().eq(1);
+            if(obj.css('display')=='none') {
+                $(".category2-lst").hide();
+                obj.show();
+                $("li.category-li>a").removeClass("category-a on").addClass("category-a");
+                $(this).addClass("category-a on");
+            }else{
+                obj.hide();
+                $("li.category-li>a").removeClass("category-a on").addClass("category-a");
+                $(this).removeClass("category-a on").addClass("category-a");
+            }
+        })
+    });
+</script>
+{include mobile_template('footer')}

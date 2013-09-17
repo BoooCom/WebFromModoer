@@ -1,0 +1,22 @@
+{eval $i=0;}
+{dbres $list $val}
+<li class="list_item_box">
+    <a href="{url article/mobile/do/detail/id/$val[articleid]}" class="list_item_a">
+        <div class="clear" style="width:96%">
+            <div class="thumb">
+                <img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[name]"/>
+            </div>
+            <div class="fl" style="margin-top:8px;margin-left:5px;">
+                <span class="list_item_a">$val[subject]</span>
+                <div style="margin-top:5px;">
+    				<ul class="list_item_info">
+    					<li>{$val[introduce]}...</li>
+    				</ul>
+                </div>
+            </div>
+        </div>
+    <span class="menu-botton-arrow"></span>
+    </a>
+    <div style="clear:both;"></div>
+</li>
+{/dbres}

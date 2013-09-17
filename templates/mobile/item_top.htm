@@ -1,0 +1,56 @@
+{eval 
+    $_HEAD[title] = '排行榜';
+}
+{include mobile_template('header')}
+<link rel="stylesheet" href="{URLROOT}/{$_G[tplurl_mobile]}/css/dropkick.css" />
+<script type="text/javascript" src="{URLROOT}/{$_G[tplurl_mobile]}/js/dropkick.js"></script>
+<div class="item-list">
+    <div class="info-operation">
+        <div class="fl">
+            <select id="catid" name="catid" tabindex="1">
+                {get:item val=category(pid/0)}
+                <option value="{url item/mobile/do/top/catid/$val[catid]}"{if $catid==$val[catid]} selected="selected"{/if}>$val[name]</option>
+                {/get}
+            </select>
+            <script>
+                $('#catid').dropkick({
+                    change: function (value, label) {
+                        if(value) jslocation(value);
+                    }
+                });
+            </script>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="item-list-lst">
+        <!--{get:item val=top(city_id/_NULL_CITYID_/pid/$catid/field/avgsort/orderby/avgsort DESC/rows/10)}-->
+        <li class="list_item_box">
+            <a href="{url item/mobile/do/detail/id/$val[sid]}" class="list_item_a">
+                <div class="clear" style="width:96%">
+                    <div class="thumb">
+                        <img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[name]"/>
+                    </div>
+                    <div class="fl" style="margin-top:8px;margin-left:5px;">
+                        <span class="list_item_a">$val[name]{if $val[subname]}($val[subname]){/if}</span>
+                        <div class="list_item_info" style="margin-top:5px;">
+                            <div class="list_start list_start_price s{print get_star($val[avgsort],$reviewcfg[scoretype])}">
+                                {if $catcfg[useprice] && $val[avgprice]}
+                                    ￥$val[avgprice]
+                                {/if}
+                            </div>
+                            <div>
+                                <span>{$val[reviews]}个点评</span>
+                                <span class="split"></span>
+                                <span>{$val[favorites]}个关注</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="menu-botton-arrow"></span>
+            </a>
+            <div style="clear:both;"></div>
+        </li>
+        <!--{/get}-->
+    </div>
+</div>
+{include mobile_template('footer')}

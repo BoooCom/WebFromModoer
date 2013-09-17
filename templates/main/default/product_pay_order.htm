@@ -1,0 +1,253 @@
+<!--{eval 
+    $_HEAD['title'] = 确认订单;
+}-->
+{template modoer_header}
+<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_product.css");</style>
+<script type="text/javascript">
+var cash_rate = $MOD['cash_rate'];
+function remark_activation(n){
+    if(!n.name){
+        n.value = '';
+        n.name = 'remark';
+    }
+}
+//浮点数四则运算
+function fixMath(m, n, op) {
+  var a = (m+"");
+  var b = (n+"");
+  var x = 1;
+  var y = 1;
+  var c = 1;
+  if(a.indexOf(".") > 0) {
+    x = Math.pow(10, a.length - a.indexOf(".") - 1);
+  }
+  if(b.indexOf(".") > 0) {
+    y = Math.pow(10, b.length - b.indexOf(".") - 1);
+  }
+  switch(op) {
+    case '+':
+    case '-':
+      c = Math.max(x,y);
+      m = Math.round(m*c);
+      n = Math.round(n*c);
+      break;
+    case '*':
+      c = x*y
+      m = Math.round(m*x);
+      n = Math.round(n*y);
+      break;
+    case '/':
+      c = Math.max(x,y);
+      m = Math.round(m*c);
+      n = Math.round(n*c);
+      c = 1;
+      break;
+  }
+  return eval("("+m+op+n+")/"+c);
+}
+$(document).ready(function() {
+    var sum = 0;
+    $('.p_amout').each(function(){
+        sum = sum + parseInt($('.price_pid', this).text()*100)/100;
+    });
+    $('#order_amount').html("&yen; "+sum);
+    $('#cart_amount').val(sum);
+    $('#goods_amount').val(sum);
+    $("#u_integral").bind("keyup", function() {
+        if($('#u_integral').val() > 0) {
+            var jf = parseInt($('#u_integral').val()) / cash_rate;
+            var newprice = fixMath(Number(sum), Number(jf), '-');
+        }else{
+            var newprice = sum;
+        }
+        var shipid = $("input[name='shipid']:checked").val();
+        if(shipid > 0) {
+            var ship_price = $('#shipprice_' + shipid).html();
+            var newprice = fixMath(Number(newprice) , Number(ship_price), '+');
+        }
+        $('#order_amount').html("&yen; " + newprice);
+        $('#cart_amount').val(newprice);
+    });
+
+    $('input[name="shipid"]').bind("change", function() {
+        var shipid = $("input[name='shipid']:checked").val();
+        var ship_price = $('#shipprice_' + shipid).html();
+        if($('#u_integral').val() > 0) {
+            var jf = parseInt($('#u_integral').val()) / cash_rate;
+            var newprice = fixMath(Number(sum), Number(jf), '-');
+            var all_price = fixMath(Number(newprice) , Number(ship_price), '+');
+        }else{
+            var all_price = fixMath(Number(sum) , Number(ship_price), '+');
+        }
+        $('#order_amount').html("&yen; " + all_price);
+        $('#cart_amount').val(all_price);
+    });
+    $("#u_integral").keyup();
+});
+</script>
+<div id="body">
+    <div class="link_path">
+        <a href="{url modoer/index}">首页</a><span>&gt;</span>{print implode('<span>&gt;</span>', $urlpath)}
+    </div>
+    <ul class="step clear mt">
+        <li class="first"><span>STEP 1.</span>查看购物车</li>
+        <li class="on2"><span>STEP 2.</span>确认订单信息</li>
+        <li><span>STEP 3.</span>支付订单款项</li>
+        <li><span>STEP 4.</span>完成订单支付</li>
+    </ul>
+    <div class="blank"></div>
+    <div id="cart_l_box">
+        <form method="post" name="myform" action="{$form_action}" id="orderform">
+        <div class="cart_title">
+            <h2>收货人地址<span><a href="{url member/index/ac/address}" target="_blank">管理收货地址</a></span></h2>
+            <div class="fashion_list">
+                <!--{get:product val=getaddress(uid/$user->uid)}-->
+                <ul class="receive_add">
+                    <li class="radio"><input type="radio" name="address_options" id="address_options_$val[id]" value="$val[id]"{if $val[is_default]} checked="checked"{/if} /></li>
+                    <label for="address_options_$val[id]">
+                    <li class="particular">$val[addr]</li>
+                    <li class="name">收货人姓名: $val[name]</li>
+                    <li class="mobile">$val[mobile]</li>
+                    </label>
+                </ul>
+                <!--{/get}-->
+                <ul class="receive_add">
+                    <li class="radio"><input type="radio" name="address_options" id="newaddress" value="" onclick="member_add_address();" /></li>
+                    <label for="newaddress">
+                    <li class="particular">使用新的收货地址</li>
+                    </label>
+                </ul>
+            </div>
+        </div>
+        <div class="cart_title clear mt">
+            <h2>选择配送方式</h2>
+            <div class="fashion_list">
+                <!--{if $free_shipping}-->
+                <ul class="receive_add">
+                    <li class="radio"><input type="radio" name="shipid" value="free" id="shipid_$shipval[shipid]" /></li>
+                    <label for="shipid_$shipval[shipid]">
+                    <li class="pay">配送费用:&nbsp;<span class="money" id="shipprice_$shipval[shipid]">0</span> 元（免运费，卖家承担运费！）</li>
+                    </label>
+                </ul>
+                <!--{/if}-->
+                <!--{if $product[freight]=='2'}-->
+                    {eval $array=array('freight_price_snail','freight_price_exp','freight_price_ems');}
+                    <!--{loop $array $keyname}-->
+                    <!--{if $product[$keyname]>0}-->
+                        <ul class="receive_add">
+                            <li class="radio"><input type="radio" name="shipid" value="$keyname" id="shipid_$keyname" /></li>
+                            <label for="shipid_$keyname">
+                            {eval $lang='product_'.$keyname;}
+                            <li class="fashion">{print lang($lang)}</li>
+                            <li class="pay">配送费用:&nbsp;<span class="money" id="shipprice_$keyname">$product[$keyname]</span> 元</li>
+                            <li></li>
+                            </label>
+                        </ul>
+                    <!--{/if}-->
+                    <!--{/loop}-->
+                <!--{elseif $product[freight]=='1'||count($products)>0}-->
+                    <!--{get:product shipval=getshippinglist(sid/$sid/orderby/shipid)}-->
+                    <ul class="receive_add">
+                        <li class="radio"><input type="radio" name="shipid" value="$shipval[shipid]" id="shipid_$shipval[shipid]" /></li>
+                        <label for="shipid_$shipval[shipid]">
+                        <li class="fashion">$shipval[shipname]</li>
+                        <li class="pay">配送费用:&nbsp;<span class="money" id="shipprice_$shipval[shipid]">$shipval[price]</span> 元</li>
+                        <li>$shipval[shipdesc]</li>
+                        </label>
+                    </ul>
+                    <!--{/get}-->
+                <!--{/if}-->
+                <!--{if $support_cod}-->
+                <ul class="receive_add">
+                    <li class="radio"><input type="radio" name="shipid" value="cod" id="shipid_cod" /></li>
+                    <label for="shipid_cod">
+                    <li class="fashion">货到付款</li>
+                    <li class="pay">配送费用:&nbsp;<span class="money" id="shipprice_cod">$cod_price</span> 元</li>
+                    <li>同城商家上门送货，不支持外地送货</li>
+                    </label>
+                </ul>
+                <!--{/if}-->
+            </div>
+        </div>
+        <div class="cart_title clear mt">
+            <h2>给卖家附言</h2>
+            <div class="fashion_list">
+                <textarea id="remark" onclick="remark_activation(this);" style="width:98%;height:50px;">选填，可以告诉卖家您对商品的特殊需求，如颜色、尺码等。</textarea>
+            </div>
+        </div>
+        <div class="make_sure mt">
+            <!--{if $user_integral && $integrals}-->
+            <p>
+                {eval 
+                    $my_integral = min($user_integral, $integrals);
+                    $int_price = $my_integral / $MOD[cash_rate];
+                    $ex_price = min($allprice, $int_price);
+                    $ex_integral = round($ex_price * $MOD[cash_rate]);
+                }
+                <input type="text" name="integral" class="t_input" id="u_integral" size="6" onKeyUp="inputnum(this, 0, $ex_integral);" /> 您有 <span class="fb font_2">$user_integral</span> {print:member point(point/$MOD[pointgroup])}，最多可以抵价 <span class="fb font_2">$ex_price</span> 元<!--{if $user_integral>$integrals}-->，此商品最多可使用 <span class="fb font_2">$ex_integral</span> {print:member point(point/$MOD[pointgroup])}<!--{/if}-->。
+            </p>
+            <!--{/if}-->
+            <p class="f18">订单总价:<strong class="font_2" id="order_amount">&yen; $allprice</strong></p>
+            <p>
+                <input type="hidden" name="order_amount" id="cart_amount" />
+                <input type="hidden" name="goods_amount" id="goods_amount" />
+                <input type="hidden" name="dosubmit" value="yes">
+                <a href="###" class="btn" id="sub_btn">下单完成并支付</a>
+                <a href="{url product/cart}" class="back">返回购物车</a>
+            </p>
+        </div>
+        </form>
+    </div>
+    <div id="cart_r_box">
+        <div class="p_title">
+            <h2>已选商品</h2>
+            <div class="hot_p">
+                <!--{if $ac=='once'}-->
+                <dl>
+                    <dt><a href="{url product/detail/pid/$pid}" target="_blank" title="$product[subject]">$product[subject]</a></dt>
+                    <dd class="pic">
+                        <a href="{url product/detail/pid/$product[pid]}" target="_blank"><img src="{URLROOT}/{if $product[thumb]}$product[thumb]{else}static/images/noimg.gif{/if}" title="$product[subject]" /></a>
+                    </dd>
+                    <dd class="price p_amout">
+                        {$p_num} 件 = <span class="font_1 fb price_pid">$allprice</span> 元
+                    </dd>
+                </dl>
+                <!--{elseif $ac=='cart'}-->
+                <!--{loop $products $val}-->
+                <dl>
+                    <dt><a href="{url product/detail/pid/$val[pid]}" target="_blank" title="$val[subject]">$val[subject]</a></dt>
+                    <dd class="pic">
+                        <a href="{url product/detail/pid/$val[pid]}" target="_blank"><img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" title="$val[pnamet]" /></a>
+                    </dd>
+                    <dd class="price p_amout">
+                        {eval 
+                            $pv = $P->myprice($val);
+                            $pmprice = $pv * $val[quantity];
+                        }
+                        $val[quantity] 件 = <span class="font_1 fb price_pid">$pmprice</span> 元
+                    </dd>
+                </dl>
+                <!--{/loop}-->
+                <!--{/if}-->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sub_btn").click(function() {
+        var addressval=$('input:radio[name="address_options"]:checked').val();
+        var shipval=$('input:radio[name="shipid"]:checked').val();
+        if(!addressval) {
+            alert('未选择收货人地址，请选择。');
+            return false;
+        }
+        if(shipval==null) {
+            alert('未选择配送方式，请选择。');
+            return false;
+        }
+        $('#orderform')[0].submit();
+    });
+});
+</script>
+<!--{eval footer();}-->
