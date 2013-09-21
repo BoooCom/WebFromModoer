@@ -38,10 +38,12 @@
         </div>
 
         <div class="ix1_right">
-            <div class="btns">
-                <a href="{url member/reg}" title="免费注册">免费注册</a>
+            <div class="btns" >
+				<!--
+				<a href="{url member/reg}" title="免费注册">免费注册</a>
                 <a href="{url member/login}" title="快速登录">快速登录</a>
-                <a href="{url review/member/ac/add}" title="发表点评">发表点评</a>
+				-->
+				<a href="{url review/member/ac/add}" title="发表点评">发表点评</a>
                 <a href="{url item/member/ac/subject_add}" title="添加主题">添加主题</a>
                 <div class="clear"></div>
             </div>
@@ -59,87 +61,12 @@
 
     <div class="index_1">
         <div class="ixf_left">
-            <!-- 推荐主题 begin -->
-            <div class="ix_foo">
-                <div class="ix_finer">
-                    <div class="ix_left1_more">
-                        <div class="ix_tab">
-                            <div id="btn_subject1" class="selected"><a href="###" onclick="tabSelect(1,'subject')" onfocus="this.blur()">综合</a></div>
-                            <!--{eval $i=2;}-->
-                            {get:item val=category(pid/0)}
-                            <div id="btn_subject$i"><a href="###" onclick="tabSelect($i,'subject')" onfocus="this.blur()">$val[name]</a></div>
-                            <!--{eval $i++;}-->
-                            {/get}
-                        </div>
-                    </div>
-                </div>
-                <div class="ix_left1_body" id="subject1" style="height:270px;_height:245px;">
-                    <ul class="index_subject_pic">
-                        {get:modoer val=table(table/dbpre_subject/select/sid,aid,name,subname,avgsort,thumb,description/where/finer>0 AND city_id IN (_NULL_CITYID_) AND status=1/orderby/finer DESC/rows/10/cachetime/1000)}
-                        <li>
-                            <div><a href="{url item/detail/id/$val[sid]}"><img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[name].$val[subname]" title="$val[name].$val[subname]" /></a></div>
-                            <p><a href="{url item/detail/id/$val[sid]}" title="$val[name].$val[subname]">{sublen $val[name].$val[subname],10}</a></p>
-                        </li>
-                        {/get}
-                    </ul>
-                </div>
-                <!--{eval $i=2;}-->
-                {get:item val=category(pid/0)}
-                <div class="ix_left1_body none" style="height:270px;_height:245px;" id="subject$i" datacallname="首页_推荐主题" params="{'city_id':'{_NULL_CITYID_}','pid':'$val[catid]'}"></div>
-                <!--{eval $i++;}-->
-                {/get}
-                <div class="ix_left1_bottom"></div>
-            </div>
-            <!-- 推荐主题 end -->
-
-            <!-- 需要加载的广告位置 -->
-			<div id="adv_1"></div>
-
-            <!-- 会员动态 begin -->
-            <script type="text/javascript" src="{URLROOT}/static/javascript/marquee.js"></script>
-            <div class="ix_foo">
-                <div class="ix_feed">
-                    <div class="ix_left1_more">&nbsp;</div>
-                </div>
-                <div class="ix_left1_body" id="index_feed" style="height:158px;overflow:hidden;">
-                    <ul class="index_feed">
-                        <!--{get:member val=feed(city_id/_NULL_CITYID_/rows/10)}-->
-                        <li>
-                            <div class="member">
-                                <a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" class="face"></a>
-                            </div>
-                            <div class="content">
-                                <h4>$val[title]<span>{date $val[dateline],'w2style'}</span></h4>
-                                <!--{if $val[images]}-->
-                                <div class="content-images">
-                                <!--{eval $images=unserialize($val[images]);}-->
-                                <!--{loop $images $img}-->
-                                <a href="$img[link]"><img src="$img[url]" /></a>
-                                <!--{/loop}-->
-                                </div>
-                                <!--{else}-->
-                                <p>$val[body]</p>
-                                <!--{/if}-->
-                            </div>
-                            <div class="clear"></div>
-                        </li>
-                        <!--{/get}-->
-                        <div class="clear"></div>
-                    </ul>
-                </div>
-                <div class="ix_left1_bottom"></div>
-            </div>
-            <script type="text/javascript">
-            new Marquee("index_feed", "top", 1, 705, 160, 1, 5000, 1);
-            </script>
-            <!-- 会员动态 end -->
-
             <!-- 最新点评 begin -->
             <div class="ix_foo">
                 <div class="ix_review">
                     <div class="ix_left1_more"><span class="arrow-ico"><a href="{url review/list}">更多</a></span></div>
                 </div>
-                <div class="ix_left1_body" style="height:435px;">
+                <div class="ix_left1_body" style="height:400px;">
                     <!--{get:review val=review(city_id/_NULL_CITYID_/orderby/posttime DESC/rows/5/cachetime/500)}-->
                     <div class="review">
                         <div class="member">
@@ -172,6 +99,86 @@
                 <div class="ix_left1_bottom"></div>
             </div>
             <!-- 最新点评 end -->
+            <!-- 需要加载的广告位置 -->
+			<div id="adv_1"></div>
+
+            <!-- 会员动态 begin -->
+            <script type="text/javascript" src="{URLROOT}/static/javascript/marquee.js"></script>
+            <div class="ix_foo">
+                <div class="ix_feed">
+                    <div class="ix_left1_more">&nbsp;</div>
+                </div>
+                <!--<div class="ix_left1_body" id="index_feed" style="height:158px;overflow:hidden;">-->
+				<div class="ix_left1_body" id="index_feed" style="height:320px;">
+                    <ul class="index_feed">
+                        <!--{get:member val=feed(city_id/_NULL_CITYID_/rows/10)}-->
+                        <li>
+                            <div class="member">
+                                <a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" class="face"></a>
+                            </div>
+                            <div class="content">
+                                <h4>$val[title]<span>{date $val[dateline],'w2style'}</span></h4>
+                                <!--{if $val[images]}-->
+                                <div class="content-images">
+                                <!--{eval $images=unserialize($val[images]);}-->
+                                <!--{loop $images $img}-->
+                                <a href="$img[link]"><img src="$img[url]" /></a>
+                                <!--{/loop}-->
+                                </div>
+                                <!--{else}-->
+                                <p>$val[body]</p>
+                                <!--{/if}-->
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                        <!--{/get}-->
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="ix_left1_bottom"></div>
+            </div>
+            <script type="text/javascript">
+            new Marquee("index_feed", "top", 1, 705, 400, 1, 5000, 1);
+            </script>
+            <!-- 会员动态 end -->
+			
+			<!-- 推荐主题 begin -->
+			
+            <div class="ix_foo" style="display: none;">
+                <div class="ix_finer">
+                    <div class="ix_left1_more">
+                        <div class="ix_tab">
+                            <div id="btn_subject1" class="selected"><a href="###" onclick="tabSelect(1,'subject')" onfocus="this.blur()">综合</a></div>
+                            <!--{eval $i=2;}-->
+                            {get:item val=category(pid/0)}
+                            <div id="btn_subject$i"><a href="###" onclick="tabSelect($i,'subject')" onfocus="this.blur()">$val[name]</a></div>
+                            <!--{eval $i++;}-->
+                            {/get}
+                        </div>
+                    </div>
+                </div>
+                <div class="ix_left1_body" id="subject1" style="height:270px;_height:245px;">
+                    <ul class="index_subject_pic">
+                        {get:modoer val=table(table/dbpre_subject/select/sid,aid,name,subname,avgsort,thumb,description/where/finer>0 AND city_id IN (_NULL_CITYID_) AND status=1/orderby/finer DESC/rows/10/cachetime/1000)}
+                        <li>
+                            <div><a href="{url item/detail/id/$val[sid]}"><img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[name].$val[subname]" title="$val[name].$val[subname]" /></a></div>
+                            <p><a href="{url item/detail/id/$val[sid]}" title="$val[name].$val[subname]">{sublen $val[name].$val[subname],10}</a></p>
+                        </li>
+                        {/get}
+                    </ul>
+                </div>
+                <!--{eval $i=2;}-->
+                {get:item val=category(pid/0)}
+                <div class="ix_left1_body none" style="height:270px;_height:245px;" id="subject$i" datacallname="首页_推荐主题" params="{'city_id':'{_NULL_CITYID_}','pid':'$val[catid]'}"></div>
+                <!--{eval $i++;}-->
+                {/get}
+                <div class="ix_left1_bottom"></div>
+            </div>
+			
+            <!-- 推荐主题 end -->
+
+
+            
         </div>
 
         <div class="ixf_right">

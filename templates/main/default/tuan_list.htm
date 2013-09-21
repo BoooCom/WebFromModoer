@@ -1,0 +1,135 @@
+<!--{eval
+    $_HEAD[title] = $title;
+}-->
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-main-box">
+                <div class="tuan-bar">
+                    <ul class="tuan-category">
+                        <span class="category-title">类型：</span>
+                        <li{if $mode=='all'} class="selected"{/if}><a href="{url tuan/list/pa/all_$catid}">全部</a></li>
+                        <li{if $mode=='normal'} class="selected"{/if}><a href="{url tuan/list/pa/normal_$catid}">常规团</a></li>
+                        <li{if $mode=='average'} class="selected"{/if}><a href="{url tuan/list/pa/average_$catid}">平摊团</a></li>
+                        <li{if $mode=='wholesale'} class="selected"{/if}><a href="{url tuan/list/pa/wholesale_$catid}">批发团</a></li>
+                        <li{if $mode=='forestall'} class="selected"{/if}><a href="{url tuan/list/pa/forestall_$catid}">抢鲜团</a></li>
+                        
+                    </ul>
+                    <ul class="tuan-category">
+                        <span class="category-title">分类：</span>
+                        <li{if !$catid} class="selected"{/if}><a href="{url tuan/list/pa/{$mode}_0}">全部</a></li>
+                        <!--{get:tuan val=category()}-->
+                        <li{if $catid==$val[catid]} class="selected"{/if}><a href="{url tuan/list/pa/{$mode}_$val[catid]}">$val[name]</a></li>
+                        <!--{/get}-->
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <!--{if $total}-->
+                <ul class="tuan-list-a">
+                    <!--{eval $index=0;}-->
+                    <!--{dbres $list $val}-->
+                    <li class="tuan-list-a-s{if $index++%2==0} list-split{/if}">
+                        <h3><a href="{url tuan/detail/id/$val[tid]}" title="$val[subject]">{if $val['mode']!='normal'}[{print lang('tuan_mode_'.$val[mode])}]{/if}{sublen $val[subject],30,'...'}</a></h3>
+                        <div class="tuan-list-a-thumb">
+                            <a href="{url tuan/detail/id/$val[tid]}"><img src="{URLROOT}/$val[picture]" alt="$val[subject]" title="$val[subject]" /></a>
+                        </div>
+                        <div class="tuan-list-a-price">
+                            <div class="tuan-list-a-price-r">
+                                <div class="tuan-list-a-price-p"></div>
+                                <div class="tuan-list-a-price-v">&#165; {print get_numeric($val[price])}</div>
+                                <span><a href="{url tuan/detail/id/$val[tid]}" title="$val[subject]">去看看</a></span>
+                            </div>
+                            <div class="tuan-list-a-price-l">
+                                <!--{eval 
+                                    if($val['mode']=='average')
+                                        $real_price = display('tuan:average_price','total_price/'.$val[total_price].'/peoples_sell/'.$val[peoples_sell].'/peoples_min/'.$val[peoples_min]);
+                                    elseif($val['mode']=='wholesale')
+                                        $real_price = display('tuan:wholesale_price','prices/'.$val[prices].'/goods_sell/'.$val[goods_sell]);
+                                    elseif($val['mode']=='forestall')
+                                        $real_price = display('tuan:forestall_price','price/'.$val[price].'/prices/'.$val[prices].'/peoples_sell/'.$val[peoples_sell]);
+                                    if($real_price>$val[price]) $real_price = $val[price];
+                                }-->
+                                <!--{if $val['mode']!='normal'}-->
+                                下单价：<strong><span class="money">&#165; {print get_numeric($val[price])}</span></strong><span title="下单价：下单购买的价格，团购结束后，根据最终价，退还差价">[?]</span><br />
+                                预计价：<strong><span class="money">&#165; $real_price</span></strong><span title="预计价：动态价格，团购结束后根据人数计算出最终价格">[?]</span><br />
+                                原　价：<strong style="text-decoration:line-through;"><span class="money">&#165; </span>{print get_numeric($val[market_price])}</strong><br />
+                                折　扣：<strong>{print get_numeric(round($real_price/$val[market_price],2)*10)} 折</strong>
+                                <!--{else}-->
+                                现价：<strong><span class="money">&#165; {print get_numeric($val[price])}</span></strong><br />
+                                原价：<strong style="text-decoration:line-through;"><span class="money">&#165; </span>{print get_numeric($val[market_price])}</strong><br />
+                                折扣：<strong>{print get_numeric(round($val[price]/$val[market_price],2)*10)} 折</strong><br />&nbsp;
+                                <!--{/if}-->
+                            </div>
+                        </div>
+                        <div class="tuan-list-a-time">
+                            <!--{eval
+                                $is_product = $val['mode']=='wholesale';
+                                $time = $val[endtime]-$_G[timestamp];
+                                list($h, $i, $s) = get_time($time);
+                                if($h>=24) $d = floor($h / 24);
+                                if($h>=24) $h = $h % 24;
+                                $num = $is_product ? $val['goods_sell'] : $val['peoples_sell'];
+                                $num += (int)$detail[v_peoples_sell];
+                            }-->
+                            <span class="countdown">{if $d}$d&nbsp;天&nbsp;{/if}$h&nbsp;小时&nbsp;$i&nbsp;分钟</span>
+                            <span class="sellnum"><strong class="font_1">$num</strong> {if $is_product}件已销售{else}人已购买{/if}</span>
+                            <div class="clear"></div>
+                        </div>
+                    </li>
+                    <!--{/dbres}-->
+                </ul>
+                <!--{else}-->
+                <div class="mode-intro">
+                    暂无数据!
+                </div>
+                <!--{/if}-->
+                <!--{if $multipage}--><div class="tuan-bar">$multipage<cite>共 $total 个团购项目</cite></div><!--{/if}-->
+            </div>
+        </div>
+        <div class="sidebar">
+            <!--{if $mode!='all'}-->
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>什么是{print lang('tuan_mode_'.$mode)}？</h2>
+                    <div class="tuan-comment">
+                        {print lang('tuan_mode_'.$mode.'_des')}
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+            <!--{/if}-->
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>自助团购</h2>
+                    <div class="tuan-comment">
+                        <p>没有您想要的团购吗？那么就发起自助团购，有多数人感兴趣时，我们将会发起这个团购！</p>
+                        <center><a href="{url tuan/member/ac/wish/op/add}"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/button-tuan-wish.gif" /></a></center>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>近期参与团购用户</h2>
+                    <div class="sidebar-feed">
+                        <ul>
+                            <!--{get:modoer val=sql(sql/select tor.tid,tor.uid,tor.username,tor.dateline,t.subject from dbpre_tuan_order tor join dbpre_tuan t on(tor.tid=t.tid) where tor.status='payed' order by oid DESC/rows/9/cachetime/600)}-->
+                            <li>
+                                <div class="sface"><a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" /></a><a href="{url space/index/uid/$val[uid]}" title="$val[username]"></a></div>
+                                <div class="sfeed"><a href="{url space/index/uid/$val[uid]}">$val[username]</a>在{date $val[dateline],'w2style'}购买<a href="{url tuan/detail/id/$val[tid]}" title="$val[subject]">{sublen $val[subject],20,'...'}</a></div>
+                            </li>
+                            <!--{/get}-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{template tuan_footer}

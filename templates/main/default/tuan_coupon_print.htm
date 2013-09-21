@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$_G[charset]" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<title>打印团购券</title>
+<style type="text/css">
+* { word-wrap: break-word; word-break: break-all;}
+body { margin-top:20px; font:12px Helvetica,Arial,sans-serif; }
+.clear {clear: both;}
+#body { width:600px; margin:0 auto; border:1px solid #000; padding:5px 10px; }
+#print { text-align:center; margin-top:10px; }
+.top { border-bottom:1px solid #000; margin:5px 0 15px; padding-bottom:0px; }
+.top .logo { float:left; width:355px; }
+.top .serial { float:right; width:150px; font-size:14px; line-height:25px; margin-top:18px; }
+.top .serial span { margin-left:2px; font-weight:bold; }
+.subject { font-size:20px; margin-bottom:15px; font-weight:bold; }
+.info { margin:0; padding:0; border:1px solid #fff; }
+.info ul { list-style:none; padding:0; margin:0; }
+.info li { margin-bottom:10px; }
+.info li .title { font-size:16px; margin-bottom:5px; font-weight:bold; }
+.info li .des { line-height:18px; margin-left:1px; }
+.info .left { float:left; width:305px; }
+.info .right { float:right; width:290px; }
+</style>
+<script type="text/javascript" src="{URLROOT}/static/javascript/jquery.js"></script>
+<script type="text/javascript">
+function print_coupon() {
+    $('#print').remove();
+    window.print();
+}
+</script>
+</head>
+<body>
+<div id="body">
+    <div class="top">
+        <div class="logo">
+            <img src="{URLROOT}/{$_G[tplurl]}images/tuan/coupon_print_logo.gif" height="80" width="350" />
+        </div>
+        <div class="serial">
+            券号:<span>$coupon[serial]</span><br />
+            密码:<span>$coupon[passward]</span>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="subject">$tuan[subject]</div>
+    <div class="info">
+        <ul class="left">
+            <li>
+                <div class="title">贵宾</div>
+                <div class="des">$member[username]</div>
+            </li>
+            <li>
+                <div class="title">有效期</div>
+                <div class="des">截止至 {date $coupon[expiretime], 'Y年m月d日'}</div>
+            </li>
+            <li>
+                <div class="title">地址电话</div>
+                <div class="des">{print nl2br($coupon_print[concact])}</div>
+            </li>
+        </ul>
+        <ul class="right">
+            <li>
+                <div class="title">提示</div>
+                <div class="des">{print nl2br($coupon_print[message])}</div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="bottom">
+    </div>
+</div>
+<div id="print">
+    <input type="button" value="打印团购券" onclick="print_coupon();" />&nbsp;
+    <input type="button" value="关闭窗口" onclick="window.close();" />
+</div>
+</body>
+</html>

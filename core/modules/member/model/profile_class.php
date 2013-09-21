@@ -87,7 +87,7 @@ class msm_member_profile extends ms_model {
         if($key == 'gender') {
             $value = (int) $value;
             if($value < 0 or $value > 2) $value = 0;
-        } elseif ($key == 'birthday' && $value) {
+        } elseif ($key == 'birthday' && $value && $value!='0000-00-00') {
             if(!preg_match("/[0-9]{4}\-[0-9]{2}\-[0-9]{2}/", $value) || !strtotime($value)) {
                 redirect('对不起，您填写的生日未填写或格式错误。');
             }

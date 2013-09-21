@@ -213,6 +213,7 @@ class msm_ucenter_member extends ms_model {
         }
         if($censorwords = $this->modcfg['censoruser'] ? explode("\r\n", $this->modcfg['censoruser']) : '') {
             foreach($censorwords as $censor) {
+                if(!$censor) continue;
                 $preg = "/".str_replace("*", ".*?", $censor)."/is";
                 if(preg_match($preg, $username)) {
                     if($echo) {echo lang('member_reg_name_limit'); exit; }

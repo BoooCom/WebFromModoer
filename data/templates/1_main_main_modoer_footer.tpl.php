@@ -16,7 +16,7 @@
         <?=$_CFG['statistics']?><? } ?>
     </div>
     <div>
-         Powered by <span class="product"><a href="http://www.modoer.com/" target="_blank">Modoer</a></span> <span class="version"><?=$_G['modoer']['version']?><? if($_CFG['buildinfo']) { ?>
+         Powered by <span class="product"><a href="http://www.freebabydiy.com/" target="_blank">自由宝贝</a></span> <span class="version"><?=$_G['modoer']['version']?><? if($_CFG['buildinfo']) { ?>
 &nbsp;(<?=$_G['modoer']['build']?>)<? } ?>
 </span>&nbsp;<?=$_CFG['copyright']?><br /><?=$_CFG['statement']?>
     </div>

@@ -10,5 +10,6 @@ return array (
   'meta_keywords' => '会员卡',
   'meta_description' => 'modoer点评系统会员卡模块',
   'pointgroup' => 'point1',
+  'model_flag_3' => 'card',
 ); 
 ?>

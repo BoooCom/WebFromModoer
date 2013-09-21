@@ -1,0 +1,59 @@
+<!--{eval
+    $_HEAD['title'] = $MOD[name];
+}-->
+{template modoer_header}
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+		<div class="piece piece_w960">
+			<div class="piece_hd"><b class=hl></b><b class=hr></b></div>
+			<div class="piece_bd clearfix">
+				<div class="fl" id="content_body2">
+					<div class="show_body clear_in pt10"><!--商品或图片 -->
+						<div class="link_path"  style=" padding-left:0px">
+							<em><span class="review-ico"><a href="{url fenlei/member/ac/manage/op/add}"><b>发布信息</b></a></span></em>
+							<a href="{url modoer/index}">{lang global_index}</a>&nbsp;&raquo;&nbsp;$MOD[name] </div>
+						<div class="clear" style="height:10px"></div>
+						<div class="ff" style="margin:0px">
+							{get:fenlei val=category(pid/0)}
+							<h3 style="font-size:16px;margin-left:2px;margin-bottom:5px;"><a href="{url fenlei/list/catid/$val[catid]}">$val[name]</a></h3>
+							<ul class="mr10" style="min-height:36px">
+								{get:fenlei _val=category(pid/$val[catid])}
+								<li><a href="{url fenlei/list/catid/$_val[catid]}">$_val[name]</a></li>
+								{/get}
+							</ul>
+							<div class="clear"></div>
+							{/get}
+						</div>
+					</div>
+				</div>
+				<div class="fr" id="right_side1">
+					<div class="coupon_side">
+						<h3>最新发布</h3>
+						<ul>
+							{get:fenlei val=getlist(city_id/_CITYID_/orderby/dateline DESC/row/10)}
+							<li><h4 class="ag_t"><a class="glink" href="{url fenlei/detail/id/$val[fid]}" target="_blank">{sublen $val[subject],15}</a></h4>
+								<span>{date $val[dateline],'m-d'}</span></li>
+							{getempty(val)}
+							<li>暂无信息</li>
+							{/get}
+						</ul>
+					</div>
+					<div class="coupon_side">
+						<h3>最新发布</h3>
+						<ul>
+							{get:fenlei val=getlist(city_id/_CITYID_/finer/1/row/10)}
+							<li>
+								<h4 class="ag_t"><A class=glink href="{url fenlei/detail/id/$val[fid]}" target="_blank">{sublen $val[subject],15}</A></h4>
+								<span>{date $val[dateline],'m-d'}</span></li>
+							{getempty(val)}
+							<li>暂无信息</li>
+							{/get}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="piece_ft"><b class="fl"></b><b class="fr"></b></div>
+		</div>
+	</div>
+</div>
+<!--{eval footer();}-->

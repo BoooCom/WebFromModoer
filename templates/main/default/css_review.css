@@ -40,7 +40,7 @@
 .review .member .username { display:block; table-layout:fixed; word-break: break-all; overflow:hidden; text-align:center; }
 .review .field { float:left;  }
 .review .f_w_item { width:600px; }
-.review .feed { background:#ffebd5; padding:0 5px; line-height:25px; margin-bottom:5px; }
+.review .feed { background:#F2F6EE; padding:0 5px; line-height:25px; margin-bottom:5px; }
 .review .feed em { margin-top:-6px; }
 .review .feed h3 { display:inline;font-size:12px; color:#CC0000; padding:0; margin:0; }
 .review .feed h3 a { color:#CC3300; }
@@ -128,7 +128,7 @@ _width:expression(this.width > 100 ? 100 : true); _height:expression(this.height
 /*item*/
 .site_subject { width:90%; margin:5px auto; line-height:18px; }
 .site_subject h2 { font-size:14px; margin:10px 0 5px; padding:0; }
-.site_subject h2 a{ color:red;  }
+.site_subject h2 a{ color:#3D8901;  }
 .site_subject .start { margin:0; padding:0; height:15px;  }
 .site_subject_field_list { color:#808080; margin:5px 0 10px; }
 .site_subject_map { width:255px; }

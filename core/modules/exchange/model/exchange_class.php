@@ -38,9 +38,14 @@ class msm_exchange extends ms_model {
         $post['exchangetime'] = $this->global['timestamp'];
         $post['status'] = 1;
         $post['pay_style'] = (int) $post['pay_style'];
-        if(!$post['pay_style']||$post['pay_style']<1) {
+
+        if($gift['pattern']!=2&&(!$post['pay_style']||$post['pay_style']<1)) {
             redirect('对不起，您未选择支付方式，请返回选择。');
         }
+        if($gift['pattern']==2) {
+            $lottery = $this->loader->model('exchange:lottery')->read((int)$_GET['lid'],(int)$post['giftid']);
+            if(!$lottery||$lottery['status']||$lottery['uid']!=$this->global['user']->uid) redirect('无效的兑换提交.');
+        } 
         //兑换总量
 	    if($post['pay_style']==1 && $gift['pattern']!=2){
         	$post['price'] = $gift['price'];

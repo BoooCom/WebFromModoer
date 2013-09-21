@@ -63,7 +63,7 @@ class msm_item_subjectstyle extends ms_model {
         $pt = $this->modcfg['selltpl_pointtype'];
         $ptname = display('member:point',"point/$pt");
         if(!$pt) redirect('对不起，管理员未设置一个购买积分类型。');
-        if($this->global['user']->$pt < $tpl['price']) redirect('对不起，您的 $ptname 余额不足！');
+        if($this->global['user']->$pt < $tpl['price']) redirect("对不起，您的 $ptname 余额不足！");
         $tpl['pointtype'] = $ptname;
         if($check_order) {
             $this->db->from($this->table);

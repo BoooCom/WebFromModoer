@@ -53,6 +53,10 @@
                 <td><?=form_bool('t_cfg[forum]', $t_cfg['forum'])?></td>
             </tr>
             <tr>
+                <td class="altbg1"><strong>启用添加<?=$t_mod['item_name']?>会员自动成为主题管理员：</strong>允许会员在前台添加<?=$t_mod['item_name']?>后，自动成为这个<?=$t_mod['item_name']?>的管理员。</td>
+                <td><?=form_bool('t_cfg[auto_subject_owner]', $t_cfg['auto_subject_owner'])?></td>
+            </tr>
+            <tr>
                 <td class="altbg1"><strong>启用<?=$t_mod['item_name']?>管理认领功能：</strong><?=$t_mod['item_name']?>被领用后，领用人可编辑管理<?=$t_mod['item_name']?>的信息。</td>
                 <td><?=form_bool('t_cfg[subject_apply]', $t_cfg['subject_apply'])?></td>
             </tr>

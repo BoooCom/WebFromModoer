@@ -46,10 +46,12 @@ if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { 
         </div>
 
         <div class="ix1_right">
-            <div class="btns">
-                <a href="<?php echo url("member/reg"); ?>" title="免费注册">免费注册</a>
+            <div class="btns" >
+				<!--
+				<a href="<?php echo url("member/reg"); ?>" title="免费注册">免费注册</a>
                 <a href="<?php echo url("member/login"); ?>" title="快速登录">快速登录</a>
-                <a href="<?php echo url("review/member/ac/add"); ?>" title="发表点评">发表点评</a>
+				-->
+				<a href="<?php echo url("review/member/ac/add"); ?>" title="发表点评">发表点评</a>
                 <a href="<?php echo url("item/member/ac/subject_add"); ?>" title="添加主题">添加主题</a>
                 <div class="clear"></div>
             </div>
@@ -69,97 +71,12 @@ if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { 
 
     <div class="index_1">
         <div class="ixf_left">
-            <!-- 推荐主题 begin -->
-            <div class="ix_foo">
-                <div class="ix_finer">
-                    <div class="ix_left1_more">
-                        <div class="ix_tab">
-                            <div id="btn_subject1" class="selected"><a href="###" onclick="tabSelect(1,'subject')" onfocus="this.blur()">综合</a></div>
-                            <?php $i=2; ?>                            
-<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('category',array('pid'=>0,),'item');
-if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
-                            <div id="btn_subject<?=$i?>"><a href="###" onclick="tabSelect(<?=$i?>,'subject')" onfocus="this.blur()"><?=$val['name']?></a></div>
-                            <?php $i++; ?>                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="ix_left1_body" id="subject1" style="height:270px;_height:245px;">
-                    <ul class="index_subject_pic">
-                        
-<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('table',array('table'=>"dbpre_subject",'select'=>"sid,aid,name,subname,avgsort,thumb,description",'where'=>"finer>0 AND city_id IN (_NULL_CITYID_) AND status=1",'orderby'=>"finer DESC",'rows'=>10,'cachetime'=>1000,),'');
-if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
-                        <li>
-                            <div><a href="<?php echo url("item/detail/id/{$val['sid']}"); ?>"><img src="<?=URLROOT?>/<? if($val['thumb']) { ?>
-<?=$val['thumb']?>
-<? } else { ?>
-static/images/noimg.gif<? } ?>
-" alt="<?=$val['name'].$val['subname']?>" title="<?=$val['name'].$val['subname']?>" /></a></div>
-                            <p><a href="<?php echo url("item/detail/id/{$val['sid']}"); ?>" title="<?=$val['name'].$val['subname']?>"><?php echo trimmed_title($val['name'].$val['subname'],10); ?></a></p>
-                        </li>
-                        <?php } ?>
-                    </ul>
-                </div>
-                <?php $i=2; ?>                
-<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('category',array('pid'=>0,),'item');
-if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
-                <div class="ix_left1_body none" style="height:270px;_height:245px;" id="subject<?=$i?>" datacallname="首页_推荐主题" params="{'city_id':'<?=_NULL_CITYID_?>','pid':'<?=$val['catid']?>'}"></div>
-                <?php $i++; ?>                <?php } ?>
-                <div class="ix_left1_bottom"></div>
-            </div>
-            <!-- 推荐主题 end -->
-
-            <!-- 需要加载的广告位置 -->
-			<div id="adv_1"></div>
-
-            <!-- 会员动态 begin -->
-            <script type="text/javascript" src="<?=URLROOT?>/static/javascript/marquee.js"></script>
-            <div class="ix_foo">
-                <div class="ix_feed">
-                    <div class="ix_left1_more">&nbsp;</div>
-                </div>
-                <div class="ix_left1_body" id="index_feed" style="height:158px;overflow:hidden;">
-                    <ul class="index_feed">
-                        
-<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('feed',array('city_id'=>"_NULL_CITYID_",'rows'=>10,),'member');
-if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
-                        <li>
-                            <div class="member">
-                                <a href="<?php echo url("space/index/uid/{$val['uid']}"); ?>"><img src="<?php echo get_face($val['uid']); ?>" class="face"></a>
-                            </div>
-                            <div class="content">
-                                <h4><?=$val['title']?><span><?php echo newdate($val['dateline'],'w2style'); ?></span></h4>
-                                <? if($val['images']) { ?>
-                                <div class="content-images">
-                                <?php $images=unserialize($val['images']); ?>                                
-<? if(is_array($images)) { foreach($images as $img) { ?>
-                                <a href="<?=$img['link']?>"><img src="<?=$img['url']?>" /></a>
-                                
-<? } } ?>
-                                </div>
-                                
-<? } else { ?>
-                                <p><?=$val['body']?></p>
-                                <? } ?>
-                            </div>
-                            <div class="clear"></div>
-                        </li>
-                        <?php } ?>
-                        <div class="clear"></div>
-                    </ul>
-                </div>
-                <div class="ix_left1_bottom"></div>
-            </div>
-            <script type="text/javascript">
-            new Marquee("index_feed", "top", 1, 705, 160, 1, 5000, 1);
-            </script>
-            <!-- 会员动态 end -->
-
             <!-- 最新点评 begin -->
             <div class="ix_foo">
                 <div class="ix_review">
                     <div class="ix_left1_more"><span class="arrow-ico"><a href="<?php echo url("review/list"); ?>">更多</a></span></div>
                 </div>
-                <div class="ix_left1_body" style="height:435px;">
+                <div class="ix_left1_body" style="height:400px;">
                     
 <?php $_QUERY['get_val']=$_G['datacall']->datacall_get('review',array('city_id'=>"_NULL_CITYID_",'orderby'=>"posttime DESC",'rows'=>5,'cachetime'=>500,),'review');
 if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
@@ -195,6 +112,96 @@ if(is_array($_QUERY['get__val']))foreach($_QUERY['get__val'] as $_val_k => $_val
                 <div class="ix_left1_bottom"></div>
             </div>
             <!-- 最新点评 end -->
+            <!-- 需要加载的广告位置 -->
+			<div id="adv_1"></div>
+
+            <!-- 会员动态 begin -->
+            <script type="text/javascript" src="<?=URLROOT?>/static/javascript/marquee.js"></script>
+            <div class="ix_foo">
+                <div class="ix_feed">
+                    <div class="ix_left1_more">&nbsp;</div>
+                </div>
+                <!--<div class="ix_left1_body" id="index_feed" style="height:158px;overflow:hidden;">-->
+				<div class="ix_left1_body" id="index_feed" style="height:320px;">
+                    <ul class="index_feed">
+                        
+<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('feed',array('city_id'=>"_NULL_CITYID_",'rows'=>10,),'member');
+if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
+                        <li>
+                            <div class="member">
+                                <a href="<?php echo url("space/index/uid/{$val['uid']}"); ?>"><img src="<?php echo get_face($val['uid']); ?>" class="face"></a>
+                            </div>
+                            <div class="content">
+                                <h4><?=$val['title']?><span><?php echo newdate($val['dateline'],'w2style'); ?></span></h4>
+                                <? if($val['images']) { ?>
+                                <div class="content-images">
+                                <?php $images=unserialize($val['images']); ?>                                
+<? if(is_array($images)) { foreach($images as $img) { ?>
+                                <a href="<?=$img['link']?>"><img src="<?=$img['url']?>" /></a>
+                                
+<? } } ?>
+                                </div>
+                                
+<? } else { ?>
+                                <p><?=$val['body']?></p>
+                                <? } ?>
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                        <?php } ?>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="ix_left1_bottom"></div>
+            </div>
+            <script type="text/javascript">
+            new Marquee("index_feed", "top", 1, 705, 400, 1, 5000, 1);
+            </script>
+            <!-- 会员动态 end -->
+			
+			<!-- 推荐主题 begin -->
+			
+            <div class="ix_foo" style="display: none;">
+                <div class="ix_finer">
+                    <div class="ix_left1_more">
+                        <div class="ix_tab">
+                            <div id="btn_subject1" class="selected"><a href="###" onclick="tabSelect(1,'subject')" onfocus="this.blur()">综合</a></div>
+                            <?php $i=2; ?>                            
+<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('category',array('pid'=>0,),'item');
+if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
+                            <div id="btn_subject<?=$i?>"><a href="###" onclick="tabSelect(<?=$i?>,'subject')" onfocus="this.blur()"><?=$val['name']?></a></div>
+                            <?php $i++; ?>                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="ix_left1_body" id="subject1" style="height:270px;_height:245px;">
+                    <ul class="index_subject_pic">
+                        
+<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('table',array('table'=>"dbpre_subject",'select'=>"sid,aid,name,subname,avgsort,thumb,description",'where'=>"finer>0 AND city_id IN (_NULL_CITYID_) AND status=1",'orderby'=>"finer DESC",'rows'=>10,'cachetime'=>1000,),'');
+if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
+                        <li>
+                            <div><a href="<?php echo url("item/detail/id/{$val['sid']}"); ?>"><img src="<?=URLROOT?>/<? if($val['thumb']) { ?>
+<?=$val['thumb']?>
+<? } else { ?>
+static/images/noimg.gif<? } ?>
+" alt="<?=$val['name'].$val['subname']?>" title="<?=$val['name'].$val['subname']?>" /></a></div>
+                            <p><a href="<?php echo url("item/detail/id/{$val['sid']}"); ?>" title="<?=$val['name'].$val['subname']?>"><?php echo trimmed_title($val['name'].$val['subname'],10); ?></a></p>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+                <?php $i=2; ?>                
+<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('category',array('pid'=>0,),'item');
+if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
+                <div class="ix_left1_body none" style="height:270px;_height:245px;" id="subject<?=$i?>" datacallname="首页_推荐主题" params="{'city_id':'<?=_NULL_CITYID_?>','pid':'<?=$val['catid']?>'}"></div>
+                <?php $i++; ?>                <?php } ?>
+                <div class="ix_left1_bottom"></div>
+            </div>
+			
+            <!-- 推荐主题 end -->
+
+
+            
         </div>
 
         <div class="ixf_right">
@@ -281,7 +288,7 @@ if(is_array($_QUERY['get__val']))foreach($_QUERY['get__val'] as $_val_k => $_val
                     <h2><a href="<?php echo url("card/index"); ?>">会员卡折扣</a></h2>
                     <ul class="ix_card">
                     
-<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('list_finer',array('city_id'=>$_CITY['aid'],'row'=>10,'cachetime'=>1000,),'card');
+<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('list_finer',array('city_id'=>$_CITY['aid'],'row'=>10,'cachetime'=>1000,),'');
 if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
                     <li><cite><?=$val['discount']?>&nbsp;折</cite><a href="<?php echo url("item/detail/id/{$val['sid']}"); ?>"><?php echo trimmed_title(trim($val['name'].$val['subname']),15); ?></a></li>
                     <?php } ?>
@@ -300,7 +307,7 @@ if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { 
                     <h2><a href="<?php echo url("coupon/index"); ?>">优惠券</a></h2>
                     <ul class="ix_coupon">
                     
-<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('list_new',array('city_id'=>$_CITY['aid'],'row'=>7,'cachetime'=>1000,),'coupon');
+<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('list_new',array('city_id'=>$_CITY['aid'],'row'=>7,'cachetime'=>1000,),'');
 if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
                         <? if($val_k <= 1) { ?>
                             <li class="thumb"><a href="<?php echo url("coupon/detail/id/{$val['couponid']}"); ?>" title="<?=$val['subject']?>"><img src="<?=URLROOT?>/<?=$val['thumb']?>" alt="<?=$val['subject']?>" /></a></li>
@@ -392,7 +399,7 @@ if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { 
         <div class="index_links">
             <div class="links">
                 
-<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('links',array('type'=>"char",'cachetime'=>500,),'link');
+<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('links',array('type'=>"char",'cachetime'=>500,),'');
 if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
                 <a href="<?=$val['link']?>" title="<?=$val['des']?>" target="_blank"><?=$val['title']?></a>
                 <?php } ?>
@@ -400,7 +407,7 @@ if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { 
             <div class="line"></div>
             <div class="links">
                 
-<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('links',array('type'=>"logo",'cachetime'=>500,),'link');
+<?php $_QUERY['get_val']=$_G['datacall']->datacall_get('links',array('type'=>"logo",'cachetime'=>500,),'');
 if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { ?>
                 <a href="<?=$val['link']?>" title="<?=$val['des']?>" target="_blank"><img src="<?=$val['logo']?>" alt="<?=$val['title']?>" /></a>
                 <?php } ?>

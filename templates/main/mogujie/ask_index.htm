@@ -1,0 +1,115 @@
+<!--{eval
+    $_G['loader']->helper('misc','ask');
+    $_HEAD['title'] = $MOD[name];
+}-->
+
+{template modoer_header}
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body">
+		<DIV class="piece piece_w960">
+			<DIV class="piece_hd"><B class=hl></B><B class=hr></B></DIV>
+			<DIV class="piece_bd clearfix">
+				<DIV class="fl" id="content_body2">
+					<DIV class="show_body clear_in pt10"><!--商品或图片 -->
+						<div class="link_path" style="padding-left:0px"> <em><span class="review-ico"><a href="{url ask/member/ac/ask/op/add/role/$role}"><b>我要提问</b></a></span></em> <span>全部的问题：$total_ask 条</span> <span>已解决问题：{$_G['success']} 条</span> <span>未解决问题：{$_G['unsuccess']} 条</span> </div>
+						<div class="clear" style="height:10px"></div>
+						<DIV class="ff" style="MARGIN:0px"> <A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">问题分类：</A>
+							<UL class="mr10" style="height:36px">
+								{get:ask val=category(pid/0)} <li$active[catid][$val[catid]]><a href="{url ask/list/catid/$val[catid]}">$val[name]</a>
+								</li>
+								{get:ask _val=category(pid/$val[catid])} <li$active[catid][$val[catid]]><a href="{url ask/list/catid/$val[catid]}">$_val[name]</a>
+								</li>
+								{/get} {/get}
+							</UL>
+							<div class="clear"></div>
+						</DIV>
+						<div class="ask_center"> 
+							
+							<!-- 推荐问题 begin -->
+							<div class="ix_foo" style="float:left;">
+								<div class="ask_status_h ask_status_h1"></div>
+								<div class="ask_status_b">
+									<ul class="asklist">
+										<!--{get:modoer val=table(table/dbpre_asks/select/askid,catid,att,subject,expiredtime,dateline/where/status=1 AND att > 0 AND city_id IN (_NULL_CITYID_)/rows/10/cachetime/1000)}-->
+										<li><span class="time">{date $val[dateline],'m-d'}</span><span class="title">[<a href="{url ask/list/catid/$val[catid]}">{print:ask category(catid/$val[catid])}</a>] <a href="{url ask/detail/id/$val[askid]}" title="$val[subject]">{sublen $val[subject],18}</a></span></li>
+										<!--{/get}-->
+									</ul>
+								</div>
+								<div class="ask_status_m"></div>
+							</div>
+							<!-- 推荐问题 end --> 
+							<!-- 高悬赏问题 begin -->
+							<div class="ix_foo" style="float:right;">
+								<div class="ask_status_h ask_status_h4"></div>
+								<div class="ask_status_b">
+									<ul class="asklist">
+										<!--{get:modoer val=table(table/dbpre_asks/select/askid,catid,subject,reward,expiredtime,dateline/where/reward >=10 AND status=1 AND city_id IN (_NULL_CITYID_)/orderby/reward DESC/rows/10/cachetime/1000)}-->
+										<li><span class="time">{$val[reward]} 分</span><span class="title">[<a href="{url ask/list/catid/$val[catid]}">{print:ask category(catid/$val[catid])}</a>] <a href="{url ask/detail/id/$val[askid]}" title="$val[subject]">$val[subject]</a></span></li>
+										<!--{/get}-->
+									</ul>
+								</div>
+								<div class="ask_status_m"></div>
+							</div>
+							<!-- 高悬赏问题 end --> 
+                            <div class="clear"></div>
+
+							<!-- 新解决问题 begin -->
+							<div class="ix_foo mt10" style="float:left;">
+								<div class="ask_status_h ask_status_h3"></div>
+								<div class="ask_status_b">
+									<ul class="asklist">
+										<!--{get:modoer val=table(table/dbpre_asks/select/askid,catid,subject,expiredtime,dateline/where/status=1 AND success=1 AND bestanswer>0 AND city_id IN (_NULL_CITYID_)/orderby/dateline DESC/rows/10/cachetime/1000)}-->
+										<li><span class="time">{date $val[dateline],'m-d'}</span><span class="title">[<a href="{url ask/list/catid/$val[catid]}">{print:ask category(catid/$val[catid])}</a>] <a href="{url ask/detail/id/$val[askid]}" title="$val[subject]">{sublen $val[subject],18}</a></span></li>
+										<!--{/get}-->
+									</ul>
+								</div>
+								<div class="ask_status_m"></div>
+							</div>
+							<!-- 新解决问题 end --> 
+
+                            <!-- 待解决问题 end -->
+							<div class="ix_foo mt10" style="float:right;">
+								<div class="ask_status_h ask_status_h2"></div>
+								<div class="ask_status_b">
+									<ul class="asklist">
+										<!--{get:modoer val=table(table/dbpre_asks/select/askid,catid,subject,success,expiredtime,dateline/where/status=1 AND success=0 AND city_id IN (_NULL_CITYID_)/orderby/dateline DESC/rows/10/cachetime/1000)}-->
+										<li><span class="time">{date $val[dateline],'m-d'}</span><span class="title">[<a href="{url ask/list/catid/$val[catid]}">{print:ask category(catid/$val[catid])}</a>] <a href="{url ask/detail/id/$val[askid]}" title="$val[subject]">{sublen $val[subject],18}</a></span></li>
+										<!--{/get}-->
+									</ul>
+								</div>
+								<div class="ask_status_m"></div>
+							</div>
+							<!-- 待解决问题 end -->
+                            <div class="clear"></div>
+                        </div>
+
+					</DIV>
+				</DIV>
+				<DIV class="fr" id="right_side1">
+					<DIV class="coupon_side" style="border:0px">
+						<H3>搜索</H3>
+						<form method="get" action="{URLROOT}/index.php">
+							<input type="hidden" name="m" value="ask" />
+							<input type="hidden" name="act" value="list" />
+							<input type="text" name="keyword" class="t_input" size="25" value="" />
+							&nbsp;
+							<button type="submit" class="button">搜索</button>
+						</form>
+					</DIV>
+					<DIV class="coupon_side">
+						<H3>{print:member point(point/$MOD[pointtype])}排行</H3>
+						<UL>
+							<!--{get:modoer val=table(table/dbpre_members/select/uid,username,$MOD[pointtype]/orderby/$MOD[pointtype] DESC/rows/10)}-->
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url space/index/uid/$val[uid]}" target=_blank>$val[username]</A></H4>
+								<span>$val[$MOD[pointtype]] {print:member point(point/$MOD[pointtype])}</span></LI>
+							<!--{/get}-->
+						</UL>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

@@ -1,0 +1,139 @@
+<!--{eval 
+    $_HEAD['title'] = $fullname . '的' . $filter_arr_lng[$filter] . '点评列表';
+}-->
+
+{template modoer_header} 
+<script type="text/javascript" src="{URLROOT}/static/javascript/item.js"></script>
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body">
+		<DIV id="content_top">
+			<DIV class="piece1 mb20">
+				<DIV class="piece1_hd"></DIV>
+				<DIV class="piece1_bd user_info">
+					<DIV class="user_info_left fl">
+						<DIV class="user_profile fl"><SPAN class=uname>$subject[name]</SPAN> <BR>
+							<DIV class="home_follow">
+								<DIV class="followdiv fl" type="all"><A class=addfo href="javascript:add_favorite($sid);">关注</A> </DIV>
+								<DIV class="see_more_info fl"> </DIV>
+							</DIV>
+						</DIV>
+					</DIV>
+					<DIV class="user_collect_info fr">
+						<DIV class="collect_list"><A class="ft18 color52">$subject[pageviews]</A><BR>
+							<SPAN class=color52>浏览</SPAN> </DIV>
+						<DIV class="collect_list bd_none"><A class="ft18 color52">$subject[favorites]</A><BR>
+							<SPAN class=color52>关注</SPAN> </DIV>
+					</DIV>
+				</DIV>
+				<DIV class="piece1_home_ft home_nav"> 
+					<!--{loop $links $i $link}--> 
+					{if $i} {/if}<a href="$link[url]"{if $link[flag]=='party'}  style="background:url({URLROOT}/{$_G[tplurl]}images/site_home_bg.png) 0 -209px #ff97bf; color:#fff;" {/if}>$link[title]</a> 
+					<!--{/loop}--> 
+				</DIV>
+			</DIV>
+		</DIV>
+		<DIV class="piece piece_w960">
+			<DIV class="piece_hd"><B class=hl></B><B class=hr></B></DIV>
+			<DIV class="piece_bd clearfix">
+				<DIV class="fl" id="content_body2">
+					<DIV class="show_body clear_in pt10"><!--商品或图片 -->
+						<DIV class="ff" style="MARGIN:0px"> <A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">筛选：</A>
+							<UL class="mr10" style="height:36px">
+								<li $active[flag][0]><a href="{url party/item/sid/$sid/order/$order}">全部</a></li>
+								<li $active[flag][1]><a href="{url party/item/sid/$sid/order/$order/flag/1}">报名中</a></li>
+								<li $active[flag][2]><a href="{url party/item/sid/$sid/order/$order/flag/2}">进行中</a></li>
+								<li $active[flag][3]><a href="{url party/item/sid/$sid/order/$order/flag/3/}">已结束</a></li>
+							</UL>
+							<div class="clear"></div>
+						</DIV>
+						
+						<!--{if $total}--> 
+						<!--{dbres $list $val}-->
+						<div class="partylist">
+							<div class="thumb"><a href="{url party/detail/id/$val[partyid]}"><img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[subject]"/></a><b></b></div>
+							<div class="info" style="width:400px;">
+								<ul>
+									<h3><a href="{url party/detail/id/$val[partyid]}">$val[subject]</a></h3>
+									<li>活动地址：$val[address]</li>
+									<li>活动时间：{date $val[begintime], 'm月d日H:i'} ~ {date $val[endtime], 'm月d日H:i'}</li>
+									<li>活动介绍：{sublen strip_tags($val[des]), 30}</li>
+								</ul>
+							</div>
+							<div class="num">
+								<p class="applynum">$val[num]</p>
+								<div> 
+									<!--{if $val[flag]==1}--> 
+									<a href="{url party/member/ac/apply/op/apply/id/$val[partyid]}" alt="我要报名"><img src="{URLROOT}/{$_G[tplurl]}images/party/party_apply.gif" /></a> 
+									<!--{else}--> 
+									<img src="{URLROOT}/{$_G[tplurl]}images/party/party_apply_stop.gif" /> 
+									<!--{/if}--> 
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<!--{/dbres}-->
+						<div class="multipage">$multipage</div>
+						<!--{else}-->
+						<div class="messageborder">暂时没有信息。</div>
+						<!--{/if}--> 
+					</DIV>
+				</DIV>
+				<DIV class="fr" id="right_side1">
+					<script type="text/javascript">loadscript('item');</script>
+					<div class="side_subject">
+						<h2><a href="{url item/detail/id/$sid}" src="$subject[thumb]" onmouseover="tip_start(this,1);" style="color:#87B32E">$subject[name]&nbsp;$subject[subname]</a></h2>
+						<!--{eval $reviewcfg = $_G['loader']->variable('config','review');}-->
+						<p class="start start{print get_star($subject[avgsort],$reviewcfg[scoretype]);}"></p>
+						<table class="side_subject_field_list" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td colspan="2">
+                                    <span class="font_2">$subject[reviews]</span>点评,
+                                    <span class="font_2">$subject[guestbooks]</span>留言, <span class="font_2">$subject[pageviews]</span>浏览
+                                </td>
+							</tr>
+							$subject_field_table_tr
+						</table>
+						<a class="abtn1" href="{url review/member/ac/add/type/item_subject/id/$sid}"><span>我要点评</span></a> <a class="abtn2" href="javascript:add_favorite($sid);"><span>关注</span></a> <a class="abtn2" href="{url item/detail/id/$sid/view/guestbook}#guestbook"><span>留言</span></a>
+						<div class="clear"></div>
+					</div>
+					<!--{if $model[usearea]}-->
+					<div class="mainrail"> 
+						<!--{eval $mapparam = array(
+                            'width' => '245',
+                            'height' => '245',
+                            'title' => $subject[name] . $subject[subname],
+                            'p' => $subject[mappoint],
+                            'show' => $subject[mappoint]?1:0,
+                        );}-->
+						<iframe class="site_subject_map" src="{URLROOT}/index.php?act=map&{print url_implode($mapparam)}" frameborder="0" scrolling="no" width="245" height="245"></iframe>
+						<div style="text-align:center;margin:5px 0;"> 
+							<!--{if !$subject['mappoint']}--> 
+							<a href="javascript:post_map($subject[sid], $subject[pid]);">地图未标注，我来标注</a> 
+							<!--{else}--> 
+							<a href="javascript:show_bigmap();">查看大图</a>&nbsp; <a href="javascript:post_map($subject[sid], $subject[pid]);">报错</a> 
+							<!--{/if}--> 
+						</div>
+					</div>
+					<script type="text/javascript">
+                        function show_bigmap() {
+                            <!--{eval $mapparam = array(
+                                'width' => '600',
+                                'height' => '400',
+                                'title' => $subject[name] . $subject[subname],
+                                'p' => $subject[mappoint],
+                                'show' => $subject[mappoint]?1:0,
+                            );}-->
+                            var src = "{URLROOT}/index.php?act=map&{print url_implode($mapparam)}";
+                            var html = '<iframe src="' + src + '" frameborder="0" scrolling="no" width="100%" height="400" id="ifupmap_map"></iframe>';
+                            dlgOpen('查看大图', html, 600, 450);
+                        }
+                    </script> 
+					<!--{/if}--> 
+					
+				</DIV>
+			</DIV>
+			<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

@@ -27,8 +27,8 @@ if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { 
             </div>
         </div>
         <div style="float:left;width:250px;">
-            <div id="subjects" class="mainrail rail-border-1">
-                <h2 class="rail-h-1 rail-h-bg-1">搜索结果</h2>
+            <div id="subjects" class="mainrail rail-border-3">
+                <h2 class="rail-h-3 rail-h-bg-3">搜索结果</h2>
                 <? if($total) { ?>
                 <?php $index=0; ?>                
 <? if($list) { while($val = $list->fetch_array()) { ?>
@@ -56,7 +56,7 @@ if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { 
             </div>
         </div>
         <div style="float:right;width:700px;">
-            <div class="mainrail rail-border-1">
+            <div class="mainrail rail-border-3">
                 <div id="map_container" style="width:100%;height:800px;"></div>
             </div>
             <div style="text-align:center;"><?=$multipage?></div>

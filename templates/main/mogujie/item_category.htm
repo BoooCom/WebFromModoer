@@ -1,0 +1,62 @@
+{template modoer_header}
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+			<div class="fl" id="content_body_wrap">
+            {get:item val=category(pid/0)}
+				<div class="piece piece_wb">
+					<div class="piece_hd"><b class=hl></b><b class=hr></b></div>
+					<div class="piece_bd clearfix">
+						<div class="group_darren">
+							<div class="group_darren_box group_darren_beaut">
+								<h2><a href="{url item/list/catid/$val[catid]}">$val[name]</a></h2>
+								<div class="ff" style="margin:0px"> <a style="font-size: 14px; float: left; color: #666">分类：</a>
+									<ul class="mr10">
+										{get:item val2=category(pid/$val[catid])}
+										<li style="height:25px"><a href="{url item/list/catid/$val2[catid]}">$val2[name]</a></li>
+										{/get}
+									</ul>
+								</div>
+								<div class="clear" style="height:10px"></div>
+								<ul class=gd_list>
+									<!--随即2个--> 
+									{get:item val3=subject(select/sid,name,subname,reviews,thumb,best,description,pageviews,avgprice/city_id/_NULL_CITYID_/pid/$val[catid]/rand/1/rows/6/cachetime/500)}
+									<li class="gd_item"><a href="{url item/detail/id/$val3[sid]}" title="$val3[subject]"><img class="fl avatar icard r3" alt="$val3[name]" src="{URLROOT}/{if $val3[thumb]}$val3[thumb]{else}static/images/noimg.gif{/if}"> </a></li>
+									{/get}
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="piece_ft"><b class=fl></b><b class=fr></b></div>
+				</div>
+				{/get}
+            </div>
+			<div class="fr">
+				<div class="piece piece_ws">
+					<div class="piece_hd"><b class=hl></b><b class=hr></b></div>
+					<div class="piece_bd">
+						<h3>最新点评</h3>
+						<ul class="new_topic_list">
+							<!--{get:review val=review(city_id/_NULL_CITYID_/orderby/posttime DESC/rows/16/cachetime/500)}-->
+							<li>
+								<p> 
+									<!--{if $val[uid]}-->
+                                    <a class=tlink href="{url space/index/uid/$val[uid]}">{sublen $val[username],6}</a>
+                                    <!--{else}-->
+                                    游客({print preg_replace("/^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/","\\1.\\2.*.*", $val[ip])})
+                                    <!--{/if}-->
+                                    <span class="font_2">{if $val[best]}好评{else}差评{/if}</span>&nbsp;<a href="{url item/detail/id/$val[id]}">$val[subject]</a>
+                                </p>
+                                <!--{if $val[title]}-->
+								<p class="gl_gt"><a href="{url review/detail/id/$val[rid]}">{sublen $val[title], 20}</a></p>
+								<!--{/if}-->
+                                <p class="gl_gt">{sublen $val[content],35,'...'}</p>
+							</li>
+							<!--{/get}-->
+						</ul>
+					</div>
+					<div class="piece_ft"><b class="fl"></b><b class=fr></b></div>
+				</div>
+			</div>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

@@ -47,7 +47,7 @@ $GT = $_G['loader']->model('group:topic');
 $where = array();
 $where['gid'] = $gid;
 $where['status'] = 1;
-$select = 'tpid,subject,uid,username,replies,replytime,dateline,top,closed';
+$select = 'tpid,subject,uid,username,replies,replytime,dateline,top,closed,pageview';
 $orderby = array('top'=>'DESC','replytime'=>'DESC');
 $offset = 10;
 $start = get_start($_GET['page'],$offset);

@@ -1,0 +1,153 @@
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/static/javascript/item.js"></script>
+<div id="body">
+    <div class="myhead"></div>
+    <div class="mymiddle">
+        <div class="myleft">
+        <!--{eval !$mymenu && $mymenu = 'mmenu';}-->
+        <!--{template $mymenu,'member','member'}-->
+        </div>
+        <div class="myright">
+            <div class="myright_top"></div>
+            <div class="myright_middle">
+                <h3><cite>当前操作的主题:<span class="font_2">$_G[manage_subject][name]{if $_G[manage_subject][subname]}($_G[manage_subject][subname]){/if}</span>[<a href="javascript:void(0);" onclick="item_subject_manage();">更换</a>]</cite>团购券管理</h3>
+                <div class="mainrail">
+                    <!--{if $op=='query'}-->
+                    <form method="post" name="myform" action="{url tuan/member/ac/$ac/op/$next_op}">
+                    <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                        <!--{if !$detail}-->
+                        <tr>
+                            <td width="80" align="right">券号：</td>
+                            <td width="*"><input type="text" name="serial" class="t_input" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">&nbsp;</td>
+                            <td>
+                                <button type="submit" name="dosubmit" value="yes">查询</button>&nbsp;
+                                <button type="button" onclick="history.go(-1);">返回</button>
+                            </td>
+                        </tr>
+                        <!--{else}-->
+                        <tr>
+                            <td width="80" align="right">券号：</td>
+                            <td width="*">$detail[serial]</td>
+                        </tr>
+                        <tr>
+                            <td align="right">关联订单：</td>
+                            <td>
+                                订单号：$order[oid]
+                                &nbsp;，&nbsp;
+                                购买数量：$order[num]
+                                &nbsp;，&nbsp;
+                                下单时间：{date $order[dateline],'Y-m-d H:i'}
+                                &nbsp;，&nbsp;
+                                支付金额：&yen;$order[pay_price]
+                                &nbsp;，&nbsp;
+                                {eval $lang_status=lang('tuan_order_status');}
+                                <span class="font_2">订单状态：{print $lang_status[$order[status]]}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">持有会员：</td>
+                            <td><a href="{url space/index/uid/$detail[uid]}" target="_blank">$detail[username]</a></td>
+                        </tr>
+                        <tr>
+                            <td align="right">所属团购：</td>
+                            <td><a href="{url tuan/detail/id/$tuan[tid]}" target="_blank">$tuan[subject]</a></td>
+                        </tr>
+                        <tr>
+                            <td align="right">当前状态：</td>
+                            <td>$status_lang[$detail[status]]</td>
+                        </tr>
+                        <tr>
+                            <td align="right">有效期至：</td>
+                            <td>{date $detail[expiretime],'Y-m-d'}</td>
+                        </tr>
+                        <!--{if $detail[status]!='new'}-->
+                        <tr>
+                            <td align="right">使用时间：</td>
+                            <td>{if $detail[usetime]}{date $detail[usetime],'Y-m-d H:i'}{else}-{/if}</td>
+                        </tr>
+                        <tr>
+                            <td align="right">操作员：</td>
+                            <td>$detail[op_username]{if !$detail[op_uid]}<span class="font_3">(后台处理)</span>{/if}</td>
+                        </tr>
+                        <!--{else}-->
+                        <tr>
+                            <td align="right">券密码：</td>
+                            <td><input type="password" name="passward" class="t_input" /></td>
+                        </tr>
+                        <!--{/if}-->
+                        <tr>
+                            <td align="right">&nbsp;</td>
+                            <td>
+                                <input type="hidden" name="serial" value="$detail[serial]" />
+                                <!--{if $detail[status]=='new'}--><button type="submit" name="dosubmit" value="yes" onclick="return confirm('您确定要使用本团购券吗？');">使用本团购券</button><!--{/if}-->
+                                <button type="button" onclick="document.location='{url tuan/member/ac/$ac}';">返回</button>
+                            </td>
+                        </tr>
+                        <!--{/if}-->
+                    </table>
+                    </form>
+                    <!--{else}-->
+                    <div class="op">
+                        <!--{if $sid}-->
+                        选择团购活动：<select id="mysubject" style="width:400px;" onchange="location.href=Url('tuan/member/ac/g_coupon/sid/$sid/tid/'+this.value);">
+                            <option value="0" style="color:#CC0000;">====全部团购====</option>
+                            <!--{print form_tuan_myowner($sid, $tid,21)}-->
+                        </select>
+                        <!--{/if}-->
+                        &nbsp;<button type="button" onclick="query_serial();">查询/使用团购券</button>
+                    </div>
+                    {if $ctotal}
+                    <div style="margin:5px 0;padding:5px;background:#f9f9f9;">
+                        总计：<span>$ctotal</span> 张，已使用 <span>{print (int)$ctotals[used]}</span> 张，未使用 <span>{print (int)$ctotals[new]}</span> 张，过期 <span>{print (int)$ctotals[expired]}</span> 张，已作废 <span>{print (int)$ctotals[invalid]}</span> 张。
+                    </div>
+                    {/if}
+                    <form method="post" name="myform" action="{url product/member/ac/$ac/rand/$_G[random]}">
+                    <table width="100%" cellspacing="0" cellpadding="0" class="maintable" trmouse="Y">
+                        <tr>
+                            <th width="*">团购名称(已使用{$total}张)</th>
+                            <th width="110">券号</th>
+                            <th width="50">状态</th>
+                            <th width="90">有效期到</th>
+                            <th width="120">使用时间</th>
+                            <th width="120">持有会员</th>
+                        </tr>
+                        <!--{dbres $list $val}-->
+                        <tr>
+                            <td><a href="{url tuan/detail/id/$val[tid]}" target="_blank">$val[subject]</a></td>
+                            <td><a href="{url tuan/member/ac/$ac/op/query/serial/$val[serial]}">$val[serial]</a></td>
+                            <td>$status_lang[$val[status]]</td>
+                            <td>{date $val[expiretime],'Y-m-d'}</td>
+                            <td>{if $val[usetime]}{date $val[usetime],'Y-m-d H:i'}{else}-{/if}</td>
+                            <td><a href="{url space/index/uid/$val[uid]}" target="_blank">$val[username]</a></td>
+                        </tr>
+                        <!--{/dbres}-->
+                        <!--{if !$total}--><tr><td colspan="8">暂无信息。</td></tr><!--{/if}-->
+                    </table>
+                    <!--{if $total}--><div class="multipage">$multipage</div><!--{/if}-->
+                    </form>
+                    <!--{/if}-->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="mybottom"></div>
+</div>
+<script type="text/javascript">
+function query_serial(){
+    var msg = "请输入团购券号：" 
+    var serial = prompt(msg);
+    if(!serial) return false;
+    var frm = $('#query_serial_frm');
+    if(frm[0]) frm.remove();
+    frm = $("<form method=\"post\" action=\"{url tuan/member/ac/g_coupon/op/query}\"></form>");
+    var hie = $("<input type=\"hidden\" name=\"serial\">").val(serial);
+    frm.append(hie);
+    $(document.body).append(frm);
+    frm[0].submit();
+}
+</script>
+<!--{eval footer();}-->

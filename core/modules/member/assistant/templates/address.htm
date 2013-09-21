@@ -106,17 +106,20 @@ function change_address_field(obj) {
 }
 function address_delete(id) {
     if(!window.confirm('您确定要删除这条地址信息吗？')) return;
-    $.post($.post(Url("member/index/ac/$ac/op/delete"), { 'id':id, 'in_ajax':1 },"{url member/index/ac/$ac/op/delete}", { 'id':id, 'in_ajax':1 },
-    function(result) {
-        if(result == null) {
-            alert('信息读取失败，可能网络忙碌，请稍后尝试。');
-        } else if (is_message(result)) {
-            myAlert(result);
-        } else if(result=='OK') {
-            $('#address_'+id).remove();
-            msgOpen('地址信息已删除。');
+    $.post(
+        Url("member/index/ac/$ac/op/delete"), 
+        { 'id':id, 'in_ajax':1 },
+        function(result) {
+            if(result == null) {
+                alert('信息读取失败，可能网络忙碌，请稍后尝试。');
+            } else if (is_message(result)) {
+                myAlert(result);
+            } else if(result=='OK') {
+                $('#address_'+id).remove();
+                msgOpen('地址信息已删除。');
+            }
         }
-    });
+    );
 }
 </script>
 <!--{eval footer();}-->

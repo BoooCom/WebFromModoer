@@ -12,7 +12,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?=$_G['charset']?>" />
 <meta http-equiv="x-ua-compatible" content="ie=9" />
-<title><?=$_HEAD['title']?> - Powered by Modoer</title>
+<title><?=$_HEAD['title']?> - 自由宝贝</title>
 <meta name="keywords" content="<?=$_HEAD['keywords']?>,点评系统" />
 <meta name="description" content="<?=$_HEAD['description']?>" />
 <link rel="stylesheet" type="text/css" href="<?=URLROOT?>/<?=$_G['tplurl']?>css_common.css" />
@@ -39,13 +39,17 @@ var mod = modules['<?=$MOD['flag']?>'];<? } ?>
 <script type="text/javascript" src="<?=URLROOT?>/static/javascript/<?=$MOD['flag']?>.js"></script><? } ?>
 <div id="gtop">
     <div class="maintop">
+		<!--
         <div class="maintop-left">
             <a href="javascript:;" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('<?=$_CFG['siteurl']?>')">设为首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;" onclick="window.external.addFavorite('<?=$_CFG['siteurl']?>','<?=$_CFG['sitename']?>');">加入收藏</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?php echo url("item/tag"); ?>">TAG标签</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?php echo url("item/rss/catid/{$catid}"); ?>" target="_blank">RSS聚合</a><? if(check_module('mobile') && is_mobile()) { ?>
 &nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?php echo url("mobile/index"); ?>"><strong class="font_1">手机版</strong></a><? } ?>
         </div>
+		-->
+		<!--
         <div class="maintop-right">
             <a href="<?php echo url("item/map"); ?>">浏览地图</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?php echo url("item/detail/random/1"); ?>">随便看看</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?php echo url("item/member/ac/subject_add"); ?>">增加主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?php echo url("review/member/ac/add"); ?>">我要点评</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?php echo url("item/search"); ?>">搜索</a>
         </div>
+		-->
         <div class="clear"></div>
     </div>
 </div>

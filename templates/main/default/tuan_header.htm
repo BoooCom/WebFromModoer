@@ -1,0 +1,136 @@
+<!--{eval
+    $_HEAD[title] = ($_HEAD[title] ? $_HEAD[title] : $MOD[name]) . $_CFG[titlesplit] . $_CFG[sitename];
+}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$_G[charset]" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<title>$_HEAD[title] - Powered by Modoer</title>
+<meta name="keywords" content="$_HEAD[keywords],modoer" />
+<meta name="description" content="$_HEAD[description]" />
+<script type="text/javascript" src="{URLROOT}/data/cachefiles/config.js"></script>
+<script type="text/javascript">var mod = modules['{$MOD[flag]}'];</script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/jquery.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/common.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/mdialog.js"></script>
+<!--{if $_CFG[headhtml]}-->$_CFG[headhtml]<!--{/if}-->
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="{URLROOT}/static/images/mdialog.css" />
+<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_tuan.css");</style>
+<script type="text/javascript" src="{URLROOT}/static/javascript/member.js"></script>
+<!--{if !empty($MOD) && $MOD['flag']!='member' && is_file(MUDDER_ROOT . 'static/javascript/' . $MOD['flag'] . '.js')}-->
+<script type="text/javascript" src="{URLROOT}/static/javascript/$MOD[flag].js"></script>
+<!--{/if}-->
+</head>
+<body>
+<div id="tuan_header">
+    <div id="tuan_top">
+        <!--{eval $main_menus = $_CFG['main_menuid'] ? $_G['loader']->variable('menu_' . $_CFG['main_menuid']) : '';}-->
+        <div class="cont">
+            <ul class="topmenu">
+                <!--{loop $main_menus $val}-->
+                <li{if SCRIPTNAV==$val[scriptnav]} class="current"{/if}><a href="{url $val[url]}"{if $val[target]} target="$val[target]"{/if} onfocus="this.blur()">$val[title]</a></li>
+                <!--{/loop}-->
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="tuan_logo">
+        <div class="cont">
+            <div class="left">
+                <div class="logo">
+					<a href="{url tuan/index}"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/logo.gif"/></a>
+				</div>
+				<div class="city_foo">
+                    <span>$_CITY[name]</span>&nbsp;
+                    <a href="#" id="city_menu_src" rel="city_menu_box">[切换城市]</a>
+                </div>
+				<div class="clear"></div>
+            </div>
+            <!--城市选择下拉菜单--->
+            <div id="city_menu_box" class="tuan-dropdown-city">
+                <ul>
+                    <!--{eval $index=0;$forward=rawurlencode("tuan/index");}-->
+                    <!--{get:modoer val=citys(num/9)}-->
+                    <li{if $_CITY[aid]==$val[aid]} class="current"{/if}><a href="{print:modoer cityurl(city_id/$val[aid]/forward/$forward)}">$val[name]</a></li>
+                    <!--{eval $index++;}-->
+                    <!--{/get}-->
+                </ul>
+                <!--{if $index>9}--><div class="morecitys"><a href="{url index/city/forward/$forward}">全部城市</a></div><!--{/if}-->
+            </div>
+            <!--{if $index}-->
+            <script type="text/javascript">
+            $("#city_menu_src").powerFloat({offsets:{x:0,y:5}});
+            </script>
+            <!--{/if}-->
+            <div class="right">
+                <div>想知道{$_CITY[name]}明天的团购是什么吗？</div>
+                <div class="dingyue"><input type="text" id="subscibe_email" value="输入Email,订阅每日团购信息" onclick="tuan_enter_subscibe(this);" />&nbsp;<a href="javascript:void(0);" onclick="tuan_subscibe($('#subscibe_email').val());"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/dingyue.gif"/></a></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="mainnav">
+        <div class="cont">
+            <ul class="menu left">
+                <li class="lileft"><a href="{url tuan/index/today/1}">今日团购</a></li>
+				<li class="lileft"><a href="{url tuan/list}">进行中的团购</a></li>
+				<li class="lileft"><a href="{url tuan/wish}">自助团购</a></li>
+                <li class="lileft"><a href="{url tuan/deals}">往期团购</a></li>
+                <li class="lileft"><a class="drodown_tag" href="{url tuan/help}" id="help_menu" rel="help_menu_box">帮助</a></li>
+            </ul>
+            <!--{if $user->isLogin}-->
+            <ul class="menu right">
+                <li class="liright"><a href="{url member/login/op/logout}">退出</a></li>
+                <li class="liright"><a class="drodown_tag" href="{url tuan/member/ac/order}" id="assistant_menu" rel="assistant_menu_box">团购助手</a></li>
+                <li class="liright" style="font-size:12px;">欢迎您，$user->username ！&nbsp;</li>
+            </ul>
+            <!--{else}-->
+            <ul class="menu right">
+                <li class="liright"><a href="{url member/reg}">注册</a></li>
+                <li class="liright"><a href="javascript:dialog_login();"{if $_G['passport_apis']} class="drodown_tag" rel="login_menu_box"{/if}>登录</a></li>
+            </ul>
+            <!--{/if}-->
+        </div>
+        <!-- 帮助下拉菜单 -->
+        <ul id="help_menu_box" class="tuan-dropdown-menu">
+            <li><a href="{url tuan/help}">如何使用</a></li>
+            <li><a href="{url tuan/faq}">常见问题</a></li>
+        </ul>
+        <!-- 助手下拉菜单 -->
+        <ul id="assistant_menu_box" class="tuan-dropdown-menu">
+            <li><a href="{url tuan/member/ac/coupon}">我的团购券</a></li>
+            <li><a href="{url tuan/member/ac/order}">我的订单</a></li>
+            <li><a href="{url tuan/member/ac/credit}">我的余额</a></li>
+        </ul>
+        <!-- 登录接口菜单 -->
+        <!--{if $_G['passport_apis']}-->
+        <ul id="login_menu_box" class="tuan-dropdown-menu">
+        <!--{loop $_G['passport_apis'] $passport_name $passport_title}-->
+            <li><a href="javascript:void(0);" onclick="document.location='{url member/login/op/passport_login/type/$passport_name}';" style="background-image:url('{URLROOT}/static/images/passport/{$passport_name}_n.png');  padding-left:20px;">{$passport_title}登录</a></li>
+        <!--{/loop}-->
+        </ul>
+        <!--{/if}-->
+
+        <!-- 助手下拉菜单 -->
+        <ul id="assistant_menu_box" class="tuan-dropdown-menu">
+            <li><a href="{url tuan/member/ac/coupon}">我的团购券</a></li>
+            <li><a href="{url tuan/member/ac/order}">我的订单</a></li>
+            <li><a href="{url tuan/member/ac/credit}">我的余额</a></li>
+        </ul>
+        <script type="text/javascript">
+        $(".drodown_tag").powerFloat({
+            position:"3-2",
+            showCall: function() {
+                $(this).addClass("hover");    
+            },
+            hideCall: function() {
+                $(this).removeClass("hover");
+            }
+        });
+        </script>
+    </div>
+</div>

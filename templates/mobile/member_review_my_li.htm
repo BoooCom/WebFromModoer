@@ -1,0 +1,19 @@
+<!--{dbres $list $val}-->
+<li class="review_box">
+    <a href="{url mobile/subject/id/$val[id]}">
+    <div class="header">
+        <cite>{date $val[posttime],'w2style'}</cite>
+        <div>评: $val[subject]</div>
+    </div>
+    <div class="grades">
+        <!--{get:review _val=reviewopt(catid/$val[pcatid])}-->
+        $_val[name]:<span class="sorce">{print cfloat($val[$_val[flag]])}</span>
+        <!--{/get}-->
+    </div>
+    <div class="content">$val[content]</div>
+    </a>
+</li>
+<!--{/dbres}-->
+{if $multipage}
+<div id="multipage" style="display:none;">$multipage</div>
+{/if}

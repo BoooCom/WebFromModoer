@@ -1,0 +1,52 @@
+{template modoer_header}
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+		<div class="piece piece_w960">
+			<div class="piece_hd"><B class=hl></B><B class=hr></B></div>
+			<div class="piece_bd clearfix">
+                <div class="fl discussion_left">
+                    <div class="show_body clear_in">
+                        {if $total > 0}
+                        {template group_part_list}
+                        {/if}
+                    </div>
+                    {if $multipage}<div class="multipage">$multipage</div>{/if}
+                </div>
+                <div class="fr discussion_right">
+					<div class="coupon_side" style="border:0px;text-align:right;">
+						≡ <a href="{url group/list}">按分类浏览</a>
+                        &nbsp;|&nbsp;
+                        + <a href="{url group/member/ac/group/op/add}">创建小组</a>
+					</div>
+                    <div class="coupon_side">
+                        <h3>热门话题</h3>
+                        <ul class="rail-list side_topiclist">
+                            {get:modoer val=table(table/dbpre_group_topic/select/tpid,gid,subject,replies/where/status=1/orderby/replies desc/rows/10/cachetime/1000)}
+                            <li><a href="{url group/topic/id/$val[tpid]}" title="$val[subject]">$val[subject]</a></li>
+                            {/get}
+                        </ul>
+                    </div>
+                    <div class="coupon_side">
+                        <h3>最近创建</h3>
+                        <ul class="side_grouplist">
+                            {get:modoer val=table(table/dbpre_group/where/status=1/orderby/createtime desc/rows/9/cachetime/1000)}
+                            <li>
+                                {eval if(!$val[icon]) $val['icon']='static/images/z_noimg.gif';}
+                                <div class="gicon">
+                                    <a href="{url group/$val[gid]}" title="$val[groupname]"><img src="{URLROOT}/$val[icon]" alt="$val[groupname]" /></a>
+                                </div>
+                                <div class="gtitle">
+                                    <span>$val[groupname]</span>
+                                </div>
+                            </li>
+                            {/get}
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="piece_ft"><B class=fl></B><B class=fr></B></div>
+        </div>
+    </div>
+</div>
+<!--{eval footer();}-->

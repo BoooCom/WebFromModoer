@@ -1,0 +1,31 @@
+<!--{eval $i=0;}-->
+<!--{dbres $list $val}-->
+<div class="wf-container">
+	<div class="bd">
+        <div class="item_thumb_box">
+            <div class="item_thumb">
+                {if $val[num]}<div class="picnumber">{$val[num]}图</div>{/if}
+                <a href="{url item/album/id/$val[albumid]}">
+                    <img title="$val[name]" alt="$val[name]" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}">
+                </a>
+            </div>
+        </div>
+		<!-- 相关商品 -->
+		<div style="PADDING-BOTTOM: 5px" class="who_share_s">
+			<div class="share_info">
+				<a class="n icard" href="{url item/album/id/$val[albumid]}" target='_blank'>{sublen $val[name],18}</a>
+			</div>
+		</div>
+		<p class="tweet_content clr6 pb0">
+			关联主题：<a class="n icard" href="{url item/detail/id/$val[sid]}" target='_blank'>{sublen $val[sname],12}</a>
+		</p>
+		<p class="tweet_content clr6 pb0">
+			最后更新：{date $val[lastupdate],'m-d H:i'}
+		</p>
+	</div>
+	<div class="ft">
+	</div>
+</div>
+<!--{/dbres}-->
+<!--{if $multipage}--><div class="multipage" id="multipage">$multipage</div><!--{/if}-->
+<!--{if $wf_multipage}--><div class="multipage" id="wf_multipage">$wf_multipage</div><!--{/if}-->

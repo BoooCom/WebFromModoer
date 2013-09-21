@@ -1,0 +1,65 @@
+{include mobile_template('header')}
+<div data-role="page" id="page_list_filter">
+    <div data-theme="e" data-role="header">
+        <h2>商铺筛选</h2>
+    </div>
+    <div data-role="content" style="padding: 15px">
+        <form action="{print url('mobile/list','',0,1)}" method="GET">
+            <input type="hidden" name="act" value="list">
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup">
+                    <label for="catid">分类:</label>
+                    <select name="catid" id="catid">
+                        <option value="$pid">分类</option>
+                        <!--{get:item val=category(pid/$catid)}-->
+                        <option value="$val[catid]">$val[name]</option>
+                        <!--{/get}-->
+                    </select>
+                    <!--{if $model['usearea']}-->
+                    <label for="aid">地区:</label>
+                    <select name="aid" id="aid">
+                        <option value="">地区</option>
+                        <!--{loop $boroughs $key $val}-->
+                        <option value="$key">$val</option>
+                        <!--{/loop}-->
+                    </select>
+                    <!--{/if}-->
+                    <!--{if $attcats}-->
+                    <input type="hidden" name="att" id="att" value="">
+                    <!--{eval $att_cats = $_G['loader']->variable('att_cat','item');}-->
+                    <!--{loop $attcats $att_catid}-->
+                    <!--{if $att_cats[$att_catid]}-->
+                        <!--{eval $att_url = item_att_url($att_catid,0,1);}-->
+                        <select id="att$att_catid" onchange="attlink()" attsel='Y'>
+                            <option value="$att_url">{$att_cats[$att_catid][name]}</option>
+                            <!--{eval $ix=0;}-->
+                            <!--{get:item val=attlist(catid/$att_catid)}-->
+                            <!--{eval $att_url = item_att_url($att_catid,$val_k);}-->
+                            <option value="$att_url">$val[name]</option>
+                            <!--{/get}-->
+                        </select>
+                    <!--{/if}-->
+                    <!--{/loop}-->
+                    <!--{/if}-->
+                 </fieldset>
+            </div>
+            <input type="submit" data-icon="search" data-iconpos="left" data-theme="e" value="筛选" data-inline="true" />
+            <a data-role="button" data-theme="c" data-rel="back" href="#" data-inline="true" data-theme="b" data-icon="delete">取消</a>
+        </form>
+        <script>
+            function attlink() {
+                var atts = new Array();
+                var x = 0;
+                $("select").each(function(i){
+                    if($(this).attr('attsel')=='Y') {
+                        if($(this).val() != '') {
+                            atts[x++]=$(this).val();
+                        }
+                    }
+                })
+                $('#att').val(atts.join('_'));
+            }
+        </script>
+    </div>
+</div>
+{include mobile_template('footer')}

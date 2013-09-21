@@ -3,9 +3,15 @@
 return array (
   0 => 
   array (
-    'articleid' => '1',
-    'subject' => 'Modoer 点评系统',
-    'introduce' => 'Modoer 是一款以本地分享，多功能的点评网站管理系统。采用 PHP+MYSQL 开发设计，开放全部源代码。因具有非凡的访问速度和卓越的负载能力而深受国内外朋友的喜爱。',
+    'articleid' => '55',
+    'subject' => '美国出行攻略之小P整理版',
+    'introduce' => '┈行李Baggage┈●个人衣物Clothing美国的衣服号码比国内大一些，如果太瘦，就在国内多带些备着。电子产品Electronics这里的市电标准是110V60Hz。从国内带电器过来，可能还要变压器。接线板两口',
+  ),
+  1 => 
+  array (
+    'articleid' => '52',
+    'subject' => 'Hoag 医院的生产费用贵但又想用他那的华人医生怎办?',
+    'introduce' => '美国医生和医院的关系,一个医生有多家签约医院,生孩子的费用分两块.',
   ),
 ); 
 ?>

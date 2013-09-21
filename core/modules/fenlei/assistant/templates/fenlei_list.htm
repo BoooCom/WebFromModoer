@@ -1,0 +1,60 @@
+{template modoer_header}
+<div id="body">
+<div class="myhead"></div>
+<div class="mymiddle">
+    <div class="myleft">
+        <!--{eval !$mymenu && $mymenu = 'mmenu';}-->
+        <!--{template $mymenu,'member','member'}-->
+    </div>
+    <div class="myright">
+        <div class="myright_top"></div>
+        <div class="myright_middle">
+            <h3>$subtitle</h3>
+            <div class="mainrail">
+                <ul class="optabs"><!--{loop $status_name $k $v}--><li{if $status==$k} class="active"{/if}><a href="{url fenlei/member/ac/$ac/status/$k}">$v</a></li><!--{/loop}--><!--{if $access_add}--><li class="act"><a href="{url fenlei/member/ac/manage/op/add/role/$role}">发布信息</a></li><!--{/if}--></ul><div class="clear"></div>
+                <form method="post" name="myform" action="{url fenlei/member/ac/manage/rand/$_G[random]}">
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable" trmouse="Y">
+                    <tr class="thbg">
+                        {if $access_del}<th width="25"><input type="checkbox" onclick="checkbox_checked('fids[]',this);" /></th>{/if}
+                        <th width="*">标题</th>
+                        <th width="100">联系人</th>
+                        <th width="120">发布时间</th>
+                        <th width="80">操作</th>
+                    </tr>
+                    <!--{dbres $list $val}-->
+                    <tr>
+                        {if $access_del}<td><input type="checkbox" name="fids[]" value="$val[fid]" /></td>{/if}
+                        <td>
+                            {if $val[city_id]}<span class="font_3">[{print:modoer area(aid/$val[city_id])}]</span>{/if}<a href="{url fenlei/detail/id/$val[fid]}" target="_blank">$val[subject]</a><br />
+                            分类：<a href="{url fenlei/list/catid/$val[catid]}" target="_blank">{print:fenlei category(catid/$val[catid])}</a>&nbsp;&nbsp;地区：<a href="{url fenlei/list/aid/$val[aid]/catid/$val[catid]}" target="_blank">{print:modoer area(aid/$val[aid])}</a>
+                        </td>
+                        <td>$val[linkman]</td>
+                        <td>{date $val[dateline],'Y-m-d H:i'}</td>
+                        <td><a href="{url fenlei/member/ac/manage/op/edit/fid/$val[fid]/role/$role}">编辑</a></td>
+                    </tr>
+                    <!--{/dbres}-->
+                    <!--{if !$total}-->
+                    <tr>
+                        <td colspan="6">暂无信息。</td>
+                    </tr>
+                    <!--{/if}-->
+                </table>
+                <!--{if $total}-->
+                <div class="multipage">$multipage</div>
+                <div class="text_center">
+                    <input type="hidden" name="dosubmit" value="yes" />
+                    <input type="hidden" name="op" value="delete" />
+                    <!--{if $access_del}-->
+                    <button type="button" onclick="easy_submit('myform','delete','fids[]');">删除所选</button>
+                    <!--{/if}-->
+                </div>
+                <!--{/if}-->
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="mybottom"></div>
+</div>
+<!--{eval footer();}-->

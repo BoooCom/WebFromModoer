@@ -1,0 +1,41 @@
+{include mobile_template('header')}
+<div data-role="page" id="page_picture">
+    <div data-theme="e" data-role="header">
+        <h2>图片详情({$total}图)</h2>
+        <a data-role="button" href="javascript:history.back(-1);" data-icon="arrow-l" class="ui-btn-left">后退</a>
+        <a data-role="button" data-icon="home" href="{url mobile/index}" class="ui-btn-right">首页</a>
+    </div>
+    <div data-role="content" style="padding: 5px" data-theme="">
+        <div style="width:288px;margin:0 auto;">
+            <div data-role="controlgroup" data-type="horizontal">
+                <a href="#" data-role="button" onclick="common_picture_nav('F');"{if $total<2} class="ui-disabled"{/if}>上一页</a>
+                <a href="#" data-role="button" onclick="common_picture_nav('N');"{if $total<2} class="ui-disabled"{/if}>下一页</a>
+                <a href="{url mobile/subject/id/$detail[sid]}" data-role="button">访问主题</a>
+            </div>
+        </div>
+        <ul class="album_picture">
+            {eval $i=0;}
+            {dbres $list $val}
+            <li id="pic_$val[picid]" {if $i++}style="display:none" show='N'{/if}>
+                <div class="picbox">
+                    <img src="{URLROOT}/$val[filename]" alt="$val[title]"  />
+                    <div class="picinfo">
+                        <span>[$i/$total] $val[title]</span>
+                        <span>$val[username] @ {date $val[addtime],'Y-m-d H:i'}</span>
+                        {if $val[comments]}<span>$val[comments]</span>{/if}
+                    </div>
+                </div>
+            </li>
+            {/dbres}
+        </ul>
+        <script>
+            $('#page_picture').live('swiperight',function(event){
+                common_picture_nav('N');
+            });
+            $('#page_picture').live('swipeleft',function(event){
+                common_picture_nav('F');
+            });
+        </script>
+    </div>
+</div>
+{include mobile_template('footer')}

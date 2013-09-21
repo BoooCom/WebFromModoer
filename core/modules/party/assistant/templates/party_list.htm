@@ -1,0 +1,71 @@
+{template modoer_header}
+</script>
+<div id="body">
+<div class="myhead"></div>
+<div class="mymiddle">
+    <div class="myleft">
+        <!--{template 'menu','member','member'}-->
+    </div>
+    <div class="myright">
+        <div class="myright_top"></div>
+        <div class="myright_middle">
+            <h3>聚会活动</h3>
+            <div class="mainrail">
+                <ul class="optabs"><li{if $op=='my'} class="active"{/if}><a href="{url party/member/ac/party/op/my/id/$party[partyid]}">我发起的</a></li><li{if $op=='joins'} class="active"{/if}><a href="{url party/member/ac/party/op/joins/id/$party[partyid]}">我报名的</a></li><li class="act"><a href="{url party/member/ac/party/op/add}">发起活动</a></li></ul><div class="clear"></div>
+                <form method="post" name="myform" action="{url party/member/ac/$ac}" >
+                <input type="hidden" name="partyid" value="$partyid" />
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                    <tr>
+                        <th width="100">封面</th>
+                        <th width="*">活动标题</th>
+                        <th width="60">报名人数</th>
+                        <th width="100">活动时间</th>
+                        <!--{if $op=='joins'}-->
+                        <th width="80">报名时间</th>
+                        <!--{else}-->
+                        <th width="80">状态</th>
+                        <!--{/if}-->
+                        <th width="120">操作</th>
+                    </tr>
+                    <!--{dbres $list $val}-->
+                    <tr>
+                        <td align="center"><img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" height="80" /></td>
+                        <td><a href="{url party/detail/id/$val[partyid]}">$val[subject]</a>{if $val[city_id]}<span class="font_3">[{print:modoer area(aid/$val[city_id])}]</span>{/if}</td>
+                        <td>$val[num] 人</td>
+                        <td>开始:{date $val[begintime],'m-d H:i'}<br />结束:{date $val[endtime],'m-d H:i'}</td>
+                        <!--{if $op=='joins'}-->
+                        <td>{date $val[dateline],'m-d H:i'}</td>
+                        <!--{else}-->
+                        <td>{print lang('global_status_'.$val[status])}</td>
+                        <!--{/if}-->
+                        <td>
+                            <!--{if $op=='joins'}-->
+                            <a href="{url party/member/ac/picture/id/$val[partyid]}">我的活动照片</a>
+                            <!--{else}-->
+                            <a href="{url party/member/ac/party/op/edit/id/$val[partyid]}">编辑</a>
+                            <a href="{url party/member/ac/party/op/delete/id/$val[partyid]}" onclick="return confirm('您确认要删除本活动以及照片等信息吗？');">删除</a><br />
+                            <a href="{url party/member/ac/apply/id/$val[partyid]}">报名会员</a>
+                            <a href="{url party/member/ac/picture/id/$val[partyid]}">照片</a>
+                            <a href="{url party/member/ac/party/op/content/id/$val[partyid]}">回顾</a>
+                            <!--{/if}-->
+                        </td>
+                    </tr>
+                    <!--{/dbres}-->
+                    <!--{if !$total}-->
+                    <tr>
+                        <td colspan="6">暂无信息。</td>
+                    </tr>
+                    <!--{/if}-->
+                </table>
+                <!--{if $multipage}-->
+                <div class="multipage">$multipage</div>
+                <!--{/if}-->
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="mybottom"></div>
+</div>
+<!--{eval footer();}-->

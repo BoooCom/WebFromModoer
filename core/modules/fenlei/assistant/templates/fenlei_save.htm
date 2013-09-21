@@ -1,0 +1,298 @@
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/data/cachefiles/fenlei_category.js?r=$MOD[jscache_flag]"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/item.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/validator.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+var g;
+function reload() {
+    var obj = document.getElementById('reload');
+    var btn = document.getElementById('switch');
+    if(obj.innerHTML.match(/^<.+href=.+>/)) {
+        g = obj.innerHTML;
+        obj.innerHTML = '<input type="file" name="thumb" size="20">';
+        btn.innerHTML = '取消上传';
+    } else {
+        obj.innerHTML = g;
+        btn.innerHTML = '重新上传';
+    }
+}
+
+function load_field() {
+    var value = $("#catid").val();
+    if(value == null || value == ''|| value == 0) return;
+    $("#custom_field").html("");
+	$.post(Url("fenlei/member/ac/manage/op/form"), { catid:value, fid:"$fid", in_ajax:1 }, function(result) {
+        if (result.match(/\{\s+caption:".*",message:".*".*\s*\}/)) {
+            myAlert(result);
+        } else {
+            html = '<table class="maintable" border="0" cellspacing="0" cellpadding="0" width="100%">';
+            html += result;
+            html += '</table>';
+            $("#custom_field").html(html);
+        }
+	});
+}
+
+var maptext = '';
+var point1 = point2 = '';
+function map_mark(id, p1, p2) {
+	maptext = id;
+	point1 = p1;
+	point2 = p2;
+	var url = Url('modoer/index/act/map/width/450/height/300/p1/'+p1+'/p2/'+p2);
+	if(point1 != '' && point2 != '') {
+		url += '&show=yes';
+	}
+	var html = '<iframe src="' + url + '" frameborder="0" scrolling="no" width="450" height="310" id="ifupmap_map"></iframe>';
+	html += '<button type="button" id="mapbtn1">标注坐标</button>&nbsp;';
+	html += '<button type="button" id="mapbtn2">确定</button>';
+	dlgOpen('选择地图坐标点', html, 470, 390);
+	$('#mapbtn1').click(
+		function() {
+			$(document.getElementById('ifupmap_map').contentWindow.document.body).find('#markbtn').click();
+		}
+	);
+	$('#mapbtn2').click(
+		function() {
+			point1 = $(document.getElementById('ifupmap_map').contentWindow.document.body).find('#point1').val();
+			point2 = $(document.getElementById('ifupmap_map').contentWindow.document.body).find('#point2').val();
+			if(point1 == '' || point2 == '') {
+				alert('您尚未完成标注。');
+				return;
+			}
+			$('#'+maptext).val(point1 + ',' + point2).focus();
+			dlgClose();
+		}
+	);
+}
+
+window.onload = function() {
+    {if !$detail['catid']}fenlei_select_category(document.getElementById('pid'),'catid');{/if}
+    load_field();
+}
+</script>
+<style type="text/css">
+.uploadimgs .upimg { float:left; text-align:center; width:90px; height:90px; }
+    .uploadimgs .upimg img{ display:block; max-width:80px; max-height:80px; padding:1px; border:1px solid #ccc;
+        _width:expression(this.width > 80 ? 80 : true); _height:expression(this.height > 80 ? 80 : true); }
+.uploadimgs .imgthumb img{border:2px solid red;}
+</style>
+<div id="body">
+<div class="myhead"></div>
+<div class="mymiddle">
+    <div class="myleft">
+        <!--{template 'menu','member','member'}-->
+    </div>
+    <div class="myright">
+        <div class="myright_top"></div>
+        <div class="myright_middle">
+            <h3>发布/修改分类信息</h3>
+            <div class="mainrail">
+                <form method="post" name="myform" action="{url fenlei/member/ac/$ac/op/save/rand/$_G[random]}" enctype="multipart/form-data" onsubmit="return validator(this);">
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                    <tr>
+                        <td align="right" width="100"><span class="font_1">*</span>标题:</td>
+                        <td width="*"><input type="text" name="fenlei[subject]" class="t_input" size="50" value="$detail[subject]" validator="{'empty':'N','errmsg':'请填写分类信息标题。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>分类：</td>
+                        <td>
+                            <select name="pid" id="pid" style="width:180px;" onchange="fenlei_select_category(this,'catid');load_field();"{if $detail[catid]} disabled{/if}>
+                                {print form_fenlei_category(0,$detail['catid'])}
+                            </select>&nbsp;
+                            <select name="fenlei[catid]" id="catid" style="width:180px;" onchange="load_field();" validator="{'empty':'N','errmsg':'请选择信息所属子分类。'}">
+                                {if $detail[catid]}
+                                {print form_fenlei_category($detail['catid'])}
+                                {/if}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>所在地区：</td>
+                        <td>
+                            <select name="fenlei[aid]" id="aid" validator="{'empty':'N','errmsg':'请选择信息所属地区。'}">
+                            <option value="">==选择地区==</option>
+                            {print form_area($detail[city_id],$detail[aid])}>
+                            </select>
+                        </td>
+                    </tr>
+                    <!--{if $_GET['role']=='member' && !$MOD['post_item_owner']}-->
+                    <tr>
+                        <td align="right">关联主题:</td>
+                        <td>
+							<div id="subject_search">
+							{if $subject}
+							<a href="{url item/detail/id/$sid}" target="_blank">$subject[name]{if $subject['subname']}($subject[subname]){/if}</a>
+							{/if}
+							</div>
+							<script type="text/javascript">
+								$('#subject_search').item_subject_search({
+									sid:{if $detail[sid]}$detail[sid]{elseif $sid}$sid{else}0{/if},
+                                    sid_name:'fenlei[sid]',
+									input_class:'t_input',
+									btn_class:'btn2',
+									result_css:'item_search_result',
+									{if $subject}
+										sid:$subject[sid],
+										current_ready:true,
+									{/if}
+									hide_keyword:true,
+									myreviewed:true,
+									myfavorite:true
+								});
+							</script>
+                        </td>
+                    </tr>
+                    <!--{elseif $_GET['role']=='owner'}-->
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>我的主题：</td>
+                        <td>
+                            <select id="mysubject" name="fenlei[sid]" validator="{'empty':'N','errmsg':'请选择所属主题。'}">
+                                <option value="" style="color:#CC0000;">==关联主题==</option>
+                                <!--{print form_item_mysubject($user->uid, $detail[sid])}-->
+                            </select>
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>有效期：</td>
+                        <td><input type="text" class="t_input" name="fenlei[endtime]" value="{date $detail[endtime],'Y-m-d'}" size="30" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" validator="{'empty':'N','errmsg':'请选择信息的有效期。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>联系人：</td>
+                        <td><input type="text" class="t_input" name="fenlei[linkman]" value="$detail[linkman]" size="30" validator="{'empty':'N','errmsg':'请填写联系人。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">联系电话：</td>
+                        <td><input type="text" class="t_input" name="fenlei[contact]" value="$detail[contact]" size="30" />&nbsp;<span class="font_3">填写电话或手机号码</span></td>
+                    </tr>
+                    <tr>
+                        <td align="right">电子邮箱：</td>
+                        <td><input type="text" class="t_input" name="fenlei[email]" value="$detail[email]" size="30" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">QQ/MSN：</td>
+                        <td><input type="text" class="t_input" name="fenlei[im]" value="$detail[im]" size="30" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">联系地址：</td>
+                        <td><input type="text" class="t_input" name="fenlei[address]" value="$detail[address]" size="50" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">地图坐标：</td>
+                        <td><input type="text" class="t_input" name="fenlei[mappoint]" id="mappoint_mappoint" size="30" value="$detail[mappoint]" />&nbsp;&nbsp;<a href="javascript:map_mark('mappoint_mappoint','$detail['map_lng']','$detail['map_lat']');">选择地图坐标点</a><div></div></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top"><span class="font_1">*</span>内容：</td>
+                        <td><!--{if $edit_html}-->$edit_html<!--{else}--><textarea name="fenlei[content]" cols="60" validator="{'empty':'N','errmsg':'请填写信息内容。'}">$detail[content]</textarea><!--{/if}--></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="uploadimgs">
+                            <!--{eval if($detail[thumb]) $thumb_key = str_replace('thumb_','',pathinfo($detail[thumb], PATHINFO_FILENAME));}-->
+                            <input type="hidden" name="fenlei[thumb]" value="$thumb_key">
+                            <div id="topic_images_foo">
+                                <span class="update-img-ico"><a href="javascript:;" onclick="fenlei_upimg('topic_content','$MOD[upimages]');">上传图片</a></span>
+                            </div>
+                            <!--{eval 
+                                $pictures = is_serialized($detail[pictures]) ? unserialize($detail[pictures]) : array();
+                            }-->
+                            <!--{loop $pictures $key $val}-->
+                            <div class="upimg{if $key==$thumb_key} imgthumb{/if}" id="upimg_$key"><img src="{URLROOT}/$val" />
+                                <input type="hidden" name="fenlei[pictures][$key]" value="$val" />
+                                <a href="javascript:void(0);" onclick="fenlei_setthumb('$key');return false;">设为封面</a> | <a href="javascript:void(0);" onclick="fenlei_delimg('$key');return false;">删除</a>
+                            </div>
+                            <!--{/loop}-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="custom_field"></td>
+                    </tr>
+                    <!--{if $op=='add' && $MOD[post_seccode]}-->
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>验证码：</td>
+                        <td>
+                            <div id="seccode" class="seccode none"></div>
+                            <input type="text" name="seccode" onfocus="show_seccode();" class="t_input" onblur="check_seccode(this.value);" validator="{'empty':'N','errmsg':'请填写验证码。'}" />
+                            <span id="msg_seccode" class="formmessage none"></span>
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+                    <!--{if $MOD[buy_top] && $MOD[top_level]}-->
+                    <tr>
+                        <td align="right">置顶：</td>
+                        <td>
+                            <!--{if !$top_exists}-->
+                            <select name="fenlei[top]" id="fenlei_top" onchange="calc_top_point();">
+                                <option value="" basenum="0">==选择类型==</option>
+                                <!--{print form_fenlei_tops()}-->
+                            </select>&nbsp;
+                            <select name="fenlei[top_endtime]" id="fenlei_top_endtime" onchange="calc_top_point();">
+                                <option value="" point="0">==选择天数==</option>
+                                <!--{print form_fenlei_days('top_days')}-->
+                            </select>&nbsp;
+                            需要花费：<b><span class="font_1" id="top_point">0</span></b> {print:member point(point/$MOD[pointtype])}
+                            <!--{else}-->
+                            {$fenlei_tops[$detail[top]]} 至 {date $detail[top_endtime]}
+                            <!--{/if}-->
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+                    <!--{if $MOD[buy_color]&&$MOD[color_days]}-->
+                    <tr>
+                        <td align="right">变色：</td>
+                        <td>
+                            <!--{if !$color_exists}-->
+                            <select name="fenlei[color]">
+                                <option value="">==选择颜色==</option>
+                                <!--{print form_fenlei_colors()}-->
+                            </select>&nbsp;
+                            <select name="fenlei[color_endtime]" id="fenlei_color_endtime" onchange="calc_color_point();">
+                                <option value="" point="0">==选择天数==</option>
+                                <!--{print form_fenlei_days('color_days')}-->
+                            </select>&nbsp;
+                            需要花费：<b><span class="font_1" id="color_point">0</span></b> {print:member point(point/$MOD[pointtype])}
+                            <!--{else}-->
+                            <span style="color:$detail[color];">当前颜色</span> 至 {date $detail[color_endtime]}
+                            <!--{/if}-->
+                        </td>
+                    </tr>
+                    <!--{/if}-->
+                </table>
+                <div class="text_center">
+                    {if $op=='edit'}
+                    <input type="hidden" name="fid" value="$fid" />
+                    {/if}
+                    <input type="hidden" name="do" value="$op" />
+                    <input type="hidden" name="role" value="$_GET[role]" />
+                    <input type="hidden" name="forward" value="{print get_forward()}" />
+                    <button type="submit" name="onsubmit" value="yes" onclick="KE.util.setData('content');">提交</button>&nbsp;
+                    <button type="button" onclick="history.go(-1);">返回</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+calc_top_point();
+calc_color_point();
+function calc_top_point() {'fenlei_top','fenlei_top_endtime'
+    var x1 = $('#fenlei_top').find("option:selected").attr('basenum');
+    var x2 = $('#fenlei_top_endtime').find("option:selected").attr('point');
+    if(!x2) x2 = 0;
+    if(!x2) x2 = 0;
+    $('#top_point').text(x1*x2);
+}
+
+function calc_color_point(obj) {
+    var x1 = $('#fenlei_color_endtime').find("option:selected").attr('point');
+    if(!x1) x1 = 0;
+    $('#color_point').html(x1);
+}
+</script>
+<div class="mybottom"></div>
+</div>
+<!--{eval footer();}-->

@@ -1,0 +1,60 @@
+<form method="post" name="frm_login" id="frm_login" action="{url member/login/op/ajax_login/in_ajax/1/rand/$_G[random]}">
+    <table class="clearfix">
+	<tbody>
+		<tr>
+			<td>
+				<div class="lb_bd r5">
+					<div class="login_box ">
+						<div class="login_form">
+								<dl>
+									<dd>用户名：</dd>
+									<dt>
+										<input type="text" name="username" class="text" />
+									</dt>
+									<dd>密&nbsp;&nbsp;码：</dd>
+									<dt>
+										<input type="password" name="password" class="text" />
+									</dt>
+									
+									  <!--{if $MOD['seccode_login']}-->
+									  <dd>验证码：</dd>
+									<dt>
+										  <input type="text" name="seccode" class="text" onfocus="show_seccode('seccode2');" /><div id="seccode2" class="none" style="float:left;width:80px;position:relative;top:-3px;"></div>
+									</dt>
+									    <!--{/if}-->
+									
+									<dd>&nbsp;</dd>
+									<dt class="rem">
+										<input type="checkbox" class="checkbox" name="life" id="life" value="2592000" /><label for="life">记住密码(30天)</label>
+										 </dt>
+									<dd>&nbsp;</dd>
+									<dt>
+										 <input type="hidden" name="forward" value="$forward" />
+                            <input type="hidden" name="dosubmit" value="yes" />
+										 <button type="button" class="login_btn" onclick="ajaxPost('frm_login','','document_reload');">&nbsp;</button>
+										<a href="{url member/login/op/forget}">忘记密码？</a> </dt>
+								</dl>
+						
+						</div>
+						  <!--{if $_G['passport_apis']}-->
+						<div class="reg_or_weibo">
+							<div class="register_box"> 还没有帐号？ <a class="reg_btn1" href="{url member/reg}"></a> </div>
+							<div class="l_o">
+						<ul style="list-style:none;margin:5px 0 0 5px;padding:0;">
+                    <!--{loop $_G['passport_apis'] $passport_name $passport_title}-->
+                    <li style="float:left;margin:0 5px 5px 0;"><span style="cursor:pointer; margin-top:5px;">
+                            <span onclick="document.location='{url member/login/op/passport_login/type/$passport_name}';"><img src="{URLROOT}/static/images/passport/{$passport_name}_n.png" style="margin-right:2px;" title="$passport_title" /></span></span></li>
+                    <!--{/loop}-->
+                </ul></div>
+						</div>
+						  <!--{/if}-->
+					</div>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</form>
+</body>
+</html>
+<!--{eval output();}-->

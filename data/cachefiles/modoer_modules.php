@@ -1,13 +1,24 @@
 <?php
 !defined('IN_MUDDER') && exit('Access Denied');
 return array (
+  'ask' => 
+  array (
+    'moduleid' => '17',
+    'flag' => 'ask',
+    'extra' => '',
+    'iscore' => '0',
+    'name' => '美妈解惑',
+    'directory' => '',
+    'disable' => '0',
+    'liccode' => 'ZPJQGQZIYFTZMP50MHGVYBXCZRTJCC30ZBWXUFYENBTFYT50MNGHYF10OFWXJBIEOZDDKY10OFTDIH10NXZIGOD0TXKUOS10VLFJGMXUSZHTBNXJDEYYTIIRUZVNLKKKTNEFPCJNCMMSPO30ONXNBXLWYXKS10MWULWT5000MLKEFPIJLP00FHGRAEJIHUXMMJGSD0D0MLTLIN40OVDHUNXWNBDJMF20ZRJSATZYNXTNMNYANZGPZHLINZWRMBYUMBJKFRKAMHGVIV40ZTJQEP20YB20EJD0',
+  ),
   'item' => 
   array (
     'moduleid' => '2',
     'flag' => 'item',
     'extra' => '',
     'iscore' => '1',
-    'name' => '主题',
+    'name' => '美妈找找看',
     'directory' => 'item',
     'disable' => '0',
     'liccode' => '',
@@ -29,30 +40,8 @@ return array (
     'flag' => 'article',
     'extra' => '',
     'iscore' => '0',
-    'name' => '新闻资讯',
+    'name' => '攻略宝典',
     'directory' => 'article',
-    'disable' => '0',
-    'liccode' => '',
-  ),
-  'coupon' => 
-  array (
-    'moduleid' => '10',
-    'flag' => 'coupon',
-    'extra' => '',
-    'iscore' => '0',
-    'name' => '优惠券',
-    'directory' => 'coupon',
-    'disable' => '0',
-    'liccode' => '',
-  ),
-  'exchange' => 
-  array (
-    'moduleid' => '7',
-    'flag' => 'exchange',
-    'extra' => '',
-    'iscore' => '0',
-    'name' => '礼品兑换',
-    'directory' => 'exchange',
     'disable' => '0',
     'liccode' => '',
   ),
@@ -64,17 +53,6 @@ return array (
     'iscore' => '0',
     'name' => '会员评论',
     'directory' => 'comment',
-    'disable' => '0',
-    'liccode' => '',
-  ),
-  'card' => 
-  array (
-    'moduleid' => '9',
-    'flag' => 'card',
-    'extra' => '',
-    'iscore' => '0',
-    'name' => '会员卡',
-    'directory' => 'card',
     'disable' => '0',
     'liccode' => '',
   ),
@@ -100,57 +78,13 @@ return array (
     'disable' => '0',
     'liccode' => '',
   ),
-  'link' => 
-  array (
-    'moduleid' => '4',
-    'flag' => 'link',
-    'extra' => '',
-    'iscore' => '0',
-    'name' => '友情链接',
-    'directory' => 'link',
-    'disable' => '0',
-    'liccode' => '',
-  ),
-  'adv' => 
-  array (
-    'moduleid' => '11',
-    'flag' => 'adv',
-    'extra' => '',
-    'iscore' => '0',
-    'name' => '广告',
-    'directory' => 'adv',
-    'disable' => '0',
-    'liccode' => '',
-  ),
-  'sms' => 
-  array (
-    'moduleid' => '13',
-    'flag' => 'sms',
-    'extra' => '',
-    'iscore' => '0',
-    'name' => '短信发送',
-    'directory' => 'sms',
-    'disable' => '0',
-    'liccode' => '',
-  ),
-  'pay' => 
-  array (
-    'moduleid' => '14',
-    'flag' => 'pay',
-    'extra' => '',
-    'iscore' => '0',
-    'name' => '在线充值',
-    'directory' => 'pay',
-    'disable' => '0',
-    'liccode' => '',
-  ),
   'group' => 
   array (
     'moduleid' => '15',
     'flag' => 'group',
     'extra' => '',
     'iscore' => '0',
-    'name' => '小组',
+    'name' => '聊天吹水',
     'directory' => 'group',
     'disable' => '0',
     'liccode' => '',

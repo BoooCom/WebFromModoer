@@ -33,8 +33,8 @@ $(document).ready(function() {
 
 <div id="item_left">
 
-	<div class="mainrail rail-border-1">
-		<h2 class="rail-h-2 rail-h-bg-1">相册列表</h2>
+	<div class="mainrail rail-border-3">
+		<h2 class="rail-h-3 rail-h-bg-3">相册列表</h2>
 		<ul class="albumlist">
 			{dbres $list $val}
 				<li>
@@ -54,8 +54,8 @@ $(document).ready(function() {
 </div>
 
 <div id="item_right">
-	<div class="mainrail rail-border-1">
-		<h2 class="rail-h-2 rail-h-bg-1"><b><a href="{url item/detail/id/$subject[sid]}"><span class="font_2">$subject[name]&nbsp;$subject[subname]</span></a></b></h2>
+	<div class="mainrail rail-border-3">
+		<h3 class="rail-h-3 rail-h-bg-3"><b><a href="{url item/detail/id/$subject[sid]}"><span class="font_6">$subject[name]&nbsp;$subject[subname]</span></a></b></h3>
 		<div class="side_subject">
 			<!--{eval $reviewcfg = $_G['loader']->variable('config','review');}-->
 			<p class="start start{print get_star($subject[avgsort],$reviewcfg[scoretype])}"></p>

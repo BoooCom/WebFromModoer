@@ -1,0 +1,63 @@
+<!--{eval
+    $_HEAD[title] = '使用帮助';
+}-->
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>如何使用</h2>
+                    </div>
+                    <div class="sect guide">
+                        <ul class="guide-steps">
+                            <li>
+                                <h3 class="step1">查看今日团购</h3>
+                                <p class="text">{$MOD[name]}每天推出一单精品消费，包括餐厅、酒吧、KTV、SPA、美发店、瑜伽馆等精选特色商家。</p>
+                            </li>
+                            <li>
+                                <h3 class="step2">购买</h3>
+                                <p class="text">
+                                    对今天的团购有兴趣？快购买吧！只要点击购买按钮，按照提示步骤进行就OK！
+                                    <img src="http://s0.meituan.com/img/learn-guide-buy.gif?v=1" style="margin-left:-9px;" />
+                                </p>
+                                <div class="bubble">
+                                    <div class="bubble-top">
+                                        <ol class="buy">
+                                            <li>团购到截止时间就结束了，过期不候哦；有的团购还有数量上限，先到先得！</li>
+                                            <li>团购人数还不够？邀请好友一起来买吧，还能获 10 元返利。</li>
+                                            <li class="last">团购结束时人数还不够？我们会立即全额退款。</li>
+                                        </ol>
+                                    </div>
+                                    <div class="bubble-bottom"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3 class="step3">获取{$MOD[name]}券</h3>
+                                <p class="text">
+                                    团购成交就可以去获取您的优惠凭证－－{$MOD[name]}券啦！
+                                </p>
+                            </li>
+                            <li>
+                                <h3 class="step4">去商家消费</h3>
+                                <p class="text">
+                                    在有效期内凭短信或打印版{$MOD[name]}券去商家消费，好好享受吧！
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+            </div>
+            <div class="tuan-main-box-bottom"></div>
+        </div>
+        </div>
+        <div class="sidebar">
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic1.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic2.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic3.jpg" /></p>
+        </div>
+    </div>
+</div>
+
+{template tuan_footer}

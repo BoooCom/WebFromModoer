@@ -1,0 +1,148 @@
+<!--{eval
+    $head_title = array();
+    isset($subject[name]) && $head_title[] = $subject[name].$subject[subname];
+    isset($area[$aid]) && $head_title[] = $area[$aid][name];
+    isset($F->category[$catid]) && $head_title[] = $F->category[$catid][name];
+    $head_title[] = $MOD[name];
+    $_HEAD['title'] = implode($_CFG['titlesplit'],$head_title);
+}-->
+{template modoer_header}
+<div id="body">
+
+    <div class="link_path">
+        <em class="font_3">
+            <!--{loop $links $link}-->
+            <a href="$link[url]"{if $link[flag]=='fenlei'} style="color:#ff6600;"{/if}>$link[title]</a> |
+            <!--{/loop}-->
+            <span class="review-ico"><a href="{url fenlei/member/ac/manage/op/add}"><b>发布信息</b></a></span>
+        </em>
+        <a href="{url modoer/index}">{lang global_index}</a>&nbsp;&raquo;&nbsp;{print implode('&nbsp;&raquo;&nbsp;', $urlpath)}
+    </div>
+
+    <div id="fenlei_left">
+        <!--{if !$sid}-->
+        <div class="f_category">
+            <ul>
+                <h3>按地区查找：</h3>
+                {get:modoer val=area(pid/$_CITY[aid])}
+                <li$active[paid][$val[aid]]><a href="{url fenlei/list/sid/$sid/aid/$val[aid]/catid/$catid}">$val[name]</a></li>
+                {/get}
+            </ul><div class="clear"></div>
+            <!--{if $area_level==3}-->
+            <ul>
+                <h3>按街道查找：</h3>
+                {get:modoer val=area(pid/$paid)}
+                <li$active[aid][$val[aid]]><a href="{url fenlei/list/sid/$sid/aid/$val[aid]/catid/$catid}">$val[name]</a></li>
+                {/get}
+            </ul><div class="clear"></div>
+            <!--{/if}-->
+            <ul>
+                <h3>按大分类查找：</h3>
+                {get:fenlei val=category(pid/0)}
+                <li$active[pid][$val[catid]]><a href="{url fenlei/list/sid/$sid/aid/$aid/catid/$val[catid]}">$val[name]</a></li>
+                {/get}
+            </ul><div class="clear"></div>
+            {if $pid}
+            <ul>
+                <h3>按子分类查找：</h3>
+                {get:fenlei val=category(pid/$pid)}
+                <li$active[catid][$val[catid]]><a href="{url fenlei/list/sid/$sid/aid/$aid/catid/$val[catid]}">$val[name]</a></li>
+                {/get}
+            </ul><div class="clear"></div>
+            {/if}
+        </div>
+        <!--{/if}-->
+        <div class="fenlei-list">
+            <!--{if $tops}-->
+            <!--{eval $fenlelist =& $tops;}-->
+            <!--{template fenlei_list_normal}-->
+            <!--{/if}-->
+
+            <!--{if $total}-->
+            <!--{eval $fenlelist =& $list;}-->
+            <!--{template fenlei_list_normal}-->
+            <div class="multipage">$multipage</div>
+            <!--{/if}-->
+
+            <!--{if !$tops && !$list}-->
+            <div class="messageborder">没有找到信息。</div>
+            <!--{/if}-->
+        </div>
+
+    </div>
+
+    <div id="fenlei_right">
+
+        <!--{if $subject}-->
+        <script type="text/javascript">loadscript('item');</script>
+        <div class="mainrail rail-border-3">
+            <h2 class="rail-h-2"><b><a href="{url item/detail/id/$subject[sid]}"><span class="font_2">$subject[name]&nbsp;$subject[subname]</span></a></b></h2>
+            <div class="subject">
+                <!--{eval $itemcfg=$_G['loader']->variable('config','item');}-->
+                <p class="start start{print get_star($subject[avgsort],$itemcfg[scoretype])}"></p>
+                <table class="subject_field_list" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td colspan="2"><span class="font_2">$subject[reviews]</span>点评,
+                        <span class="font_2">$subject[guestbooks]</span>留言,
+                        <span class="font_2">$subject[pageviews]</span>浏览</td>
+                    </tr>
+                    $subject_field_table_tr
+                </table>
+                <a class="abtn1" href="{url review/member/ac/add/type/item_subject/id/$subject[sid]}"><span>我要点评</span></a>
+                <a class="abtn2" href="{url item/detail/id/$subject[sid]/view/guestbook}#guestbook"><span>留言</span></a>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!--{else}-->
+        <div class="mainrail rail-border-3">
+            <h2 class="rail-h-3 rail-h-bg-3">搜索</h2>
+            <form method="get" action="{URLROOT}/index.php">
+            <input type="hidden" name="act" value="search" />
+            <input type="hidden" name="module_flag" value="fenlei" />
+            <table class="xsearch" border="0" cellspacing="0" cellpadding="0">
+                <tr><td width="60" align="right">所在地区：</td>
+                <td width="*">
+                    <select name="aid">
+                        <option value="0" selected="selected" disabled>==选择地区==</option>
+                        <!--{print form_area($_CITY[aid],$aid)}-->
+                    </select>
+                </td>
+                </tr>
+                <tr><td align="right">所属分类：</td>
+                <td>
+                    <select name="catid">
+                        <option value="0" selected="selected" disabled>==选择分类==</option>
+                        <!--{get:fenlei val=category(pid/0)}-->
+                        <option value="$val[catid]"{if $catid==$val[catid]} selected{/if}>$val[name]</option>
+                            <!--{get:fenlei _val=category(pid/$val[catid])}-->
+                            <option value="$_val[catid]"{if $catid==$_val[catid]} selected{/if}>&nbsp;&nbsp;└$_val[name]</option>
+                            <!--{/get}-->
+                        <!--{/get}-->
+                    </select>
+                </td></tr>
+                <tr><td align="right">发布会员：</td>
+                <td><input type="text" name="username" value="$username" class="t_input" size="25" /></td></tr>
+                <tr><td align="right">关键字：</td>
+                <td><input type="text" name="keyword" value="$keyword" class="t_input" size="25" /></td></tr>
+                <tr><td>&nbsp;</td><td><input type="submit" value=" 搜索 " /></td></tr>
+            </table>
+            </form>
+        </div>
+        <!--{/if}-->
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">特别推荐</h3>
+            <ul class="rail-list">
+                {get:fenlei val=getlist(city_id/_CITYID_/finer/1/row/10)}
+                <li><cite>{date $val[dateline],'m-d'}</cite><a href="{url fenlei/detail/id/$val[fid]}">{sublen $val[subject],20}</a></li>
+				{getempty(val)}
+				<li>暂无信息</li>
+                {/get}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="clear"></div>
+
+</div>
+<!--{eval footer();}-->

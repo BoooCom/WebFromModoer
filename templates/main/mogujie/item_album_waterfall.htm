@@ -1,0 +1,129 @@
+{template modoer_header}
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+        <div class="piece piece_w960">
+            <div class="piece_hd"><b class="hl"></b><b class="hr"></b></div>
+            <div class="category_sort_all piece_bd clearfix" id="category_sort_all">
+                <div class="ff" style="margin: 10px 0px 0px">
+                    <a style="font-size: 14px; float: left; color: #666">排序：</a>
+                    <ul class="mr10">
+                        <li$active[orderby][normal]><a href="javascript:void(0);;" onclick="list_display('item_album_orderby','normal')">默认</a>
+                        </li>
+                        <li$active[orderby][num]><a href="javascript:void(0);;" onclick="list_display('item_album_orderby','num')">图片数量</a>
+                        </li>
+                        <li$active[orderby][pageview]><a href="javascript:void(0);;" onclick="list_display('item_album_orderby','pageview')">浏览量</a>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                    <a style="font-size: 14px; float: left; color: #666">图片分类：</a>
+                    <ul>
+                        <li$active[cate][0]><a href="{url item/album}">全部</a>
+                        </li>
+                        <!--{loop $category $key $val}--> 
+                        <!--{eval if($val[pid]) continue;}--> 
+                        <li$active[cate][$key]><a href="{url item/album/catid/$key}">$val[name]</a>
+                        </li>
+                        <!--{/loop}-->
+                    </UL>
+                </DIV>
+            </DIV>
+            <div class="piece_ft"><b class="fl"></b><b class="fr"></b></div>
+        </div>
+		<DIV id="wf-thumbs" class="imagewall clearfix box mt10">
+			<div class="wf-imgbox clearfix" id="thumbs_1"></div>
+			<div class="wf-imgbox clearfix" id="thumbs_2"></div>
+			<div class="wf-imgbox clearfix" id="thumbs_3"></div>
+			<div class="wf-imgbox mr0 clearfix" id="thumbs_4"></div>
+			<div id="loadingmessage"></div>
+		</DIV>
+		<div id="wf_pictures" style="display:none;"> {template item_album_waterfall_li} </div>
+		<script type="text/javascript">
+            var offset = $offset; //单次载入图片数量
+            var wf_count_c = 1; //当前已经加载次数
+            var wf_count = $wf_count; //最多加载几次
+            var ajax_loading = true; //是否进行ajax加载
+            $(function() {
+                // 首次打开时的加载
+                load_pictures($('#wf_pictures'));
+            });
+            $(window).bind("scroll", function(){
+                // 判断窗口的滚动条是否接近页面底部，
+                if( $(document).scrollTop() + $(window).height() > $(document).height() - 100 && ajax_loading) {
+                    //自动获取下一页数据
+                    load_next_page();
+                }
+            });
+            function load_pictures(container) {
+                var x = h = 0;
+                var gid = 'thumbs_1';
+                container.find('.wf-container').each(function(i) {
+                    //查找容器内最短的一个加载图片
+                    $('#wf-thumbs .wf-imgbox').each(function(y) {
+                        if(!y) {
+                            h = $(this).height();
+                            gid = $(this).attr('id');
+                        } else if($(this).height() < h) {
+                            h = $(this).height();
+                            gid = $(this).attr('id');
+                        }
+                    });
+                    x++;
+                    $('#'+gid).append($(this)); //加载图片
+                });
+                //没有加载满，表明已经加载了全部的数据
+                if(x < offset) {
+                    if($('#wf_multipage')[0]) {
+                        $('#loadingmessage').append($('#wf_multipage'));
+                    } else {
+                        show_wf_message('全部加载完毕');
+                    }
+                } else if(wf_count_c >= wf_count) { //单页加载次数满，则不再ajax加载，显示分页允许选择下一个页面进行加载
+                    $('#loadingmessage').append($('#wf_multipage')); //显示分页
+                } else {
+                    //本次加载完毕，允许进行下一页加载
+                    ajax_loading = true;
+                }
+            }
+            function load_next_page() {
+                //正在加载，因此锁定加载
+                ajax_loading = false;
+                //找到下一页的url
+                var nexturl = $('#multipage').find('[nextpage="Y"]').attr('href');
+                if(!nexturl) {
+                    if($('#wf_multipage')[0]) {
+                        $('#loadingmessage').append($('#wf_multipage'));
+                    } else {
+                        show_wf_message('全部加载完毕...');
+                    }
+                    return;
+                }
+                show_wf_message('正在加载...请稍后...');
+                //获取下一批图片
+                $.post(nexturl, { 'in_ajax':1, 'waterfall':'Y' },
+                function(result) {
+                    $('#loadingmessage').html('');
+                    if(result == null) {
+                        show_wf_message('信息读取失败，可能网络忙碌，请稍后尝试。');
+                    } else if (is_message(result)) {
+                        myAlert(result);
+                    } else if(result != '') {
+                        wf_count_c++;
+                        //ajax获取后，加载到页面
+                        load_pictures($('#wf_pictures').html(result));
+                    } else {
+                        show_wf_message('全部加载完毕......');
+                    }
+                });
+            }
+            //在底部显示的状态信息
+            function show_wf_message(msg) {
+                if($(".wf-message")[0]) {
+                    $(".wf-message").html( msg );
+                } else {
+                    $('#loadingmessage').append( '<div class="wf-message">'+msg+'</div>' );
+                }
+            }
+            </script> 
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

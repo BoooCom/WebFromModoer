@@ -14,8 +14,8 @@
 </div>
 <div id="space_left">
     {template space_side}
-    <div class="mainrail rail-border-1">
-        <h3 class="rail-h-1 rail-h-bg-1">我的好友</h3>
+    <div class="mainrail rail-border-3">
+        <h3 class="rail-h-3 rail-h-bg-3">我的好友</h3>
         <ul class="rail-faces">
             <!--{loop $friends $val}-->
             <li><div><a href="{url space/index/uid/$val[friend_uid]}" target="_blank"><img src="{print get_face($val[friend_uid])}" /></a><a href="{url space/index/uid/$val[friend_uid]}" title="$val[username]" target="_blank"></div><span>$val[username]</span></a></li>
@@ -26,14 +26,14 @@
 
 </div>
 <div id="space_right">
-    <div class="mainrail rail-border-1">
+    <div class="mainrail rail-border-3">
         {if $reviews}<em><a href="{url space/reviews/uid/$uid}">更多</a></em>{/if}
-        <h3 class="rail-h-1 rail-h-bg-1">我发表的点评</h3>
+        <h3 class="rail-h-3 rail-h-bg-3">我发表的点评</h3>
         {template space_part_review}
     </div>
-    <div class="mainrail rail-border-1">
+    <div class="mainrail rail-border-3">
         {if $subjects}<em><a href="{url space/subject/uid/$uid}">更多</a></em>{/if}
-        <h3 class="rail-h-1 rail-h-bg-1">我添加的主题</h3>
+        <h3 class="rail-h-3 rail-h-bg-3">我添加的主题</h3>
         {template space_part_subject}
     </div>
 </div>

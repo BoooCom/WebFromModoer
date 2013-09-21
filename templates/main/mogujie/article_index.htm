@@ -1,0 +1,96 @@
+<!--{eval
+    $_G['loader']->helper('misc','article');
+    $_HEAD['title'] = $_CITY[name] . $MOD[name];
+}-->
+
+{template modoer_header} 
+<script type="text/javascript" src="{URLROOT}/static/javascript/jquery.d.imagechange.js"></script>
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body">
+		<DIV class="fl" id="content_body">
+			<DIV id="content_top">
+				<DIV class="piece">
+					<div class="piece_hd"> <b class="hl"></b> <b class="hr"></b> </div>
+					<DIV class="piece_bd group-top">
+						<DIV class="fl top-slide"><!-- 左边滑动 -->
+							<div class="l1_pics" id="l1_pics"> {get:article val=getlist(city_id/_NULL_CITYID_/att/4/select/articleid,subject,thumb,picture/orderby listorder,dateline DESC/rows/5)} <a href="{url article/detail/id/$val[articleid]}" title="$val[subject]" target="_blank"><img src="{URLROOT}/$val[picture]" height="225" width="340" /></a> {/get} </div>
+							<script type="text/javascript">
+                    $('#l1_pics').d_imagechange({width:340,height:225,repeat:'draw'});
+                </script> 
+						</DIV>
+						<DIV class="top-reco fr">
+							<H3 class=reco_group_title>精选主题</H3>
+							<UL class=reco_group>
+								{get:modoer val=table(table/dbpre_articles/select/articleid,subject,thumb,introduce,catid/where/city_id IN (_NULL_CITYID_) AND att=3 AND status=1/orderby/listorder/rows/2/cachetime/1000)}
+								<LI><A class=fl href="{url article/detail/id/$val[articleid]}" 
+  target=_blank><IMG class=r5 
+  src="{URLROOT}/$val[thumb]" width="80px" height="80px"></A>
+									<H3 class=rg_tt><A class=tlink href="{url article/detail/id/$val[articleid]}" 
+  target=_blank>{sublen $val[subject],20}</A></H3>
+									<P class=rg_con>{sublen $val[introduce],14}</P>
+									<P class=rg_gt><A class="glink uname icard" 
+  href="{url article/list/catid/$val[catid]}" 
+target=_blank>{print:article category(catid/$val[catid])}</A></P>
+								</LI>
+								{/get}
+							</UL>
+							<UL class=reco_topic>
+								{get:modoer val=table(table/dbpre_articles/select/articleid,subject,catid,dateline/where/city_id IN (_NULL_CITYID_) AND att=2 AND status=1/orderby/listorder/rows/4/cachetime/1000)}
+								<LI>
+									<P class=rt_tt><A class=tlink href="{url article/detail/id/$val[articleid]}" 
+  target=_blank>{sublen $val[subject],16}</A></P>
+									<P class=rt_gt><A class="glink uname icard" 
+  href="{url article/list/catid/$val[catid]}" 
+target=_blank>{print:article category(catid/$val[catid])}</A></P>
+								</LI>
+								{/get}
+							</UL>
+						</DIV>
+						<div class="clear" style="height:20px;"></div>
+						{get:article cat=category(pid/0)}
+						<DIV class="group_darren_box1 group_darren_beaut" style="border-right: 1px solid #F1F1F1;">
+							<H2>$cat[name]</H2>
+							<UL class=gd_list>
+								{get:article val=getlist(select/articleid,subject,thumb,introduce/city_id/_NULL_CITYID_/catid/$cat[catid]/att/3/orderby/listorder/rows/2/cachetime/1000)}
+								<LI class=gd_item><A href="{url article/detail/id/$val[articleid]}" 
+  target=_blank><IMG class="fl avatar icard r3" alt="$val[subject]" 
+  src="{URLROOT}/$val[thumb]" width="100px" height="100px"> </A>
+									<DIV class="group_darren_info">
+										<P class=user_info><A class="uname icard" 
+  href="{url article/detail/id/$val[articleid]}" 
+  target=_balnk>{sublen $val[subject],15}</A> </P>
+										<UL class=gd_topic_list1>
+											<LI>
+												<P class=reco_num>{sublen $val[introduce],60,'...'}</P>
+											</LI>
+										</UL>
+									</DIV>
+								</LI>
+								{/get}
+							</UL>
+						</DIV>
+						<div class="modoer_zixun_index">
+							<h2><a href="{url article/list/catid/$cat[catid]}">更多</a></h2>
+							<ul>
+								{get:article val=getlist(select/articleid,subject,catid,author,dateline/city_id/_NULL_CITYID_/catid/$cat[catid]/orderby/dateline DESC/rows/9/cachetime/1000)}
+								<li><a  target="_blank" href="{url article/list/catid/$val[catid]}">【{print:article category(catid/$val[catid])}】</a>&nbsp;<A 
+  href="{url article/detail/id/$val[articleid]}" 
+  target=_balnk>{sublen $val[subject],24}</A><span style="float:right">$val[author]&nbsp;|&nbsp;{date $val[dateline],'m-d'} </span></li>
+								{/get}
+							</ul>
+						</div>
+						{/get} </DIV>
+					<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+				</DIV>
+			</DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<div id="adv_1_content" style="display:none;"> 
+	<!--{include display('adv:show','name/新闻首页_广告')}--> 
+</div>
+<script type="text/javascript">
+//加载广告
+replace_content('adv_1=adv_1_content');
+</script> 
+<!--{eval footer();}-->

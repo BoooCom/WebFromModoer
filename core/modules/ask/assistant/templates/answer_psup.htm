@@ -1,0 +1,17 @@
+<form method="post" action="{url ask/member/ac/answer/op/psup/in_ajax/1}" class="post" id="frm_psup" name="frm_psup" target="ajaxiframe">
+    <input type="hidden" name="answerid" value="$answerid" />
+    <input type="hidden" name="dosubmit" value="yes" />
+    <table class="table" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="right" width="70" valign="top"><span class="font_1">*</span>评价答案：</td>
+            <td width="*"><textarea name="feel" style="width:95%;height:150px;"></textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="center">
+                <button type="button" onclick="ajaxPost('frm_psup', '', 'document_reload');">提交</button>&nbsp;
+                <button type="button" class="button" onclick="dlgClose();">关闭</button>
+            </td>
+        </tr>
+    </table>
+</form>

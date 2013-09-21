@@ -65,10 +65,10 @@ jQuery.fn.extend({
 			btnTop:4,						// 按钮上边距
 			
 			playTime:4000,					// 轮换间隔时间,单位(毫秒)
-			animateTime:500,				// 动画执行时间,单位(毫秒)
+			animateTime:800,				// 动画执行时间,单位(毫秒)
 			animateStyle:'o',				// 动画效果:'o':渐显 'x':横向滚动 'y':纵向滚动 'show':原地收缩伸展 'show-x':横向收缩伸展 'show-y':纵向收缩伸展' none':无动画
 			width:300,						// 宽, 不设定则从DOM读取
-			height:200						// 高, 不设定则从DOM读取
+			height:250						// 高, 不设定则从DOM读取
 			
 		},setting);
 		

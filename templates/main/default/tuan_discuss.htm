@@ -1,0 +1,73 @@
+<!--{eval
+    $_HEAD[title] = '团购答疑';
+}-->
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div class="content">
+            <div class="tuan-info">
+                <table class="tuan-info-table">
+                    <tr>
+                        <td class="link">
+                            <p><a href="{url tuan/detail/id/$detail[tid]}">&raquo; 返回本团购</a></p>
+                            <h2>$detail[subject]</h2>
+                        </td>
+                        <td class="buy">
+                            <a href="{url tuan/member/ac/buy/id/$detail[tid]}">buy</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>团购答疑</h2>
+                    </div>
+                    <div class="sect">
+                        <ul class="discuss-list">
+                            <!--{dbres $list $val}-->
+                            <li>
+                                <div class="discuss-head">
+                                    <a name="discuss-{$val[id]}"></a>
+                                    <div class="username">$val[username]</div>
+                                    <div class="dateline">{date $val[dateline]}</div>
+                                </div>
+                                <div class="discuss-info">
+                                    <p class="discuss-content">$val[content]</p>
+                                    <!--{if $val[reply]}--><p class="discuss-reply"><span class="re">回复：</span>$val[reply]</p><!--{/if}-->
+                                </div>
+                            </li>
+                            <!--{/dbres}-->
+                        </ul>
+                        <div class="multipage">$multipage</div>
+                    </div>
+                    <a name="post"></a>
+                    <div class="head">
+                        <h2>我要提问</h2>
+                    </div>
+                    <div class="sect discuss-form">
+                        <!--{if $user->isLogin}-->
+                        <form method="post" action="{url tuan/discuss}">
+                            <textarea name="content" class="formtextarea"></textarea>
+                            <input type="hidden" name="id" value="$detail[tid]" />
+                            <input type="hidden" name="sort" value="1" />
+                            <button type="submit" name="dosubmit" value="yes" class="formbutton">好了，提交</button>
+                        </form>
+                        <!--{else}-->
+                        <p class="discuss-form-login">请先<a href="{url member/login}">登录</a>或<a href="{url member/reg}">注册</a>再提问 </p>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic1.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic2.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic3.jpg" /></p>
+        </div>
+    </div>
+</div>
+
+{template tuan_footer}

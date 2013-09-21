@@ -1,0 +1,171 @@
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/static/javascript/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/validator.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/item.js"></script>
+<script type="text/javascript">
+var g;
+function reload() {
+    var obj = document.getElementById('reload');
+    var btn = document.getElementById('switch');
+    if(obj.innerHTML.match(/^<.+href=.+>/)) {
+        g = obj.innerHTML;
+        obj.innerHTML = '<input type="file" name="picture" size="20">';
+        btn.innerHTML = '取消上传';
+    } else {
+        obj.innerHTML = g;
+        btn.innerHTML = '重新上传';
+    }
+}
+
+</script>
+<div id="body">
+<div class="myhead"></div>
+<div class="mymiddle">
+    <div class="myleft">
+        <!--{template 'menu','member','member'}-->
+    </div>
+    <div class="myright">
+        <div class="myright_top"></div>
+        <div class="myright_middle">
+            <h3>增加/编辑活动</h3>
+            <div class="mainrail">
+                <form method="post" name="myform" action="{url party/member/ac/$ac/op/save}" enctype="multipart/form-data" onsubmit="return validator(this);">
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                    <tr>
+                        <td align="right" width="100"><span class="font_1">*</span>活动类型：</td>
+                        <td width="*">
+                            <select name="catid" validator="{'empty':'N','errmsg':'请选择活动类型。'}">
+                            {print form_party_category($detail[catid])}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>活动名称：</td>
+                        <td><input type="text" name="subject" class="t_input" value="$detail[subject]" size="50" validator="{'empty':'N','errmsg':'请填写活动名称。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>所在地区：</td>
+                        <td>
+                            <select name="aid" validator="{'empty':'N','errmsg':'请选择活动地区。'}">
+                            {print form_area($detail[city_id], $detail[aid])}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">关联主题：</td>
+                        <td>
+							<div id="subject_search">
+							{if $subject}
+							<a href="{url item/detail/id/$sid}" target="_blank">$subject[name]{if $subject['subname']}($subject[subname]){/if}</a>
+							{/if}
+							</div>
+							<script type="text/javascript">
+								$('#subject_search').item_subject_search({
+									{if $detail[sid]}sid:$detail[sid],{/if}
+									input_class:'t_input',
+									btn_class:'btn2',
+									result_css:'item_search_result',
+									{if $subject}
+										sid:$subject[sid],
+										current_ready:true,
+									{/if}
+									hide_keyword:true,
+									myreviewed:true,
+									myfavorite:true
+								});
+							</script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>详细地址：</td>
+                        <td><input type="text" name="address" class="t_input" value="$detail[address]" size="60" validator="{'empty':'N','errmsg':'请填写活动地址。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>报名截止：</td>
+                        <td><input type="text" name="joinendtime" size="30" class="t_input" value="{if $detail[joinendtime]}{date $detail[joinendtime]}{/if}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" validator="{'empty':'N','errmsg':'请选择报名截止时间。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>开始时间：</td>
+                        <td><input type="text" name="begintime" size="30" class="t_input" value="{if $detail[begintime]}{date $detail[begintime]}{/if}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" validator="{'empty':'N','errmsg':'请选择活动开始时间。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>结束时间：</td>
+                        <td><input type="text" name="endtime" size="30" class="t_input" value="{if $detail[endtime]}{date $detail[endtime]}{/if}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" validator="{'empty':'N','errmsg':'请选择活动结束时间。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>参与人数：</td>
+                        <td><input type="text" name="plannum" class="t_input" value="$detail[plannum]" size="20" validator="{'empty':'N','errmsg':'请填写参与人数。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>参加者性别：</td>
+                        <td><select name="sex">
+                                <option value="0"{if !$detail[sex]} selected="selected"{/if}>性别不限</option>
+                                <option value="1"{if $detail[sex]=='1'} selected="selected"{/if}>限女性</option>
+                                <option value="2"{if $detail[sex]=='2'} selected="selected"{/if}>限男性</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>预计费用：</td>
+                        <td><input type="text" name="price" class="t_input" value="$detail[price]" size="20" validator="{'empty':'N','errmsg':'请填写预计费用。'}" />&nbsp;&nbsp;元/人</td>
+                    </tr>
+                    <tr>
+                        <td align="right">参加者年龄：</td>
+                        <td><input type="text" name="age" class="t_input" value="$detail[age]" size="20" />&nbsp;&nbsp;<span class="font_3">例如：20-25</span></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>联系人：</td>
+                        <td><input type="text" name="linkman" size="30" class="t_input" value="$detail[linkman]" validator="{'empty':'N','errmsg':'请填写联系人姓名。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>联系方式：</td>
+                        <td><input type="text" name="contact" size="30" class="t_input" value="$detail[contact]" validator="{'empty':'N','errmsg':'请填写联系方式。'}" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right">活动宣传封面:</td>
+                        <td>
+                            {if !$detail['thumb']}
+                            <input type="file" name="picture" size="20" />
+                            {else}
+                            <span id="reload"><a href="$detail['picture']" target="_blank" src="{URLROOT}/$detail[thumb]" onmouseover="tip_start(this);">$detail[thumb]</a></span>&nbsp;
+                            [<a href="javascript:reload();" id="switch">重新上传</a>]
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">报名费用：</td>
+                        <td>
+                            {eval $applyprice = $detail[applyprice_type] ? (int)$detail[applyprice] : get_numeric($detail[applyprice]);}
+                            <input type="text" name="applyprice" class="t_input" value="{print $applyprice}">
+                            {if $MOD[applyprice_type]}<input type="radio" name="applyprice_type" value="$MOD[applyprice_type]"{if $detail[applyprice_type]} checked="checked"{/if}>积分({print:member point(point/$MOD[applyprice_type])}){/if}
+                            <input type="radio" name="applyprice_type" value="rmb" {if !$detail[applyprice_type]} checked="checked"{/if}>现金
+                        </td>
+                    </tr>
+                    <!--{if $op=='add' && $MOD['party_seccode']}-->
+                    <tr>
+                        <td align="right">验证码：</td>
+                        <td><div id="seccode"></div><input type="text" name="seccode" onfocus="show_seccode();" class="t_input" validator="{'empty':'N','errmsg':'请填写验证码。'}" /></td>
+                    </tr>
+                    <!--{/if}-->
+                    <tr>
+                        <td align="right" valign="top"><span class="font_1">*</span>活动介绍：</td>
+                        <td>$edit_html</td>
+                    </tr>
+                </table>
+                <div class="text_center">
+                    <input type="hidden" name="do" value="$op" />
+                    <!--{if $op=='edit'}-->
+                    <input type="hidden" name="partyid" value="$detail[partyid]" />
+                    <!--{/if}-->
+                    <button type="submit" name="dosubmit" value="yes">提交</button>&nbsp;
+                    <button type="button" onclick="history.go(-1);">返回</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="mybottom"></div>
+</div>
+<!--{eval footer();}-->

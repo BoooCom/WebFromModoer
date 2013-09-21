@@ -1,0 +1,67 @@
+{eval
+    $_HEAD[title] = "分类信息列表";
+}
+{include mobile_template('header')}
+<link rel="stylesheet" href="{URLROOT}/templates/mobile/css/fenlei.css" />
+<div class="item-list">
+    <div class="info-operation">
+        <div class="fl">
+            {if $urlpath}
+                {print implode('&nbsp;&gt;&nbsp;', $urlpath)}
+            {/if}
+        </div>
+        <div class="fr">
+            <span class="abtn"><a href="javascript:;" onclick="$('#filter').toggle()">筛选</a></span>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-box" id="filter" style="display:none;">
+        <form action="{print url('fenlei/mobile','',0,1)}" method="GET">
+            <input type="hidden" name="act" value="mobile">
+            <input type="hidden" name="do" value="list">
+            <div class="group">
+                <label for="aid">地区:</label>
+                <select name="aid" id="aid">
+                    <option value="0" selected="selected" disabled>==选择地区==</option>
+                    <!--{print form_area($_CITY[aid],$aid)}-->
+                </select>
+                <div class="clear"></div>
+            </div>
+            <div class="group">
+                <label for="catid">分类:</label>
+                <select name="catid" id="catid">
+                    <option value="0" selected="selected" disabled>==选择分类==</option>
+                    <!--{get:fenlei val=category(pid/0)}-->
+                    <option value="$val[catid]"{if $catid==$val[catid]} selected{/if}>$val[name]</option>
+                        <!--{get:fenlei _val=category(pid/$val[catid])}-->
+                        <option value="$_val[catid]"{if $catid==$_val[catid]} selected{/if}>&nbsp;&nbsp;└$_val[name]</option>
+                        <!--{/get}-->
+                    <!--{/get}-->
+                </select>
+                <div class="clear"></div>
+            </div>
+            <div class="group">
+                <label for="keyword">关键字:</label>
+                <input type="text" name="keyword" id="keyword" class="input search" x-webkit-speech="x-webkit-speech">
+            </div>
+            <div class="group">
+                <button type="submit" name="dosubmit" class="sub_btn">提交</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="item-list-lst">
+        <!--{if $tops}-->
+        <!--{eval $fenlei_list =& $tops;}-->
+        <!--{eval include mobile_template('fenlei_list_li')}-->
+        <!--{/if}-->
+
+        <!--{if $total}-->
+        <!--{eval $fenlei_list =& $list;}-->
+        {eval include mobile_template('fenlei_list_li')}
+        {if $multipage}<div class="multipage">$multipage</div>{/if}
+        <div id="loadingmessage"></div>
+        <!--{/if}-->
+    </div>
+</div>
+{include mobile_template('footer')}

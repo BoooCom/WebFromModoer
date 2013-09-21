@@ -1,0 +1,99 @@
+<!--{eval $_HEAD['title'] = $space[spacename] . $_CFG['titlesplit'] . $space['spacedescribe'];}-->
+
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/static/javascript/item.js"></script>
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+		<div id="content_top">
+			<div class="piece1 mb20">
+				<div class="piece1_hd"> </div>
+				<div class="piece1_bd user_info">
+					<div class="user_info_left fl"> <a href="{url space/index/uid/$uid}"><img class="avatar fl r5" alt="" src="{print get_face($member[uid])}"></a>
+						<div class="user_profile fl"> <span class="uname">$member[username]</span><br>
+							<div class="home_follow">
+								<div class="followdiv fl" type="all" uid="1imto"> <a class="addfo" href="javascript:member_follow($uid);">关注</a> </div>
+								<div class="see_more_info fl"> <a href="javascript:add_friend($uid);">加好友</a> <a href="javascript:send_message($uid);">发短信</a> </div>
+							</div>
+						</div>
+					</div>
+					<div class="user_collect_info fr">
+						<div class="collect_list"> $member[reviews]<br>
+							<span class="color52">点评</span> </div>
+						<div class="collect_list"> $member[subjects]<br>
+							<span class="color52">登记</span> </div>
+						<div class="collect_list"> $member[flowers]<br>
+							<span class="color52">鲜花</span> </div>
+						<div class="collect_list"> $member[follow]<br>
+							<span class="color52">关注</span> </div>
+						<div class="collect_list"> $member[fans]<br>
+							<span class="color52">粉丝</span> </div>
+						<div class="collect_list"> $space[pageview]<br>
+							<span class="color52">访问</span> </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="fl" id="content_body" style=" width:715px !important">
+			<div class="piece piece_wb">
+				<div class="piece_hd"> <b class="hl"></b><b class="hr"></b> </div>
+				<div class="piece_bd">
+					<DIV class="user_info_detail">
+						<DIV class="info_title clearfix">
+                            {if $reviews}<em><a href="{url space/reviews/uid/$uid}">更多</a></em>{/if}
+							<H1 class="setting_tilte fl">我发表的点评</H1>
+						</DIV>
+					</DIV>
+					<div class="mainrail">
+						{template space_part_review}
+                    </div>
+					<DIV class="user_info_detail">
+						<DIV class="info_title clearfix">
+                            {if $reviews}<em><a href="{url space/reviews/uid/$uid}">更多</a></em>{/if}
+							<H1 class="setting_tilte fl">我发表的点评</H1>
+						</DIV>
+					</DIV>
+					<div class="mainrail">
+                        {if $subjects}<em><a href="{url space/subjects/uid/$uid}">更多</a></em>{/if}
+						<h3 class="rail-h-1">我添加的主题</h3>
+						{template space_part_subject}
+                    </div>
+				</div>
+				<div class="piece_ft"> <b class="fl"></b><b class="fr"></b> </div>
+			</div>
+		</div>
+		<div class="fr" id="right_side" style="width:225px !important">
+			<div class="piece piece_ws">
+				<div class="piece_hd"> <b class="hl"></b><b class="hr"></b> </div>
+				<div class="piece_bd">
+					<div class="user_info_detail">
+						<div class="info_title clearfix">
+							<h1 class="setting_tilte fl">个人信息</h1>
+						</div>
+						<dl class="info_detail_show clearfix">
+							<dd>等级： </dd>
+							<dt>{print:member group(groupid/$member[groupid])} </dt>
+							<dd>加入： </dd>
+							<dt>{date $member[regdate], 'Y-m-d H:i'}</dt>
+							<dd>登录： </dd>
+							<dt>{date $member[logintime], 'Y-m-d H:i'} </dt>
+						</dl>
+					</div>
+
+					<div class="info_title">
+						<h3 class="rail-h-1">我的好友</h3>
+						<ul class="rail-faces">
+							<!--{loop $friends $val}-->
+							<li>
+								<div> <a href="{url space/index/uid/$val[friend_uid]}" target="_blank"><img src="{print get_face($val[friend_uid])}"/></a><a href="{url space/index/uid/$val[friend_uid]}" title="$val[username]" target="_blank"> </div>
+								<span>$val[username]</span></a></li>
+							<!--{/loop}-->
+						</ul>
+						<div class="clear"> </div>
+					</div>
+				</div>
+				<div class="piece_ft"> <b class="fl"></b><b class="fr"></b> </div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--{eval footer();}-->

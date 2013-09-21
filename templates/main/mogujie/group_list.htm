@@ -1,0 +1,34 @@
+{template modoer_header}
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+		<div class="piece piece_w960">
+			<div class="piece_hd"><B class=hl></B><B class=hr></B></div>
+			<div class="piece_bd clearfix">
+                <div class="fl discussion_left">
+                    <div class="show_body clear_in">
+                        {if $total > 0}
+                        {template group_part_list}
+                        {/if}
+                    </div>
+                    {if $multipage}<div class="multipage">$multipage</div>{/if}
+                </div>
+                <div class="fr discussion_right">
+                    <div class="coupon_side">
+                        <h3>分类标签</h3>
+                        <!--{get:group val=category()}-->
+                        <ul class="side_categorylist">
+                            <h5><a {if $tag==$val[name]}class="selected"{/if}href="{url group/list/tag/$val[name]}">$val[name]</a></h5>
+                            <!--{get:group vval=category_tag(catid/$val[catid])}-->
+                            <li><a {if $tag==$vval}class="selected"{/if}href="{url group/list/tag/$vval}">$vval</a></li>
+                            <!--{/get}-->
+                        </ul>
+                        <div class="clear"></div>
+                        <!--{/get}-->
+                    </div>
+                </div>
+            </div>
+            <div class="piece_ft"><B class=fl></B><B class=fr></B></div>
+        </div>
+    </div>
+</div>
+<!--{eval footer();}-->

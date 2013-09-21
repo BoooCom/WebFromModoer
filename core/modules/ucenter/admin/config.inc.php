@@ -8,6 +8,11 @@
 $C =& $_G['loader']->model('config');
 $UCER =& $_G['loader']->model(':ucenter');
 
+$ucfile=MUDDER_DATA . 'config_uc.php';
+if(!is_file($ucfile)){
+	redirect('您安装了uc整合模块，请将文件data/config_uc.new.php改名为config_uc.php');
+}
+
 if($_POST['dosubmit']) {
 
     $UCER->config($_POST['modcfg'], $_POST['uc']);

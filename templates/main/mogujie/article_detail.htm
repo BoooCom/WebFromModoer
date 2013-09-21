@@ -1,0 +1,183 @@
+<!--{eval
+    $_G['loader']->helper('misc','article');
+    $_HEAD['title'] = $detail[subject] . ($total>1?("（第".$_GET['page']."页）"):'') . $_CFG['titlesplit'] . misc_article::category_path($detail[catid],$_CFG['titlesplit']);
+}-->
+{template modoer_header}
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body"> 
+		<!--{if $detail['sid']}--> 
+		<script type="text/javascript">loadscript('item');</script>
+		<DIV id="content_top">
+			<DIV class="piece1 mb20">
+				<DIV class="piece1_hd"></DIV>
+				<DIV class="piece1_bd user_info">
+					<DIV class="user_info_left fl">
+						<DIV class="user_profile fl"><SPAN class=uname>$subject[name]</SPAN> <BR>
+							<DIV class="home_follow">
+								<DIV class="followdiv fl" type="all"><A class=addfo href="javascript:add_favorite($detail[sid]);">关注</A> </DIV>
+								<DIV class="see_more_info fl"> </DIV>
+							</DIV>
+						</DIV>
+					</DIV>
+					<DIV class="user_collect_info fr">
+						<DIV class="collect_list"><A class="ft18 color52">$subject[pageviews]</A><BR>
+							<SPAN class=color52>浏览</SPAN> </DIV>
+						<DIV class="collect_list bd_none"><A class="ft18 color52">$subject[favorites]</A><BR>
+							<SPAN class=color52>关注</SPAN> </DIV>
+					</DIV>
+				</DIV>
+				<DIV class="piece1_home_ft home_nav"> 
+					<!--{loop $links $i $link}--> 
+					{if $i} {/if}<a href="$link[url]"{if $link[flag]=='article'} style="background:url({URLROOT}/{$_G[tplurl]}images/site_home_bg.png) 0 -209px #ff97bf; color:#fff;" {/if}>$link[title]</a> 
+					<!--{/loop}--> 
+				</DIV>
+			</DIV>
+		</DIV>
+		<!--{/if}-->
+		<DIV class="piece piece_w960">
+			<DIV class="piece_hd"><B class=hl></B><B class=hr></B></DIV>
+			<DIV class="piece_bd clearfix">
+				<DIV class="fl" id="content_body2">
+					<DIV class="show_body clear_in pt10"><!--商品或图片 -->
+						<div class="link_path"> <em> 
+							<!--{if $access_post}--> 
+							<span class="review-ico"><a href="{url article/member/ac/article/op/add/role/$role}">我要投稿</a></span>&nbsp;&nbsp; 
+							<!--{/if}--> 
+							</em>
+							<div><a href="{url modoer/index}">$_CITY[name]</a>&nbsp;&raquo;&nbsp;<a href="{url article/index}">$MOD[name]</a>&nbsp;&raquo;&nbsp;{print misc_article::category_path($detail[catid],'&nbsp;&raquo;&nbsp;',url("article/list/catid/_CATID_"))}&nbsp;&raquo;&nbsp;正文{if $total>1}&nbsp;&raquo;&nbsp;第$_GET[page]页{/if}</div>
+						</div>
+						<div class="detail">
+							<h1 class="detail-title">$detail[subject]{if $_GET[page]>1}($_GET[page]){/if}</h1>
+							<div class="info">{date $detail[dateline]}&nbsp;&nbsp;&nbsp;&nbsp;{if $detail[copyfrom]}来源：$detail[copyfrom]&nbsp;&nbsp;&nbsp;&nbsp;{/if}发布者：{$detail[author]}&nbsp;&nbsp;&nbsp;&nbsp;评论：<a href="#comment">$detail[comments]</a>&nbsp;&nbsp;&nbsp;&nbsp;浏览：$detail[pageview]</div>
+							<div class="introduce">$detail[introduce]</div>
+							<!--{if $_CFG[sharecode]}-->$_CFG[sharecode]<!--{/if}-->
+							<div class="content">
+								<p style="text-align:center;"><!--{if $detail[picture]}--><img src="{URLROOT}/$detail[picture]" /><!--{/if}-->
+								<p> $detail[content] 
+							</div>
+                <script type="text/javascript">
+                window.onload=function(){
+                    $('.content p img').each(function(){
+                        if($(this).attr('width')>500 && !$(this).parent().attr('href')) {
+                            $(this).css('cursor','pointer');
+                            $(this).click(function() {
+                                window.open($(this).attr('src'));
+                            });
+                        }
+                    });
+                }
+                </script>
+							<div class="multipage">$multipage</div>
+							<div class="digg"> <span id="digg_num">$detail[digg]</span> <span id="digg_click"><a href="javascript:;" onclick="article_digg($articleid);">顶一下</a></span> 
+								<script type="text/javascript">
+                        if(get_cookie('article_digg_$articleid')) {
+                            $('#digg_click').html('谢谢支持');
+                        }
+                    </script> 
+							</div>
+							<div class="operation"> <a href="javascript:window.print();">打印本页</a>&nbsp;&nbsp; <a href="javascript:window.close();">关闭窗口</a>&nbsp;&nbsp; <a href="javascript:window.scrollTo(0,0);">返回顶部</a> </div>
+							
+							<!--{if check_module('comment')}-->
+							<div class="comment_foo">
+								<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_comment.css");</style>
+								<script type="text/javascript" src="{URLROOT}/static/javascript/comment.js"></script> 
+								<!--{eval $comment_modcfg = $_G['loader']->variable('config','comment');}--> 
+								<!--{if $detail[comments]}--> 
+								<!--{/if}--> 
+								<a name="comment"></a>
+                                <!--{eval 
+                                    $_G['loader']->helper('form');
+                                    $cinfo_width = 400;
+                                }-->
+								<div id="comment_form"> 
+									<!--{if $user->check_access('comment_disable', $_G['loader']->model(':comment'), false)}--> 
+									<!--{if $MOD[post_comment] && !$comment_modcfg['disable_comment'] && !$detail[closed_comment]}--> 
+									<!--{eval $idtype = 'article'; $id = $articleid; $title = 'Re:' . $detail[subject];}--> 
+									{template comment_post}
+									<!--{else}-->
+									<div class="messageborder">评论已关闭</div>
+									<!--{/if}--> 
+									<!--{else}-->
+									<div class="messageborder">如果您要进行评论信息，请先&nbsp;<a href="{url member/login}">登录</a>&nbsp;或者&nbsp;<a href="{url member/reg}">快速注册</a>&nbsp;。</div>
+									<!--{/if}--> 
+								</div>
+								<!--{if !$comment_modcfg['hidden_comment']}-->
+								<div class="mainrail rail-border-3 mt10"> <em>评论总数:<span class="font_2">$detail[comments]</span>条</em>
+									<h1 class="rail-h-3 rail-h-bg-3">网友评论</h1>
+									<div id="commentlist" style="margin-bottom:10px;"></div>
+									<script type="text/javascript">
+                                        $(document).ready(function() { get_comment('article', $articleid, 1); });
+                                    </script>
+								</div>
+								<!--{/if}-->
+							</div>
+							<!--{/if}-->
+						</div>
+					</DIV>
+				</DIV>
+				<DIV class="fr" id="right_side1"> 
+
+                    <!--{if $detail['sid']}-->
+                    <script type="text/javascript">loadscript('item');</script>
+                    <!--{eval $reviewcfg = $_G['loader']->variable('config','review');}-->
+                    <!--{get:item subject=subject_side(sid/$detail[sid])}-->
+                    <div class="mainrail" onmouseover="show_subject_side($subject[sid])">
+                        <h2 class="rail-h-2">
+                            <a href="{url item/detail/id/$subject[sid]}"><b style="color:#cc3300">$subject[name]{if $subject[subname]}($subject[subname]){/if}</b></a>
+                        </h2>
+                        <div class="subject">
+                            <p class="start start{print get_star($subject[avgsort],$reviewcfg[scoretype])}"></p>
+                            <div>
+                                <span class="font_2">$subject[reviews]</span>点评,
+                                <span class="font_2">$subject[guestbooks]</span>留言,
+                                <span class="font_2">$subject[pageviews]</span>浏览
+                            </div>
+                            <!--{if $subject[field_table]}-->
+                            <div class="none" id="subject_field_list_$subject[sid]">
+                                <table class="subject_field_list" border="0" cellspacing="0" cellpadding="0">
+                                    $subject[field_table]
+                                </table>
+                            </div>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                    <div style="border-bottom:1px dashed #ccc;margin:5px;"></div>
+                    <!--{/get}-->
+                    <script type="text/javascript">
+                    var show_sid = 0;
+                    function show_subject_side (sid) {
+                        if(show_sid == sid) return;
+                        if(show_sid) $('#subject_field_list_'+show_sid).slideUp("fast"); ;
+                        var tbl = $('#subject_field_list_'+sid).slideDown("fast"); 
+                        show_sid = sid;
+                    }
+                    </script>
+                    <!--{/if}-->
+
+					<DIV class="coupon_side">
+						<H3>头条推荐</H3>
+						<UL>
+							{get:modoer val=table(table/dbpre_articles/select/articleid,subject,catid,dateline/where/status=1 AND att=1 AND city_id IN (0,$_CITY[aid])/orderby/dateline DESC/row/10)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url article/detail/id/$val[articleid]}" target=_blank>{sublen $val[subject],15}</A></H4>
+								<span>$val[comments]</span></LI>
+							{/get}
+						</UL>
+					</DIV>
+					<DIV class="coupon_side">
+						<H3>热门评论</H3>
+						<UL>
+							{get:modoer val=table(table/dbpre_articles/select/articleid,subject,comments,dateline/where/comments>0 AND status=1 AND city_id IN (0,$_CITY[aid])/orderby/comments DESC/row/10)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url article/detail/id/$val[articleid]}" target=_blank>{sublen $val[subject],15}</A></H4>
+								<span>$val[comments]&nbsp;评论</span></LI>
+							{/get}
+						</UL>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

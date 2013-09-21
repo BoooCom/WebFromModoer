@@ -1,0 +1,49 @@
+<!--{eval
+    $_HEAD[title] = '邮件订阅';
+}-->
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>邮件订阅</h2>
+                    </div>
+                    <div class="sect">
+                        <p class="info"><strong>把 {$_CITY[name]} 每天最新的精品团购信息发到您的邮箱。</strong></p>
+                        <div class="tuan-subscibe">
+                            <p>立即邮件订阅每日团购信息，不错过每一天的惊喜。</p>
+                            <div class="tuan-enter-form">
+                                <form method="post" action="{url tuan/email/op/subscibe}">
+                                    <div class="enter-address">
+                                        <lable>邮件地址：</lable>
+                                        <input type="text" class="frominput email" name="email" value="$user->email" />
+                                        <span>请放心，我们和您一样讨厌垃圾邮件</span>
+                                    </div>
+                                    <div class="enter-button">
+                                        <button type="submit" name="dosubmit" class="formbutton" value="yes">订阅</button>
+                                    </div>
+                                    <div class="clear"></div>
+                                </form>
+                            </div>
+                        </div>
+                        <p>
+                            每日精品团购包括：<br />
+                            餐厅、酒吧、KTV、SPA、美发、健身、瑜伽、演出、影院等。
+                        </p>
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic1.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic2.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic3.jpg" /></p>
+        </div>
+    </div>
+</div>
+
+{template tuan_footer}

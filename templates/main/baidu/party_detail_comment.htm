@@ -1,0 +1,56 @@
+<!--{if $comment_total}-->
+<table class="party-comment-table" id="party-comment-table-foo">
+    <!--{dbres $comments $val}-->
+    <tr>
+        <td valign="top">
+            <!--{if $party_owner}--><em><span><a href="###" onclick="reply_party_comment($val[commentid],$_GET[page]);">回复</a></span></em><!--{/if}-->
+            <div class="comment">
+                <a href="{url space/index/uid/$val[uid]}">{$val[username]}</a>：$val[message]<span class="font_3">[{date $val[dateline]}]</span>
+            </div>
+            <div class="reply{if !$val[reply]} none{/if}" id="party_reply_$val[commentid]" reply="{if $val[reply]}1{else}0{/if}"><span class="font_2">组织者回复：</span>$val[reply]</div>
+        </td>
+    </tr>
+    <!--{/dbres}-->
+</table>
+<!--{if $multipage}--><div class="multipage">$multipage</div><!--{/if}-->
+<!--{/if}-->
+<div class="party-comment-form none" id="party-reply-form-foo">
+    <form id="frm_party_reply" method="post" action="{url party/member/ac/comment/op/reply/in_ajax/1}">
+        <input type="hidden" name="commentid" id="commentid" value="0" />
+        <div class="party-comment-form-enter">
+            <textarea name="reply" onkeyup="record_charlen(this,100,'party-reply-strlen');"></textarea>
+            <div class="party-comment-form-enter-status">
+                限制输入100字，目前已输入<span class="font_2" id="party-reply-strlen">0</span>
+            </div>
+        </div>
+        <button type="button" onclick="ajaxPost('frm_party_reply','$partyid','get_party_comment');">提交留言</button>
+    </form>
+</div>
+<!--{if $user->isLogin}-->
+<div class="party-comment-form" id="party-comment-form-foo">
+    <form id="frm_party_comment" method="post" action="{url party/member/ac/comment/op/save/in_ajax/1}">
+        <input type="hidden" name="op" value="save" />
+        <input type="hidden" name="partyid" value="$detail[partyid]" />
+        <input type="hidden" name="commentid" value="0" />
+        <div class="party-comment-form-enter">
+            <textarea name="message" onfocus="$('#party-comment-form-op').removeClass('none');" onkeyup="record_charlen(this,100,'party-coment-strlen');"></textarea>
+            <div class="party-comment-form-enter-status">
+                限制输入100字，目前已输入<span class="font_2" id="party-coment-strlen">0</span>
+            </div>
+        </div>
+        <div id="party-comment-form-op" class="none">
+            <!--{if $MOD[comment_seccode]}-->
+            <div class="party-comment-seccode">验证码：<input type="text" name="seccode" class="t_input" /><span id="seccode"></span></div>
+            <script type="text/javascript">
+            show_seccode();
+            </script>
+            <!--{/if}-->
+            <button type="button" onclick="ajaxPost('frm_party_comment','$partyid','get_party_comment');">提交留言</button>
+        </div>
+    </form>
+</div>
+<!--{else}-->
+<div class="messageborder">
+    想要咨询和加入本次活动，您必须先 <a href="{url member/reg}">注册</a> 或者 <a href="{url member/login}">登录</a> 。
+</div>
+<!--{/if}-->

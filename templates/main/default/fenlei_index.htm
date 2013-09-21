@@ -1,0 +1,54 @@
+<!--{eval
+    $_HEAD['title'] = $MOD[name];
+}-->
+{template modoer_header}
+<div id="body">
+
+    <div class="link_path">
+        <em><span class="review-ico"><a href="{url fenlei/member/ac/manage/op/add}"><b>发布信息</b></a></span></em>
+        <a href="{url modoer/index}">{lang global_index}</a>&nbsp;&raquo;&nbsp;$MOD[name]
+    </div>
+
+    <div id="fenlei_left">
+
+        <div class="c_category">
+            {get:fenlei val=category(pid/0)}
+            <ul>
+                <h3><a href="{url fenlei/list/catid/$val[catid]}">$val[name]</a></h3>
+                {get:fenlei _val=category(pid/$val[catid])}
+                <li><a href="{url fenlei/list/catid/$_val[catid]}">$_val[name]</a></li>
+                {/get}
+            </ul><div class="clear"></div>
+            {/get}
+        </div>
+
+    </div>
+
+    <div id="fenlei_right">
+
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">最新发布</h3>
+            <ul class="rail-list">
+                {get:fenlei val=getlist(city_id/_CITYID_/orderby/dateline DESC/row/10)}
+                <li><cite>{date $val[dateline],'m-d'}</cite><a href="{url fenlei/detail/id/$val[fid]}">{sublen $val[subject],20}</a></li>
+				{getempty(val)}
+				<li>暂无信息</li>
+                {/get}
+            </ul>
+        </div>
+
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">特别推荐</h3>
+            <ul class="rail-list">
+                {get:fenlei val=getlist(city_id/_CITYID_/finer/1/row/10)}
+                <li><cite>{date $val[dateline],'m-d'}</cite><a href="{url fenlei/detail/id/$val[fid]}">{sublen $val[subject],20}</a></li>
+				{getempty(val)}
+				<li>暂无信息</li>
+                {/get}
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+<!--{eval footer();}-->

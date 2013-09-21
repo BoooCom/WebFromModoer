@@ -1,0 +1,48 @@
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-tab">
+                <ul>
+                    <li><a href="{url member/index}">网站助手</a><span></span></li>
+                    <li><a href="{url tuan/member/ac/coupon}">我的团购券</a><span></span></li>
+                    <li><a href="{url tuan/member/ac/order}">我的订单</a><span></span></li>
+                    <li class="current"><a href="{url tuan/member/ac/credit}">帐户余额</a><span></span></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>帐户余额</h2>
+                    </div>
+                    <div class="sect tuan-credit">
+                        <p class="tuan-credit-charge">充值到帐户，方便抢购！&raquo;</span> <a href="{url pay/member/ac/pay/select/rmb}">立即充值</a></p>
+                        <p class="tuan-credit-message">您当前的帐户余额是 <span class="money">{print get_numeric($user->rmb)}</span> 元，<a href="{url member/index/ac/point/op/log}">查看消费记录</a></p>
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-top"></div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <div class="side-tip">
+                        <h3 class="first">什么是账户余额？</h3>
+                        <p>账户余额是您在{$_CFG[sitename]}团购时可用于支付的金额。</p>
+                        <h3>怎样才能有余额？</h3>
+                        <p>可使用支付宝或财付通充值。</p>
+                        <h3>充值卡充值</h3>
+                        <p><a href="{url pay/member/ac/pay/tab/card/select/rmb}">点击输入充值卡号码</a></p>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template tuan_footer}

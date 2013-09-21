@@ -1,0 +1,7 @@
+
+.il_coupon { margin-bottom:10px; padding:10px 5px 10px 5px; border-bottom:1px dashed #ddd; }
+.il_coupon .thumb { float:left; width:145px; *width:155px; margin:0; }
+    .il_coupon .thumb img { max-width:140px; _width:expression(this.width > 140 ? 140 : true); }
+.il_coupon .info { float:right; width:460px; color:#808080; margin:0 0 0 10px; padding:0; list-style:none; }
+.il_coupon .info li { float:left; width:220px; padding:0 0 10px 0; margin:0; }
+.il_coupon .info li.full { width:100%; }

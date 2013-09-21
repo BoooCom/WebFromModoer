@@ -1,0 +1,96 @@
+{include mobile_template('header')}
+<div data-role="page" id="page_subject">
+    <div data-theme="e" data-role="header">
+        <h2>{$model[item_name]}信息</h2>
+        {if strposex($_SERVER['HTTP_REFERER'],'save')}
+        <a data-role="button" data-icon="back" class="ui-btn-left" href="{url mobile/list/catid/$detail[pid]}">返回</a>
+        {elseif $_SERVER['HTTP_REFERER']}
+        <a data-role="button" data-icon="back" class="ui-btn-left" href="$_SERVER['HTTP_REFERER']">返回</a>
+        {else}
+        <a data-role="button" data-rel="back" data-icon="back" class="ui-btn-left" href="#">返回</a>
+        {/if}
+        <a data-role="button" data-icon="plus" href="{url mobile/member/ac/review/op/add/sid/$sid/in_dlg/y}" class="ui-btn-right" data-rel="dialog">写点评</a>
+    </div>
+    <div data-role="content" style="padding:5px 10px">
+        <div class="subject_header_box">
+            <h1>$detail[name]{if $detail[subname]}($detail[subname]){/if}</h1>
+            <div class="thumb">
+                {if $detail[thumb] && $detail[pictures]}
+                <a href="{url mobile/album/sid/$sid}"><img src="{URLROOT}/$detail[thumb]" /></a>
+                {else}
+                <img src="{URLROOT}/static/images/noimg.gif" />
+                {/if}
+            </div>
+            <div class="grades">
+                <p class="list_start start s{print get_star($detail[avgsort],$reviewcfg[scoretype])}"></p>
+                <div class="grade">
+                    <!--{if $catcfg[useprice]}-->
+                    <div>$catcfg[useprice_title]:<span class="sorce">{if $detail[avgprice]}$detail[avgprice]{else}-{/if}</span>$catcfg[useprice_unit]</div>
+                    <!--{/if}-->
+                    <!--{loop $reviewpot $val}-->
+                    $val[name]:<span class="sorce">{print cfloat($detail[$val[flag]])}</span>
+                    <!--{/loop}-->
+                </div>
+            </div>
+            <div class="clear:both;"></div>
+        </div>
+
+        <div class="rail_box">
+            <div data-role="collapsible-set" data-theme="" data-content-theme="c" style="margin-left:10px;margin-right:9px;">
+                <div data-role="collapsible" data-collapsed="">
+                    <h5>{$model[item_name]}信息</h5>
+                    <table class="subject_field" border="0" cellspacing="0" cellpadding="0">
+                        $detail_custom_field
+                        <tr><td colspan="2"><hr class="hr_line"><hr class="hr_line2"></td></tr>
+                        <tr>
+                            <td class='key' align='right'>数据统计：</td>
+                            <td width="*">
+                                <span class="font_2">$detail[pageviews]</span>次浏览, <span class="font_2">$detail[reviews]</span>条点评, <span class="font_2">$detail[pictures]</span>张图片, <span class="font_2">$detail[favorites]</span>关注
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                <!--{loop $textarea_field $field}-->
+                <!--{if $detail[$field[fieldname]]}-->
+                <div data-role="collapsible" data-collapsed="true">
+                    <h5>$field[title]</h5>
+                    <div class="subject_content">$detail[$field[fieldname]]</div>
+                </div>
+                <!--{/if}-->
+                <!--{/loop}-->
+            </div>
+        </div>
+
+        <div class="rail_box">
+            <!--{if $detail['reviews']>0}-->
+            <ul data-role="listview" data-divider-theme="c" data-inset="true" id="list_reviews">
+                <li data-role="list-divider" role="heading">
+                    点评&nbsp;(共{$detail[reviews]}条)
+                </li>
+                <!--{dbres $reviews $val}-->
+                <li class="review_box">
+                    <div class="header">
+                        <cite>{date $val[posttime],'w2style'}</cite>
+                        <div>
+                            {if $val[uid]}$val[username]&nbsp;({print:member group(groupid/$val[groupid]/color/0)}){else}游客{/if}
+                            <!--{if $val[price] && $catcfg['useprice']}-->
+                            &nbsp;<span>$catcfg[useprice_title]: $val[price]{$catcfg[useprice_unit]}</span>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                    <div class="grades">
+                        <!--{loop $reviewpot $_val}-->
+                        $_val[name]:<span class="sorce">{print cfloat($detail[$_val[flag]])}</span>
+                        <!--{/loop}-->
+                    </div>
+                    <div class="content">{sublen $val[content],200,'...'}</div>
+                </li>
+                <!--{/dbres}-->
+                <li><a href="{url mobile/reviews/sid/$sid}" style="text-align:center;">查看全部</a></li>
+            </ul>
+            <!--{/if}-->
+        </div>
+    </div>
+</div>
+{include mobile_template('footer')}

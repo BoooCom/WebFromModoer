@@ -14,19 +14,6 @@ return array (
     'target' => '',
     'listorder' => '0',
   ),
-  69 => 
-  array (
-    'menuid' => '69',
-    'parentid' => '66',
-    'isclosed' => '0',
-    'isfolder' => '0',
-    'title' => '广告服务',
-    'scriptnav' => '',
-    'url' => '#',
-    'icon' => '',
-    'target' => '',
-    'listorder' => '0',
-  ),
   70 => 
   array (
     'menuid' => '70',
@@ -60,19 +47,6 @@ return array (
     'isclosed' => '0',
     'isfolder' => '0',
     'title' => '使用帮助',
-    'scriptnav' => '',
-    'url' => '#',
-    'icon' => '',
-    'target' => '',
-    'listorder' => '0',
-  ),
-  73 => 
-  array (
-    'menuid' => '73',
-    'parentid' => '66',
-    'isclosed' => '0',
-    'isfolder' => '0',
-    'title' => '诚聘英才',
     'scriptnav' => '',
     'url' => '#',
     'icon' => '',

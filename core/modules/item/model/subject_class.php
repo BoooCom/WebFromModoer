@@ -358,6 +358,7 @@ class msm_item_subject extends msm_item_itembase {
         $modelid = $this->category['modelid'];
         $data = $this->field->validator($modelid, $post, $sid);
         $data['pid'] = $this->category['catid'];
+
         //固定字段（非自定义内）
         if(isset($post['domain'])) $data['domain'] = $post['domain'];
         if(isset($post['owner'])) $data['owner'] = $post['owner'];
@@ -462,7 +463,7 @@ class msm_item_subject extends msm_item_itembase {
              $tpl = $ST->get_exists(array('sid'=>$sid,'templateid'=>$field_post['templateid']));
              if(empty($tpl)) $field_post['templateid'] = 0; //不存在购买记录，则设置为 0
         }
-
+        $auto_subject_owner = (int) $this->category['config']['auto_subject_owner'];
         if($edit) {
             //主表
             foreach($main_post as $key => $val) {
@@ -492,6 +493,9 @@ class msm_item_subject extends msm_item_itembase {
                 }
             }
         } else {
+            if($auto_subject_owner && !$this->in_admin && $this->global['user']->uid > 0) {
+                $main_post['owner'] = $this->global['user']->username;
+            }
             //主表
             $this->db->from($this->table);
             $this->db->set($main_post);
@@ -502,6 +506,10 @@ class msm_item_subject extends msm_item_itembase {
             $this->db->set('sid', $sid);
             $this->db->set($field_post);
             $this->db->insert();
+            //添加者自动位主题管理员
+            if($auto_subject_owner && !$this->in_admin && $this->global['user']->uid > 0) {
+                $this->set_owner($sid, $this->global['user'], '', false,false,false);
+            }
         }
 
         if(!$edit) {
@@ -932,6 +940,7 @@ class msm_item_subject extends msm_item_itembase {
         if($upids) {
             $this->db->from($this->table);
             $this->db->set('status', 1);
+            //$this->db->set('addtime', $this->timestamp);
             $this->db->where_in('sid', $upids);
             $this->db->update();
             //标签部分因为在附表，所以要通过主分类id，获取模型表明，查询后处理

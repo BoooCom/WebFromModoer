@@ -1,0 +1,53 @@
+DROP TABLE IF EXISTS modoer_fenlei_category;
+CREATE TABLE modoer_fenlei_category (
+  catid smallint(5) NOT NULL AUTO_INCREMENT,
+  pid smallint(5) NOT NULL DEFAULT '0',
+  name varchar(60) NOT NULL DEFAULT '',
+  post_tpl varchar(60) NOT NULL DEFAULT '',
+  list_tpl varchar(60) NOT NULL DEFAULT '',
+  detail_tpl varchar(60) NOT NULL DEFAULT '',
+  listorder smallint(5) NOT NULL DEFAULT '0',
+  num int(10) NOT NULL DEFAULT '0',
+  fieldids varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (catid)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS modoer_fenlei;
+CREATE TABLE modoer_fenlei (
+  fid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  catid smallint(5) NOT NULL DEFAULT '0',
+  finer tinyint(3) unsigned NOT NULL DEFAULT '0',
+  city_id smallint(5) unsigned NOT NULL DEFAULT '0',
+  aid smallint(5) NOT NULL DEFAULT '0',
+  sid mediumint(8) NOT NULL DEFAULT '0',
+  subject varchar(60) NOT NULL DEFAULT '',
+  thumb varchar(255) NOT NULL DEFAULT '',
+  uid mediumint(8) unsigned NOT NULL DEFAULT '0',
+  username varchar(20) NOT NULL DEFAULT '',
+  status tinyint(1) unsigned NOT NULL DEFAULT '1',
+  linkman varchar(20) NOT NULL DEFAULT '',
+  contact varchar(100) NOT NULL DEFAULT '',
+  email varchar(100) NOT NULL DEFAULT '',
+  im varchar(60) NOT NULL DEFAULT '',
+  address varchar(255) NOT NULL DEFAULT '',
+  content text NOT NULL,
+  dateline int(10) unsigned NOT NULL DEFAULT '0',
+  endtime int(10) unsigned NOT NULL DEFAULT '0',
+  pageview int(10) NOT NULL DEFAULT '0',
+  comments mediumint(8) unsigned NOT NULL DEFAULT '0',
+  map_lng decimal(8,5) NOT NULL DEFAULT '0.00000',
+  map_lat decimal(8,5) NOT NULL DEFAULT '0.00000',
+  color varchar(30) NOT NULL DEFAULT '',
+  color_endtime int(10) unsigned NOT NULL DEFAULT '0',
+  top tinyint(1) NOT NULL DEFAULT '0',
+  top_endtime int(10) unsigned DEFAULT '0',
+  pictures tinytext NOT NULL,
+  PRIMARY KEY (fid),
+  KEY catid (aid,catid),
+  KEY uid (uid,username),
+  KEY subject (subject),
+  KEY sid (sid,status,dateline),
+  KEY catid_2 (city_id,catid),
+  KEY color_endtime (color_endtime),
+  KEY top_endtime (top_endtime)
+) TYPE=MyISAM;

@@ -1,0 +1,74 @@
+<!--{eval
+    $_HEAD[title] = '往期团购';
+}-->
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>往期团购</h2>
+                    </div>
+                    <div class="sect">
+                        <ul class="deals-list">
+                            <!--{eval $i=0;}-->
+                            <!--{dbres $list $val}-->
+                            <li class="{if $i++%2==0}first{else}alt{/if}">
+                                <p class="deals-time">{date $val[starttime], 'Y年m月d日'}</p>
+                                <h4><a href="{url tuan/detail/id/$val[tid]}" target="_blank" title="$val[subject]">{sublen $val[subject],40,'...'}</a></h4>
+                                <div class="deals-pic">
+                                    <a href="{url tuan/detail/id/$val[tid]}" target="_blank" title="$val[subject]"><img width="200" height="121" src="{URLROOT}/$val[thumb]" alt="$val[subject]"></a>
+                                </div>
+                                <div class="deals-info">
+                                    <p class="total"><strong class="count">$val[peoples_sell]</strong>人购买</p>
+                                    <p class="price">
+                                        原价：<strong class="old"><span class="money">&#165;</span>{print get_numeric($val[market_price])}</strong><br />
+                                        折扣：<strong class="discount">{print get_numeric(round($val[real_price]/$val[market_price],2)*10)}折</strong><br />
+                                        现价：<strong><span class="money">&#165;{print get_numeric($val[real_price])}</span></strong><br />
+                                        节省：<strong><span class="money">&#165;{print get_numeric($val[market_price]-$val[real_price])}</span></strong><br />
+                                    </p>
+                                </div>
+                                <div class="clear"></div>
+                            </li>
+                            <!--{/dbres}-->
+                        </ul>
+						<!--{if !$total}-->
+						<div>暂无信息</div>
+						<!--{/if}-->
+                        <div class="multipage">$multipage</div>
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>今天的团购</h2>
+                    <div class="sidebar-tuan-list">
+                        <ul>
+                            <!--{get:modoer val=table(table/dbpre_tuan/select/tid,subject,price,goods_sell,peoples_sell,thumb/where/city_id IN(_NULL_CITYID_) AND status='new'/orderby/tid DESC/rows/3/cachetime/600)}-->
+                            <li>
+                                <h4><a href="{url tuan/detail/id/$val[tid]}" title="$val[subject]">{sublen $val[subject],20,'..'}</a></h4>
+                                <div class="thumb">
+                                    <a href="{url tuan/detail/id/$val[tid]}"><img src="{URLROOT}/$val[thumb]" alt="$val[subject]" /></a>
+                                </div>
+                                <div class="info">
+                                    <span><strong>$val[peoples_sell]</strong>人已购买</span>
+                                    <a href="{url tuan/detail/id/$val[tid]}" class="buy"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/btn-sidedeal-see.png" alt="去看看" /></a>
+                                </div>
+                            </li>
+                            <!--{/get}-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{template tuan_footer}

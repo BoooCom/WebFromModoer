@@ -1,0 +1,70 @@
+<!--{if !defined('IN_AJAX')}-->
+{template modoer_header}
+</script>
+<div id="body">
+<div class="myhead"></div>
+<div class="mymiddle">
+    <div class="myleft">
+        <!--{template 'menu','member','member'}-->
+    </div>
+    <div class="myright">
+        <div class="myright_top"></div>
+        <div class="myright_middle">
+            <h3>活动报名</h3>
+<!--{/if}-->
+            <div class="mainrail">
+                <form method="post" name="frm_apply" id="frm_apply" action="{url party/member/ac/$ac/op/save/in_ajax/$_G[in_ajax]/rand/$_G[random]}">
+                <input type="hidden" name="partyid" value="$detail[partyid]" />
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                    <tr>
+                        <td width="100" align="right">活动名称：</td>
+                        <td width="*">$detail[subject]</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <!--{if $applyprice}-->
+                    <tr>
+                        <td align="right">报名费用：</td>
+                        <td class="font_2">{$applyprice[0]}&nbsp;{print:member point(point/$applyprice[1]/keyname/u|n)}</td>
+                    </tr>
+                    <!--{/if}-->
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>&nbsp;报名人：</td>
+                        <td><input type="text" name="linkman" class="t_input" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>&nbsp;联系方式：</td>
+                        <td><input type="text" name="contact" class="t_input" />&nbsp;<span class="font_3">座机或手机</span></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>&nbsp;性别：</td>
+                        <td><input type="radio" name="sex" value="1" />女&nbsp;<input type="radio" name="sex" value="2" />男</td>
+                    </tr>
+                    <tr>
+                        <td valign="top" align="right">备注说明：</td>
+                        <td><textarea name="comment" rows="5" cols="50"></textarea></td>
+                    </tr>
+                </table>
+                <div class="text_center" id="op_foot">
+                    <!--{if defined('IN_AJAX')}-->
+                    <input type="hidden" name="dosubmit" value="yes" />
+                    <button type="button" class="button" onclick="ajaxPost('frm_apply', '', 'document_reload');">提交</button>&nbsp;&nbsp;
+                    <button type="reset" class="button">重置</button>&nbsp;&nbsp;
+                    <button type="button" class="button" onclick="dlgClose();">关闭</button>
+                    <!--{else}-->
+                    <input type="hidden" name="forward" value="{print get_forward()}" />
+                    <button type="submit" name="dosubmit" value="yes">提交</button>&nbsp;&nbsp;
+                    <button type="reset">重置</button>&nbsp;&nbsp;
+                    <button type="button" onclick="history.go(-1);">返回</button>
+                    <!--{/if}-->
+                </div>
+                </form>
+            </div>
+<!--{if !defined('IN_AJAX')}-->
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="mybottom"></div>
+</div>
+<!--{eval footer();}-->
+<!--{/if}-->

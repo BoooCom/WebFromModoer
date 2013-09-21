@@ -25,6 +25,9 @@ switch ($op) {
 
     case 'post_multi':
         //albumid,sid,title,comments,url
+        if($_POST['output_charset']&&$_POST['output_charset']!=$_G['charset']) {
+            $_G['output_charset'] = $_POST['output_charset'];
+        }
         $post = $P->get_post($_POST);
         $post['title'] = basename($_POST['Filename'],'.'.pathinfo($_POST['Filename'],PATHINFO_EXTENSION));
         if($_G['charset'] != 'utf-8') {

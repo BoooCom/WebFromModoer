@@ -1,0 +1,41 @@
+<!--{eval
+    if(SCRIPTNAV != 'index' && $_G[show_sitename]):
+        $_HEAD[title] .= $_G['cfg']['titlesplit'] . $_G['cfg']['sitename'];
+    endif;
+    if(!$_HEAD['keywords']):
+        $_HEAD[keywords] = $_G['cfg']['meta_keywords'];
+    endif;
+    if(!$_HEAD['description']):
+        $_HEAD[description] = $_G['cfg']['meta_description'];
+    endif;
+}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$_G[charset]" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<title>$_HEAD[title] - Powered by Modoer</title>
+<meta name="keywords" content="$_HEAD[keywords]" />
+<meta name="description" content="$_HEAD[description]" />
+<link media=all href="{URLROOT}/{$_G[tplurl]}mogu-page-loginreg.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="{URLROOT}/static/javascript/jquery.js"></script>
+<script type="text/javascript" src="{URLROOT}/data/cachefiles/config.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/common.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/mdialog.js"></script>
+<script type="text/javascript">
+<!--{if !empty($MOD)}-->
+var mod = modules['{$MOD[flag]}'];
+<!--{/if}-->
+</script>
+<!--[if lte IE 6]>
+<script type="text/javascript" src="{URLROOT}/static/javascript/supersleight-min.js"></script>
+<![endif]-->
+<!--{if $_CFG[headhtml]}-->{LF}$_CFG[headhtml]{LF}<!--{/if}-->
+</head>
+<body>
+<script type="text/javascript" src="{URLROOT}/static/javascript/member.js"></script> 
+<!--{if !empty($MOD) && $MOD['flag']!='member' && is_file(MUDDER_ROOT . 'static/javascript/' . $MOD['flag'] . '.js')}--> 
+<script type="text/javascript" src="{URLROOT}/static/javascript/$MOD[flag].js"></script> 
+<!--{/if}--> 
+<script type="text/javascript" src="{URLROOT}/static/javascript/login.js"></script> 
+{LF}

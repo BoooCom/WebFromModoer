@@ -1,0 +1,109 @@
+<!--{eval
+    $_HEAD['title'] = ($catid > 0 ? $category[$catid][name] : '全部') . $MOD[name];
+}-->
+
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/static/javascript/My97DatePicker/WdatePicker.js"></script>
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body">
+		<DIV class="piece piece_w960">
+			<DIV class="piece_hd"><B class=hl></B><B class=hr></B></DIV>
+			<DIV class="piece_bd clearfix">
+				<DIV class="fl" id="content_body2">
+					<DIV class="show_body clear_in pt10"><!--商品或图片 -->
+						<div class="link_path" style="padding-left:0px; margin-bottom:20px"> <em><span class="review-ico"><a href="{url party/member/ac/party/op/add}"><b>发起活动</b></a>&nbsp;| <a href="{url party/member/ac/party}">我的活动</a></span>&nbsp;| <a href="{url party/member/ac/party/op/joins}">我参与的活动</a></span> </em> <a href="{url modoer}">首页</a>&nbsp;&raquo;&nbsp;{print implode('&nbsp;&raquo;&nbsp;', $urlpath)}{if $total}<span class="font_3">($total)</span>{/if} </div>
+						<DIV class="ff" style="MARGIN:0px"> <A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">活动分类：</A>
+							<UL class="mr10" style="height:36px">
+								<li><span$active[catid][0]><a href="{url party/index/time/$time}">全部</a></span></li>
+								{get:party val=category()} <li$active[catid][$val[catid]]><a href="{url party/index/catid/$val[catid]/time/$time/type/$type/order/$order/flag/$flag}">$val[name]</a>
+								</li>
+								{/get}
+							</UL>
+							<div class="clear"></div>
+							<!--{if $type!='calendar'}--> 
+							<A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">活动时间：</A>
+							<UL class="mr10" style="height:36px">
+								<!--{loop $time_arr $k $v}--> 
+								<li$active[time][$k]><a href="{url party/index/catid/$catid/type/$type/time/$k/order/$order/flag/$flag}">$v</a>
+								</li>
+								<!--{/loop}--> 
+								<li$active[time][$selecttime]><a href="#" onclick="WdatePicker({dateFmt:'yyyyMMdd',onpicked:function(dp){return pickedFunc(dp);}})">{if $time>10}$time{else}选择日期{/if}</a>
+								</li>
+							</UL>
+							<script type="text/javascript">
+                            function pickedFunc(dp) {
+                                var day = dp.cal.getNewDateStr();
+                                var url = '{url party/index/catid/$catid/type/$type/time/_TIME_/order/$order/flag/$flag}';
+                                document.location = url.replace('_TIME_',day.replace('-',''));
+                                return true;
+                            }
+                            </script> 
+							<!--{/if}-->
+							<div class="clear"></div>
+							<A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">显示：</A>
+							<UL class="mr10" style="height:36px">
+								<li$active[type][normal]><a href="{url party/index/catid/$catid/time/$time/type/normal/order/$order/flag/$flag}">图文</a>
+								</li>
+								<li$active[type][calendar]><a href="{url party/index/catid/$catid/time/$time/type/calendar/order/$order/flag/$flag}">日历</a>
+								</li>
+							</UL>
+							<div class="clear"></div>
+							<A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">排序：</A>
+							<UL class="mr10" style="height:36px">
+								<li$active[order][new]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/new/flag/$flag}">最新发起</a>
+								</li>
+								<li$active[order][hot]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/hot/flag/$flag}">最旺人气</a>
+								</li>
+							</UL>
+							<div class="clear"></div>
+							<A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666"> 筛选：</A>
+							<UL class="mr10" style="height:36px">
+								<li$active[flag][0]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/$order}">全部活动</a>
+								</li>
+								<li$active[flag][1]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/$order/flag/1}">报名中</a>
+								</li>
+								<li$active[flag][2]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/$order/flag/2}">进行中</a>
+								</li>
+								<li$active[flag][3]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/$order/flag/3}">已结束</a>
+								</li>
+							</UL>
+						</DIV>
+						<div class="mainrail"> 
+							<!--{if $type=='calendar'}--> 
+							{template party_list_calendar} 
+							<!--{else}--> 
+							{template party_list_normal} 
+							<!--{/if}--> 
+						</div>
+					</DIV>
+				</DIV>
+				<DIV class="fr" id="right_side1">
+					<DIV class="product_slide">
+						<H3>推荐活动</H3>
+						<ul>
+							{get:party val=getlist(finer/1/rows/10/cachetime/1000)}
+							<LI><A class=fl href="{url party/detail/id/$val[partyid]}" target=_blank><IMG class=r5 src="{URLROOT}/$val[thumb]"></A>
+								<H4 class=ag_t><A class=glink href="{url product/detail/id/$val[pid]}" target=_blank>{sublen $val[subject],10}</A></H4>
+								<P  style="height: 16px;line-height: 16px;overflow: hidden; float:left; width:180px">{date $val[begintime],'m月d日H:i'}</P>
+								<P  style="height: 16px;line-height: 16px;overflow: hidden; float:left"> 浏览<span class="font_2"><b>$val[pageview]</b></span>,报名<span class="font_2"><b>$val[num]</b></span>人</span></P>
+							</LI>
+							{/get}
+						</ul>
+					</DIV>
+					<DIV class="coupon_side">
+						<H3>现场播报</H3>
+						<UL>
+							{get:party val=joins(party_select/subject/orderby/dateline DESC/rows/10/cachetime/300)}
+							<LI>
+								<H4 class=ag_t> <span style="float:left"><a href="{url space/index/uid/$val[uid]}">$val[username]</a> 报名了 </span> <a href="{url party/detail/id/$val[partyid]}">$val[subject]</a></H4>
+							</LI>
+							{/get}
+						</UL>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

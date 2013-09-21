@@ -1,0 +1,266 @@
+{template modoer_header}
+<div id="body_wrap">
+    <div class="fm960 clearfix" id="body">
+        <div>
+            <div class="piece piece_w960 index_top">
+                <!-- 首页头部 -->
+                <div class="piece_hd">
+                    <b class="hl"></b><b class="hr"></b>
+                </div>
+                <div class="piece_bd clearfix">
+                    <div class="top_slide clear_in r5">
+                        <!-- 头部左边 -->
+                        <script type="text/javascript" src="{URLROOT}/static/javascript/jquery.d.imagechange.js"></script>
+                        <div class="l1_pics" id="l1_pics">
+                             {get:modoer val=bcastr(groupname/index/city_id/_NULL_CITYID_/cachetime/1000)}
+                             <a href="$val[item_url]" title="$val[itemtitle]" target="_blank"><img src="{URLROOT}/$val[link]" height="283" width="620"/></a>
+                            {/get}
+                        </div>
+                        <script type="text/javascript">
+                            $('#l1_pics').d_imagechange({width:620,height:283,repeat:'repeat'});
+                        </script>
+                    </div>
+                    <div class="user_active">
+                        <!-- 头部右边 -->
+                        <!--{if $user->isLogin}-->
+                        <div class="user_info">
+                            <!-- 登录后 -->
+                            <a class="avatar" href="{url member/index}" target="_blank"><img class="r3" alt="" src="{print get_face($user->uid)}"></a>
+                            <div class="user_name">
+                                <a href="{url member/index}" id="login_name">$user->username</a>
+                            </div>
+                            <p class="feed_link">
+                                积分：<span>$user->point</span>
+                                等级：<span>{print:member group(groupid/$user->groupid)}</span>
+                            </p>
+                            <p class="feed_link">
+                                欢迎回来，<a href="{url item/detail/random/1}" target="_blank">随便看看</a> 或 <a href="{url member/index/ac/task}">做做任务</a> 。
+                            </p>
+                        </div>
+                        <!--{else}-->
+                        <div class="user_login">
+                            <!-- 登录前 -->
+                            <a class="register_btn" title="立即注册" href="{url member/reg}">立即注册</a><a class="login_sina_btn" title="使用sina微博登录" href="/member.php?act=login&op=passport_login&type=weibo">使用sina微博登录</a><a class="login_qq_btn" title="使用qq登录" href="/member.php?act=login&op=passport_login&type=qq">使用qq登录</a><a class="login_taobao_btn" title="使用taobao登录" href="/member.php?act=login&op=passport_login&type=taobao">使用taobao登录</a>
+                        </div>
+                        <!--{/if}-->
+                        <ul class="user_active_list1">
+                             {get:modoer val=table(table/dbpre_announcements/select/city_id,id,title,dateline/where/city_id IN (_NULL_CITYID_) AND available=1/orderby/orders/rows/4/cachetime/1000)}
+                            <li class="clear_in"><a href="{url index/announcement/id/$val[id]}" target="_blank">{sublen $val[title],18}</a></li>
+                             {/get}
+                        </ul>
+                        {include display('adv:show','name/公告下方（290*45）')}
+                    </div>
+                </div>
+                <div class="piece_ft">
+                    <b class="fl"></b><b class="fr"></b>
+                </div>
+            </div>
+
+            <!-- 需要加载的广告位置 -->
+            <div id="adv_1">xxxxxx</div>
+
+            <!--主题调用-->
+            {get:item vval=category(pid/0)}
+            <div class="piece piece_w960 index_model2 mt15">
+                <div class="piece_hd">
+                    <b class="hl"></b><b class="hr"></b>
+                </div>
+                <div class="piece_bd clearfix" style="height:220px">
+                    <h2>大家喜欢的<a href="{url item/list/catid/$vval[catid]}">$vval[name]</a></h2>
+                    <ul class="goods_list clear_in r5" style="height: 120px">
+                         {get:modoer val=table(table/dbpre_subject/select/sid,aid,name,subname,avgsort,thumb,description/where/finer>0 AND city_id IN (_NULL_CITYID_) AND status=1 AND pid=$vval[catid] AND pictures>0/orderby/finer DESC/rows/6/cachetime/1000)}
+                        <li>
+                            <a title="$val[name].$val[subname]" href="{url item/detail/id/$val[sid]}" target="_blank"><img alt="$val[name].$val[subname]" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" class="dr" /></a>
+                            <span><a href="" class="n">{sublen $val[name].$val[subname],10}</a></span>
+                        </li>
+                         {/get}
+                    </ul>
+                    <div class="more_goods clear_in">
+                        <dl class="clear_in">
+                            <dt><a href="{url item/list/catid/$vval[catid]}" target="_blank">分类</a></dt>
+                            <dd>
+                                <p>
+                                     {get:item _val=category(pid/$vval[catid]/num/10)} <a href="{url item/list/catid/$_val[catid]}" target="_blank">{sublen $_val[name],7}</a> {/get}
+                                </p>
+                            </dd>
+                        </dl>
+                        <a class="more_goods_all" href="{url item/list/catid/$vval[catid]}" target="_blank">全部<span>...</span></a>
+                    </div>
+                </div>
+                <div class="piece_ft">
+                    <b class="fl"></b><b class="fr"></b>
+                </div>
+            </div>
+            {/get}
+
+            <!--会员卡优惠-->
+            <div class="piece piece_w960 index_model2 mt15">
+                <div class="piece_hd">
+                    <b class="hl"></b><b class="hr"></b>
+                </div>
+                <div class="piece_bd clearfix" style="height:270px">
+                    <div class="free_list">
+                        <h2>特优惠</h2>
+                        <ul>
+                            <li><a href="{url card/index}" target="_blank">全部</a></li>
+                             {get:item val=category(pid/0)}
+                             <li$active[catid][$val[catid]]><a href="{url card/index/catid/$val[catid]}">$val[name]</a></li>
+                             {/get}
+                        </ul>
+                    </div>
+                    <ul class="free_pic">
+                         {get:modoer val=sql(sql/select c.sid,c.discount,s.thumb,s.sid,s.name,s.subname from dbpre_subject s left join dbpre_card_discounts c on(s.sid=c.sid) WHERE s.city_id IN (0,$_CITY[aid]) AND s.status=1 AND discount>0 order by c.addtime DESC/rows/6/cachetime/1000 )}
+                        <li><a style="BACKGROUND: url({URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}) no-repeat center center" href="{url item/detail/id/$val[sid]}" target="_blank"></a>
+                        <div class="feed_tuan">
+                            <a class="free_book_tip" href="{url item/detail/id/$val[sid]}" target="_blank">$val[discount]折</a>
+                            <p>
+                                {sublen trim($val[name].$val[subname]),12}
+                            </p>
+                        </div>
+                        </li>
+                         {/get}
+                    </ul>
+                </div>
+                <div class="piece_ft">
+                    <b class="fl"></b><b class="fr"></b>
+                </div>
+            </div>
+            <div class="piece piece_w960 index_brand mt15">
+                <div class="piece_hd">
+                    <b class="hl"></b><b class="hr"></b>
+                </div>
+                <div class="piece_bd clearfix" style="PADDING-RIGHT: 0px; WIDTH: 938px; height:430px">
+                    <!-- 最新点评、兑奖平台 和 团购 -->
+                    <div class="clearfix">
+                        <div class="left_content fl">
+                            <h2>兑奖平台</h2>
+                            <div class="molishow_wrap" id="moli_wrap">
+                                <ul class="item_list">
+                                    <li class="list_show_wrap">
+                                    <ul class="clearfix">
+                                         {get:modoer val=table(table/dbpre_exchange_gifts/select/sid,name,num,thumb,catid,giftid/where/num>1/orderby/num DESC/rows/2/cachetime/1000)}
+                                        <li class="list_show"><a title="$val[name]" href="{url exchange/gift/id/$val[giftid]}" target="_blank"><img class="img" alt="$val[name]" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}"></a>
+                                        <div class="item_desc">
+                                            <a class="i_d_a" href="{url exchange/gift/id/$val[giftid]}" target="_blank">$val[name]</a>
+                                            <p class="i_d_n">
+                                                剩余：<span class="i_d_f">$val[num]份</span>
+                                            </p>
+                                            <a class="moli_shenqing" href="{url exchange/gift/id/$val[giftid]}" target="_blank"></a>
+                                        </div>
+                                        </li>
+                                         {/get}
+                                    </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--{if check_module('tuan')}-->
+                            <h2>精选团购</h2>
+                            <ul class="tuan_list clear_in">
+                                {get:modoer val=table(table/dbpre_tuan/select/sid,tid,price,market_price,subject,thumb/where/status='new'/orderby/starttime DESC/rows/2/cachetime/1000)}
+                                <li>
+                                    <a href="{url tuan/detail/id/$val[tid]}"><img alt="" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}"></a><a class="title" href="{url tuan/detail/id/$val[tid]}" target="_blank">$val[subject]</a>
+                                    <p class="clearfix p_show">
+                                        <span class="price">￥$val[price]</span><del class="ori_price">原价：$val[market_price]</del>
+                                    </p>
+                                </li>
+                                {/get}
+                            </ul>
+                            <!--{/if}-->
+                        </div>
+                        <div class="right_content fl">
+                            <h2>最新点评</h2>
+                            <ul class="baogao_list clearfix"  style="height:180px">
+                                <!--{get:modoer val=sql(sql/select r.id,r.idtype,r.uid,r.title,r.content,r.username,s.thumb,s.sid,s.favorites from dbpre_subject s right join dbpre_review r on(s.sid=r.id) WHERE  s.status=1 AND s.city_id IN (0,$_CITY[aid])  order by r.posttime DESC/rows/4/cachetime/1000 )}-->
+                                <li>
+                                    <a href="{print:review typeurl(idtype/$val[idtype]/id/$val[id])}" target="_blank"><img class="r3 avt ivard" alt="$val[subject]" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}"></a>
+                                    <div class="uinfo">
+                                        <a class="title" href="{print:review typeurl(idtype/$val[idtype]/id/$val[id])}" title="$val[title]">{sublen $val[title],12}</a>
+                                        <!--{if $val[uid]}-->
+                                        <a class="uname icard" href="{url space/index/uid/$val[uid]}" target="_blank">$val[username]</a>
+                                        <!--{else}-->
+                                         游客({print preg_replace("/^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/","\\1.\\2.*.*", $val[ip])}) 
+                                        <!--{/if}-->
+                                        <!--{eval $reviewurl = '...<a href="' . url("review/detail/id/".$val[rid]) . '">全文</a>';}-->
+                                        <p class="content">{sublen $val[content],42, $reviewurl}</p>
+                                    </div>
+                                </li>
+                                <!--{/get}-->
+                            </ul>
+                            <!--{if check_module('tuan')}-->
+                            <h2>自助团购</h2>
+                            <ul class="tuan_list clear_in">
+                                {get:modoer val=table(table/dbpre_tuan_wish/select/twid,city_id,title,price,thumb,interest/where/city_id IN (0,$_CITY[aid])/orderby/dateline DESC/rows/2/cachetime/1000)}
+                                <li>
+                                    <a class="title" href="{url tuan/wish}"><img alt="$val[title]" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}"></a>
+                                    <a class="title" href="{url tuan/wish}">$val[title]</a>
+                                    <p class="clearfix p_show">
+                                        <span class="price">￥$val[price]</span><span class="ori_price">有 {$val[interest]} 人感兴趣</span>
+                                    </p>
+                                </li>
+                                {/get}
+                            </ul>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                </div>
+                <div class="piece_ft">
+                    <b class="fl"></b><b class="fr"></b>
+                </div>
+            </div>
+            <div class="piece piece_w960 index_brand mt15">
+                <div class="piece_hd">
+                    <b class="hl"></b><b class="hr"></b>
+                </div>
+                <div class="piece_bd clearfix">
+                    <h2>更多精彩...</h2>
+                    <div class="brand_list">
+                        <div class="brands_wrap">
+                            <!--{get:item val=picture(select/picid,title,thumb,sid/city_id/0,$_CITY[aid]/orderby/addtime DESC/rows/30/cachetime/1000)}-->
+                            <a title="JILL STUART" href="{url item/detail/id/$val[sid]}" target="_blank"><img src="{URLROOT}/$val[thumb]" alt="$val[title]" title="$val[title]" width="51px" height="51px"/></a>
+                            <!--{/get}-->
+                        </div>
+                    </div>
+                </div>
+                <div class="piece_ft">
+                    <b class="fl"></b><b class="fr"></b>
+                </div>
+            </div>
+            <div class="piece piece_w960 index_brand mt15">
+                <div class="piece_hd">
+                    <b class="hl"></b><b class="hr"></b>
+                </div>
+                <div class="piece_bd clearfix">
+                    <em>
+                        <a href="{url link/apply}">申请链接</a>&nbsp;
+                        <span class="arrow-ico"><a href="{url link/index}">更多</a></span>
+                    </em>
+                    <h2>友情链接</h2>
+                    <div class="index_links">
+                        <div class="links">
+                            {get:link val=links(type/char/cachetime/500)}
+                            <a href="$val[link]" title="$val[des]" target="_blank">$val[title]</a>
+                            {/get}
+                        </div>
+                        <div class="line"></div>
+                        <div class="links">
+                            {get:link val=links(type/logo/cachetime/500)}
+                            <a href="$val[link]" title="$val[des]" target="_blank"><img src="$val[logo]" alt="$val[title]" /></a>
+                            {/get}
+                        </div>
+                    </div>
+                </div>
+                <div class="piece_ft">
+                    <b class="fl"></b><b class="fr"></b>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="adv_1_content" style="display:none;">
+<!--{include display('adv:show','name/首页_中部广告')}-->
+</div>
+<script type="text/javascript">
+//加载广告
+replace_content('adv_1=adv_1_content');
+</script>
+<!--{eval footer();}-->

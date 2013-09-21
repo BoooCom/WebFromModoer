@@ -1,0 +1,117 @@
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/static/javascript/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/validator.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/item.js"></script>
+<div id="body">
+    <div class="myhead"></div>
+    <div class="mymiddle">
+        <div class="myleft">
+        <!--{eval !$mymenu && $mymenu = 'mmenu';}-->
+        <!--{template $mymenu,'member','member'}-->
+        </div>
+        <div class="myright">
+            <div class="myright_top"></div>
+            <div class="myright_middle">
+                <h3><cite>当前操作的主题:<span class="font_2">$_G[manage_subject][name]{if $_G[manage_subject][subname]}($_G[manage_subject][subname]){/if}</span>[<a href="javascript:void(0);" onclick="item_subject_manage();">更换</a>]</cite>新建团购活动</h3>
+                <div class="mainrail">
+                <form method="post" name="myform" action="{url tuan/member/ac/$ac/op/save/rand/$_G[random]}" enctype="multipart/form-data" onsubmit="return validator(this);">
+                <input type="hidden" name="city_id" value="$_CITY[aid]">
+                <input type="hidden" name="mode" value="normal">
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                    <tr>
+                        <td align="right"><span class="font_1">*</span>我的主题:</td>
+                        <td>$_G[manage_subject][name]{if $_G[manage_subject][subname]}($_G[manage_subject][subname]){/if}</td>
+                    </tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>团购类别:</td>
+						<td><select name="catid" validator="{'empty':'N','errmsg':'未完成 团购类别 的设置，请设置。'}">
+								<option value="" selected="selected">==选择分类==</option>
+								{print form_tuan_category($detail['catid'])}
+							</select>
+						</td>
+					</tr>
+                    <tr>
+                        <td class="altbg1" align="right"><span class="font_1">*</span>重复购买:</td>
+                        <td>
+                            {print form_bool('repeat_buy',$detail['repeat_buy'])}&nbsp;
+                            <span class="font_3">允许买家重复下单购买</span>
+                        </td>
+                    </tr>
+					<tr>
+						<td class="altbg1" width="82" align="right"><span class="font_1">*</span>团购名称:</td>
+						<td width="*"><input type="text" name="subject" class="t_input" size="50" value="$detail[subject]" validator="{'empty':'N','errmsg':'未完成 团购名称 的设置，请返回设置。'}" /></td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>团购价格:</td>
+						<td><input type="text" name="price" class="t_input" value="$detail[price]" validator="{'empty':'N','errmsg':'未完成 团购价格 的设置，请返回设置。'}" />&nbsp;
+                        <span class="font_3">买家的下单支付的价格</span></td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>市场价格:</td>
+						<td><input type="text" name="market_price" class="t_input" value="$detail[market_price]" validator="{'empty':'N','errmsg':'未完成 市场价格 的设置，请返回设置。'}" /></td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>产品总量:</td>
+						<td><input type="text" name="goods_total" class="t_input" value="$detail[goods_total]" validator="{'empty':'N','errmsg':'产品总量 的设置，请返回设置。'}" />&nbsp;
+						<span class="font_3">下单成功后，将被减少</span></td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>成团人数:</td>
+						<td><input type="text" name="peoples_min" class="t_input" value="$detail[peoples_min]" validator="{'empty':'N','errmsg':'未完成 成团人数 的设置，请返回设置。'}" />&nbsp;
+						<span class="font_3">购买人数或购买物品，由成团条件决定</span></td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>每单限购:</td>
+						<td><input type="text" name="people_buylimit" class="t_input" value="$detail['people_buylimit']" validator="{'empty':'N','errmsg':'未完成 每人限购量 的设置，请返回设置。'}" />&nbsp;
+                        <span class="font_3">限制每次下单时允许购买的数量</span></td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>团购时间:</td>
+						<td>
+							<input type="text" name="starttime" class="t_input" value="$detail['starttime']" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+							~ 
+							<input type="text" name="endtime" class="t_input" value="$detail['endtime']" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />&nbsp;
+							<span class="font_3">YYYY-MM-DD</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>券有效期:</td>
+						<td>
+							<input type="text" name="expiretime" class="t_input" value="$detail['expiretime']" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+						</td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right"><span class="font_1">*</span>团购封面:</td>
+						<td>
+							<input type="file" name="picture" />
+						</td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right" valign="top"><span class="font_1">*</span>本团简介:</td>
+						<td><textarea name="intro" style="height:100px;width:600px;">$detail[intro]</textarea></td>
+					</tr>
+					<tr>
+						<td class="altbg1" align="right" valign="top"><span class="font_1">*</span>详细介绍:</td>
+						<td>$edit_html</td>
+					</tr>
+                </table>
+                <div class="text_center">
+                    {if $op=='edit'}
+                    <input type="hidden" name="fid" value="$fid" />
+                    {/if}
+                    <input type="hidden" name="do" value="$op" />
+                    <input type="hidden" name="role" value="$_GET[role]" />
+                    <input type="hidden" name="forward" value="{print get_forward()}" />
+                    <button type="submit" name="onsubmit" value="yes" onclick="KE.util.setData('content');">提交</button>&nbsp;
+                    <button type="button" onclick="history.go(-1);">返回</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="mybottom"></div>
+</div>
+
+<!--{eval footer();}-->

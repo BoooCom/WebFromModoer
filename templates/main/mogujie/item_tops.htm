@@ -1,0 +1,87 @@
+{template modoer_header}
+<DIV id="body_wrap">
+	<DIV class="fm960" id="body">
+		<DIV class="piece piece_w960 cl">
+			<DIV class="piece_hd"><B class=hl></B><B class=hr></B></DIV>
+			<DIV class="piece_bd clearfix" style="padding:10px 0px 0px 30px"> 
+
+                <DIV class="category_sort_all" id="category_sort_all">
+                    <DIV class="ff" style="MARGIN: 0px 0px 0px"> <A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">排序：</A>
+                        <UL class="mr10">
+                            <li$active[catid][0]><a href="{url item/tops}">综合</a>
+                            </li>
+                            <!--{if $category_level<=2 && $subcats}--> 
+                            <!--{get:item val=category(pid/$catid)}-->
+                            <li><span$active[catid][$val[catid]]><a href="{url item/tops/catid/$val[catid]}">$val[name]</a></span></li>
+                            <!--{/get}--> 
+                            <!--{else}--> 
+                            <!--{get:item val=category(pid/$category[$catid][pid])}-->
+                            <li><span$active[catid][$val[catid]]><a href="{url item/tops/catid/$val[catid]}">$val[name]</a></span></li>
+                            <!--{/get}--> 
+                            <!--{/if}-->
+                        </UL>
+                    </DIV>
+                </DIV>
+                <div class="clear"></div>
+
+				<!--{if !$catid}-->
+				<div class="box_topList clearfix pt20"> 
+					<!--{eval $k=0;}--> 
+					<!--{eval $index=0;}--> 
+					<!--{get:item val=category(pid/0)}-->
+					<DIV class="lf_tplist">
+						<DIV class="box_rankShow rank_bg0$k" node-type="tabBox"> 
+							<!--{eval $k++;}-->
+							<DIV class="hd_rank">
+								<H3><SPAN class=hd_title>最佳{print:item category(catid/$val[catid])}</EM></SPAN></H3>
+							</DIV>
+							<DIV class="bd_rank" node-type="list">
+								<DIV class="col_cate"><SPAN class=num_cate>排名</SPAN> <SPAN class=topic_cate>名称</SPAN> <SPAN class=times_cate>综合分数</SPAN> </DIV>
+								<DL class=top_topic_list node-type="tagCon">
+									<!--{get:item topval=top(city_id/_NULL_CITYID_/pid/$val[catid]/field/avgsort/orderby/avgsort DESC/rows/10)}-->
+									<DD><SPAN class=num>$topval[index]</SPAN> <SPAN class=topic_list><A title=$topval[fullname] href="{url item/detail/id/$topval[sid]}" title="$topval[fullname]" target=_blank >$topval[fullname]</A> </SPAN><SPAN class=times_list>$topval[value]<EM class=upicon></EM></SPAN> </DD>
+									<!--{/get}-->
+								</DL>
+							</DIV>
+						</DIV>
+					</DIV>
+					<!--{if ++$index%3==0}-->
+					</tr>
+					<tr><!--{/if}--> 
+						<!--{/get}--> 
+				</DIV>
+				<!--{else}--> 
+				<!--{eval $index=0;}-->
+				
+				<div class="box_topList clearfix"> 
+					<!--{eval $i=0;}--> 
+					<!--{loop $tops $top}-->
+					<DIV class="lf_tplist">
+						<DIV class="box_rankShow rank_bg0{print $i%3}" node-type="tabBox"> 
+							<!--{eval $i++;}-->
+							<DIV class="hd_rank">
+								<H3><SPAN class=hd_title>$top[title]</EM></SPAN></H3>
+							</DIV>
+							<DIV class="bd_rank" node-type="list">
+								<DIV class="col_cate"><SPAN class=num_cate>排名</SPAN> <SPAN class=topic_cate>名称</SPAN> <SPAN class=times_cate>$top[name]</SPAN> </DIV>
+								<DL class=top_topic_list node-type="tagCon">
+									<!--{get:item topval=top($top[params])}-->
+									<DD><SPAN class=num>$topval[index]</SPAN> <SPAN class=topic_list><A title=$topval[fullname] href="{url item/detail/id/$topval[sid]}" title="$topval[fullname]" target=_blank >$topval[fullname]</A> </SPAN><SPAN class=times_list>$topval[value]<EM class=upicon></EM></SPAN> </DD>
+									<!--{/get}-->
+								</DL>
+							</DIV>
+						</DIV>
+					</DIV>
+					<!--{if ++$index%3==0}-->
+					</tr>
+					<tr><!--{/if}--> 
+						<!--{/loop}--> 
+				</DIV>
+				
+				<!--{/if}--> 
+			</DIV>
+			<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

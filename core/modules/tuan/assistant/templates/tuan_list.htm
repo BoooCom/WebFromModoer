@@ -1,0 +1,62 @@
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/static/javascript/item.js"></script>
+<div id="body">
+    <div class="myhead"></div>
+    <div class="mymiddle">
+        <div class="myleft">
+        <!--{eval !$mymenu && $mymenu = 'mmenu';}-->
+        <!--{template $mymenu,'member','member'}-->
+        </div>
+        <div class="myright">
+            <div class="myright_top"></div>
+            <div class="myright_middle">
+                <h3><cite>当前操作的主题:<span class="font_2">$_G[manage_subject][name]{if $_G[manage_subject][subname]}($_G[manage_subject][subname]){/if}</span>[<a href="javascript:void(0);" onclick="item_subject_manage();">更换</a>]</cite>团购活动管理</h3>
+                <div class="mainrail">
+					<ul class="optabs"><!--{loop lang('tuan_status') $k $v}--><li{if $_GET[status]==$k} class="active"{/if}><a href="{url tuan/member/ac/$ac/status/$k}">$v</a></li><!--{/loop}--><li class="act"><a href="{url tuan/member/ac/g_tuan/op/add}">发起团购活动</a></li></ul><div class="clear"></div>
+                    <form method="post" name="myform" action="{url product/member/ac/$ac/rand/$_G[random]}">
+                    <table width="100%" cellspacing="0" cellpadding="0" class="maintable" trmouse="Y">
+                        <tr>
+							<th width="100">图片</th>
+                            <th width="*">团购名称 [城市/分类/模式]</th>
+                            <th width="90">价格</th>
+                            <th width="90">销售</th>
+                            <th width="110">时间</th>
+							<th width="90">其他</th>
+                        </tr>
+                        <!--{dbres $list $val}-->
+                        <tr>
+							<td><img src="{URLROOT}/$val[thumb]" width="95" /></td>
+                            <td class="font_3">
+								<a href="{url tuan/detail/id/$val[tid]}" target="_blank">$val[subject]</a><br />
+								[{print:modoer area(aid/$val[city_id])}]
+                                [{print:tuan category(catid/$val[catid])}]
+                                [{print lang('tuan_mode_'.$val[mode])}]
+							</td>
+                            <td>市场价:$val[market_price]<br />团购价:$val[price]</td>
+                            <td>销售量:$val[goods_sell]<br />购买人数:$val[peoples_sell]</td>
+                            <td>开始:{date $val[starttime],'Y-m-d'}<br />结束:{date $val[endtime],'Y-m-d'}</td>
+							<td>
+								{if !$val[checked]}<span style="color:red;">尚未审核</span><br />{/if}
+								{if $val[status]!='closed'}
+                                {if $val[sendtype]=='express'}
+                                <a href="{url tuan/member/ac/g_order/sid/$val[sid]/tid/$val[tid]}">发货管理</a>
+                                {else}
+                                <a href="{url tuan/member/ac/g_coupon/sid/$val[sid]/tid/$val[tid]}">团购券管理</a>
+                                {/if}
+                                {/if}
+							</td>
+                        </tr>
+                        <!--{/dbres}-->
+                        <!--{if !$total}--><tr><td colspan="5">暂无信息。</td></tr><!--{/if}-->
+                    </table>
+                    <!--{if $total}--><div class="multipage">$multipage</div><!--{/if}-->
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="mybottom"></div>
+</div>
+
+<!--{eval footer();}-->

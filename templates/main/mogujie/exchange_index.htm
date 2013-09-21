@@ -1,0 +1,92 @@
+<!--{eval 
+    $_HEAD['title'] = $MOD[name];
+}-->
+
+{template modoer_header}
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+		<div class="piece piece_w960">
+			<div class="piece_hd"><b class="hl"></b><b class="hr"></b></div>
+			<div class="piece_bd clearfix">
+				<div class="fl" id="content_body2">
+					<div class="show_body clear_in pt20">
+                        <!--商品或图片 -->
+						<div class="ff" style="margin:0px">
+							<a style="font-size: 14px; float: left; color: #666">分类：</a>
+							<ul class="mr10" style="height:36px">
+								{get:exchange val=category()}
+                                <li $active[catid][$val[catid]]><a href="{url coupon/index/catid/$val[catid]}">$val[name]</a></li>
+								{/get}
+							</ul>
+							<div class="clear"></div>
+						</div>
+						<div class="gift_sieve_out">
+							<ul>
+								<li{if $pattern == '1'} class="on"{/if}><a href="{url exchange/index/catid/$catid/pattern/1}">自由兑换</a>
+								</li>
+								<li{if $pattern == '2'} class="on"{/if}><a href="{url exchange/index/catid/$catid/pattern/2}">抽奖模式</a>
+								</li>
+							</ul>
+							<div class="clear"></div>
+						</div>
+						<div class="mainrail">
+							<ul class="giftlist">
+								<!--{dbres $list $val}-->
+								<li>
+									<div class="g_thumb">
+										<a href="{url exchange/gift/id/$val[giftid]}"><img src="{URLROOT}/$val[thumb]" alt="$val[name]" /></a>
+									</div>
+									<div class="g_info">
+										<h3><a href="{url exchange/gift/id/$val[giftid]}">$val[name]</a><!--{if $val[sid]}--> 商家：<a href="{url item/detail/id/$val[sid]}">{print:exchange itemname(sid/$val[sid])}</a><!--{/if}--></h3>
+										<span class="item">{print:member point(point/$val[pointtype])}：</span><span class="font_2">$val[price]</span><!--{if $val[point]}--> 或者 <span class="item">{print:member point(point/$val[pointtype2])}：</span><span class="font_2">$val[point]</span><!--{/if}--><!--{if $val[point3]}--> 或者 <span class="item">{print:member point(point/$val[pointtype3])}+{print:member point(point/$val[pointtype4])}：</span><span class="font_2">$val[point3]+$val[point4]</span><!--{/if}--> 
+										<br />
+										<!--{if $pattern == 2}--><span class="item">抽奖时间：</span><span class="font_2"><!--{date $val[starttime],'Y-m-d H:s'}--></span> <span class="item">~</span> <span class="font_2"><!--{date $val[endtime],'Y-m-d H:s'}--></span><br />
+										<!--{/if}--> 
+										<span class="item"><!--{if $pattern == 1}-->兑换<!--{else}-->抽奖<!--{/if}-->时段：</span><span class="font_2"><!--{eval $allowtime = trim($val[allowtime],",");}--><!--{if !$allowtime || $allowtime=="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"}-->全天候不限制<!--{else}-->$allowtime<!--{/if}--></span><br />
+										<span class="item">{if $val[salevolume]}已有 <span class="font_2">$val[salevolume]</span> 个被兑换{else}还没人来兑换{/if}</span> <span class="item">目前库存：</span><span class="font_2">$val[num]</span><span class="item">每小时可兑换名额：</span><span class="font_2">$val[timenum]</span>
+									</div>
+									<div class="exchange"> 
+										<!--{if $pattern == 1}-->{if !$allowtime || $allowtime=="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"}<a class="abtn11" href="{url exchange/member/ac/exchange/giftid/$val[giftid]}"><span>兑换</span></a>{elseif in_array((int) date("H"),explode(',',$allowtime))}<a class="abtn11" href="{url exchange/member/ac/exchange/giftid/$val[giftid]}"><span>兑换</span></a>{/if}<!--{elseif $pattern == 2}--><a class="abtn11" href="javascript:compare_randcode($val[giftid])"><span>抽奖</span></a><!--{/if}--> 
+									</div>
+									<div class="clear"></div>
+								</li>
+								<!--{/dbres}-->
+							</ul>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				<div class="fr" id="right_side1">
+					<div class="coupon_side" style="border:0px;text-align:right;">
+						<h3>目前可兑换礼品 <span class="font_2">$total</span> 个</h3>
+					</div>
+					<div class="coupon_side">
+						<h3>最新兑换</h3>
+						<ul>
+							{get:exchange val=new_exchange(rows/12)}
+							<li>
+                                <h4 class="ag_t"><a href="{url space/index/uid/$val[uid]}" target="_blank">$val[username]</a>兑换了 <a class=glink href="{url exchange/gift/id/$val[giftid]}" target="_blank">$val[name]</a></h4>
+                                <span>{date $val[exchangetime],'w2style'}</span></li>
+							{getempty(val)}
+							<li>暂无信息</li>
+							{/get}
+						</ul>
+					</div>
+					<div class="coupon_side">
+						<h3>财富榜</h3>
+						<ul>
+							<!--{eval $point=$MOD[pointgroup]?$MOD[pointgroup]:'point1';}--> 
+							<!--{get:modoer val=table(table/dbpre_members/orderby/$point DESC/rows/10/cachetime/1000)}-->
+							<LI>
+								<H4 class=ag_t><img src="{print get_face($val[uid]);}" width="20" height="20" /><a href="{url space/index/uid/$val[uid]}">$val[username]</a></H4>
+								<span>$val[$point]&nbsp;{print:member point(point/$point)}</span></LI>
+							<!--{/get}-->
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="piece_ft"><b class="fl"></b><b class='fr'></b></div>
+		</div>
+	</div>
+</div>
+<!--{eval footer();}-->

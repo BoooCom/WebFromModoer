@@ -52,7 +52,7 @@ if($total > 0) {
 
 //增加点击率
 if($topic['uid'] != $user->uid) {
-    $GT->pageview($gid);
+    $GT->pageview($tpid);
 }
 
 //面包屑
@@ -72,7 +72,8 @@ $_HEAD['keywords'] = $topic['username'].','.$group['username'];
 if($group['tags']) {
     $_HEAD['keywords'] .= ','.trim(str_replace('|',',',$group['tags']),',');
 }
-$_HEAD['description'] = trimmed_title(preg_replace("/\s*(\r\n|\n\r|\n|\r)\s*/", "", strip_tags($topic['content'])),100,'...');
-
+$description = preg_replace("/(\[\/.*?\/\])/i", '', $topic['content']);
+$_HEAD['description'] = trimmed_title(preg_replace("/\s*(\r\n|\n\r|\n|\r)\s*/", "", strip_tags($description)),100,'...');
+!$_HEAD['description'] && $_HEAD['description']=$MOD['meta_description'];
 include template('group_topic');
 ?>

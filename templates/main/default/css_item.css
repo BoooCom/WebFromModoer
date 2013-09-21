@@ -317,7 +317,10 @@
 .wf-imgbox { width:230px; margin-top:5px; }
     .wf-container { margin-bottom:10px; padding-bottom:10px; border:1px solid #eee; -moz-border-radius:5px;-webkit-border-radius:5px;
         box-shadow: 1px 1px 3px #eee; -moz-box-shadow: 1px 1px 3px #eee; -webkit-box-shadow: 1px 1px 3px #eee;
-}
+        /* For IE 5.5 - 7 */
+        filter: progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=185, Color='#eee');
+        /* For IE 8 */
+    -counter-resetms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=185, Color='#eee')"; }
     .wf-imgbox .thumb { width:200px; margin:10px auto; text-align:center; *padding-top:10px; }
         .wf-imgbox .thumb img { max-width:200px; min-height:30px; _width:expression(this.width > 200 ? 200 : true); }
     .wf-imgbox .thumb { position:relative; }

@@ -1,0 +1,113 @@
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-tab">
+                <ul>
+                    <li><a href="{url member/index}">网站助手</a><span></span></li>
+                    <li><a href="{url tuan/member/ac/coupon}">我的团购券</a><span></span></li>
+                    <li class="current"><a href="{url tuan/member/ac/order}">我的订单</a><span></span></li>
+                    <li><a href="{url tuan/member/ac/credit}">帐户余额</a><span></span></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>订单详情</h2>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="sect">
+                        <p class="info"><b>订单编号：</b>$oid&nbsp;&nbsp;&nbsp;&nbsp;<b>下单时间：</b>{date $detail[dateline]}</p>
+                        <table cellspacing="0" cellpadding="0" border="0" class="coupons-table" id="order-list">
+                            <tr class="alt">
+                                <th width="auto">团购项目</th>
+                                <th width="50">数量</th>
+                                <th width="120">总价</th>
+                                <th width="100">订单状态</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table class="deal-info"><tbody><tr><td class="pic"><a title="$val[subject]" target="_blank" href="{url tuan/detail/id/$val[tid]}"><img width="75" height="46" src="{URLROOT}/$tuan[thumb]"></a></td><td class="text"><a target="_blank" title="$tuan[subject]" href="{url tuan/detail/id/$tuan[tid]}" class="deal-title">$tuan[subject]</a><br />{if $tuan[city_id]}<span class="font_3">[{print:modoer area(aid/$tuan[city_id])}]</span>{/if}<span class="font_3">[{print lang('tuan_mode_'.$tuan[mode])}]</span></td></tr></tbody></table>
+                                </td>
+                                <td>$detail[num]</td>
+                                <td>
+                                    <span class="money">&yen;</span>{print get_numeric($detail[price])}
+                                    {if $detail[ex_point]}<div>({print:member point(point/$detail[ex_pointtype])}抵换<span class="money">&yen;</span>$detail[ex_price])</div>{/if}
+                                </td>
+                                <td>{print lang('tuan_order_status_'.$detail[status])}</td>
+                            </tr>
+                        </table>
+
+                        {if $tuan[mode] != 'normal' && $tuan['status']=='succeeded'}
+                        <p class="info"><b>{print lang('tuan_mode_'.$tuan[mode])}：</b>下单金额：<span class="money">&yen;</span>$detail[price]，最终价：<span class="money">&yen;</span>$detail[pay_price]，{if $detail[balance_price]>0}差价：<span class="money">&yen;</span>{$detail[balance_price]}，{if $detail[return_balance_time]}系统于 {date $detail[return_balance_time]} 退还差价{else}系统尚未退还差价{/if}{else}没有产生差价{/if}。</p>
+                        {/if}
+
+                        {if $tuan[mode] == 'forestall' && $tuan['status']=='new'}
+                        <p class="info">
+                            {eval $real_price = $ranking-1;}
+                            <b>预计单价：</b>您是第 {$ranking} 位购买用户，预计您的最终单价为：<span class="money">&yen;</span>{print:tuan forestall_price(price/$tuan[price]/prices/$tuan[prices]/peoples_sell/$real_price)}
+                        </p>
+                        {/if}
+
+						{if $detail[mobile]}<p class="info"><b>手机号码：</b>$detail[mobile]</p>{/if}
+						<!--{if $tuan[sendtype]=='coupon'||$tuan[sendtype]=='coupon_ex'}-->
+                        <p class="info">
+                            <b>团&nbsp;&nbsp;购&nbsp;&nbsp;券：</b>
+                            {if $detail[status]=='apply_refund'}
+                            请正在申请退款，团购券已锁定，无法使用。
+                            {elseif $detail[is_sent]}
+                            <a href="{url tuan/member/ac/coupon/op/detail/oid/$detail[oid]}">点击这里查看团购券信息</a>
+                            {else}
+                            <span style="color:#CC0000;">团购成功后，系统将自动发送到您的帐号。</span>
+                            {/if}
+                        </p>
+                        <p class="info"><b>使用方法：</b>至商家消费时，请出示优惠券，配合商家团购券的编号及密码 </p>
+						<!--{else}-->
+						<p class="info">
+                            <b>收&nbsp;&nbsp;货&nbsp;&nbsp;人：</b>$detail[contact][linkman]
+                        </p>
+						{if $detail[contact][postcode]}
+                        <p class="info">
+                            <b>邮政编码：</b>$detail[contact][postcode]
+                        </p>
+                        {/if}
+						<p class="info">
+                            <b>收货地址：</b>$detail[contact][address]
+                        </p>
+						<p class="info">
+							<b>物流信息：</b>
+							{print lang('tuan_good_status_'.$detail[good_status])}
+							{if $detail[good_status]=='sent'}
+							，物流单位：$detail[express][name]
+							{if $detail[express][number]}，快递号：$detail[express][number]{/if}
+							{/if}
+						</p>
+						<!--{/if}-->
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-top"></div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <div class="side-tip">
+                        <h3 class="first">我已支付成功，为什么没有团购券？</h3>
+                        <p>因为还没有到达最低团购人数，一旦凑够人数，您就会看到团购券了。</p>
+                        <h3>什么是已过期订单？</h3>
+                        <p>如果某个订单未及时付款，那么等团购结束时就无法再付款了，这种订单就是过期订单。</p>
+                        <h3>哪种订单可以评价？</h3>
+                        <p>只有已消费过的订单才可以评价，参与评价可以获得积分奖励！</p>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template tuan_footer}

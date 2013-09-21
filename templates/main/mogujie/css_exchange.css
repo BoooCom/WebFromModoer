@@ -1,0 +1,33 @@
+#ex_left { float:left; width:695px; margin-top:5px; }
+#ex_right { float:right; width:255px; margin-top:5px; }
+
+.newexchanges { margin:10px 0 0 6px; padding:0; list-style:none; }
+.newexchanges li { float:left; width:113px; margin-bottom:5px;  text-align:center; }
+.newexchanges li div { margin:0 auto; width:105px; height:70px; border:1px solid #ddd; -moz-border-radius:3px; }
+.newexchanges li img { max-width:100px; max-height:100px; _width:expression(this.width > 100 ? 100 : true); 
+    _height:expression(this.height > 100 ? 100 : true); margin-top:4px; /*margin-top: expression((100-this.height)/2);)*/ }
+.newexchanges li p { margin:5px 0;padding:0; }
+
+.giftlist li { padding:10px 0 10px 0px; height:110px; overflow:hidden; position:relative; border-bottom: 1px dashed #DDDDDD; 
+    margin-bottom: 10px; padding: 15px 10px 10px 0; }
+.giftlist li .g_thumb { float:left; width:170px; *width:170px; margin:0; }
+.giftlist li .g_thumb img { max-width:160px; _width:expression(this.width > 160 ? 160 : true); }
+.giftlist li .g_info { width:350px; float:left; color:#808080; margin:0; padding:0; line-height: 160%;  font-size: 13px; }
+.giftlist li .g_info h3 { margin:0; padding:0; font-size:12px; font-weight: bold;  }
+.giftlist li .g_info .item { color:#808080; }
+.giftlist li .exchange { position: absolute; right: 0px; top: 80px; }
+.giftlist li .exchange span { color:#fff; font-weight:bold; line-height:28px;  margin-left:28px }
+.giftlist .leftline { border-right:1px dashed #ccc; }
+
+.gift_sieve_out{margin:0 auto;border-bottom:2px solid #FF62AD;margin-top:10px;}
+.gift_sieve_out em{float:right;font-style:normal;line-height:28px;}
+.gift_sieve_out ul{margin:0px 15px;padding:0px;height:28px;line-height:28px;overflow:hidden;list-style:none;}
+.gift_sieve_out ul li{width:72px;height:26px;margin-top:2px;float:left;background:#EEE;line-height:26px;margin-right:6px;text-align:center}
+.gift_sieve_out ul li a{color:#000!important}
+.gift_sieve_out ul li a:hover{text-decoration:none}
+.gift_sieve_out ul li.on{background:url(images/gonggao_tip_bg_v3.png) repeat-x;color:#fff;font-weight:bold;margin-top:0;height:28px;line-height:28px}
+.gift_sieve_out ul li.on a{color:#fff!important;font-weight:bold}
+.gift_sieve_out ul li.name{width:40px;height:22px;background:0}
+.gift_sieve_out ul li.disb{filter:alpha(Opacity=40);Opacity:.4;cursor:not-allowed}
+.gift_sieve_out ul li.disb a{cursor:not-allowed}
+.abtn11 { display:block; width:81px; height:29px; background:url(images/duihuan.png) no-repeat; position:absolute; bottom:5px; right:5px }
