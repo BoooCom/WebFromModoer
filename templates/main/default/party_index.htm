@@ -1,0 +1,101 @@
+<!--{eval
+    $_HEAD['title'] = ($catid > 0 ? $category[$catid][name] : '全部') . $MOD[name];
+}-->
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/static/javascript/My97DatePicker/WdatePicker.js"></script>
+<div id="body">
+
+    <div id="party_list_left">
+
+        <div class="link_path">
+            <em><span class="review-ico"><a href="{url party/member/ac/party/op/add}"><b>发起活动</b></a>&nbsp;|
+            <a href="{url party/member/ac/party}">我的活动</a></span>&nbsp;|
+            <a href="{url party/member/ac/party/op/joins}">我参与的活动</a></span>
+            </em>
+            <a href="{url modoer}">首页</a>&nbsp;&raquo;&nbsp;{print implode('&nbsp;&raquo;&nbsp;', $urlpath)}{if $total}<span class="font_3">($total)</span>{/if}
+        </div>
+
+        <div class="catefoot">
+
+            <ul class="cate">
+                <h2>活动分类：</h2>
+                <li><span$active[catid][0]><a href="{url party/index/time/$time}">全部</a></span></li>
+                {get:party val=category()}
+                <li><span$active[catid][$val[catid]]><a href="{url party/index/catid/$val[catid]/time/$time/type/$type/order/$order/flag/$flag}">$val[name]</a></span></li>
+                {/get}
+            </ul>
+            <div class="clear"></div>
+
+            <!--{if $type!='calendar'}-->
+            <ul class="cate">
+                <h2>活动时间：</h2>
+                <!--{loop $time_arr $k $v}-->
+                <li><span$active[time][$k]><a href="{url party/index/catid/$catid/type/$type/time/$k/order/$order/flag/$flag}">$v</a></span></li>
+                <!--{/loop}-->
+                <li><span$active[time][$selecttime]><a href="#" onclick="WdatePicker({dateFmt:'yyyyMMdd',onpicked:function(dp){return pickedFunc(dp);}})">{if $time>10}$time{else}选择日期{/if}</a></span></li>
+            </ul>
+            <div class="clear"></div>
+
+            <script type="text/javascript">
+            function pickedFunc(dp) {
+                var day = dp.cal.getNewDateStr();
+                var url = '{url party/index/catid/$catid/type/$type/time/_TIME_/order/$order/flag/$flag}';
+                document.location = url.replace('_TIME_',day.replace('-',''));
+                return true;
+            }
+            </script>
+            <!--{/if}-->
+        </div>
+
+        <div class="subrail">
+            显示：<span$active[type][normal]><a href="{url party/index/catid/$catid/time/$time/type/normal/order/$order/flag/$flag}">图文</a></span>&nbsp;
+            <span$active[type][calendar]><a href="{url party/index/catid/$catid/time/$time/type/calendar/order/$order/flag/$flag}">日历</a></span>&nbsp;&nbsp;|&nbsp;
+            排序：<span$active[order][new]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/new/flag/$flag}">最新发起</a></span>&nbsp;
+            <span$active[order][hot]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/hot/flag/$flag}">最旺人气</a></span>&nbsp;&nbsp;|&nbsp;
+            筛选：<span$active[flag][0]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/$order}">全部活动</a></span>&nbsp;
+            <span$active[flag][1]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/$order/flag/1}">报名中</a></span>&nbsp;
+            <span$active[flag][2]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/$order/flag/2}">进行中</a></span>&nbsp;
+            <span$active[flag][3]><a href="{url party/index/catid/$catid/time/$time/type/$type/order/$order/flag/3}">已结束</a></span>
+        </div>
+        <div class="mainrail">
+            <!--{if $type=='calendar'}-->
+                {template party_list_calendar}
+            <!--{else}-->
+                {template party_list_normal}
+            <!--{/if}-->
+        </div>
+    </div>
+
+    <div id="party_list_right">
+        <div class="mainrail">
+            <h3 class="rail-h-1 rail-h-bg-5">推荐活动</h3>
+            <ul class="rail-pic">
+                {get:party val=getlist(city_id/_NULL_CITYID_/finer/1/rows/10/cachetime/0)}
+                <li>
+                    <div class="pic">
+                        <a href="{url party/detail/id/$val[partyid]}"><img src="{URLROOT}/$val[thumb]" alt="$val[subject]" /></a>
+                    </div>
+                    <div class="info">
+                        <a href="{url party/detail/id/$val[partyid]}" title="$val[subject]">{sublen $val[subject],10}</a><br />
+                        <span class="">{date $val[begintime],'m月d日H:i'}</span><br />
+                        浏览<span class="font_2"><b>$val[pageview]</b></span>,报名<span class="font_2"><b>$val[num]</b></span>人
+                    </div>
+                    <div class="clear"></div>
+                </li>
+                {/get}
+            </ul>
+        </div>
+        <div class="mainrail">
+            <h3 class="rail-h-1 rail-h-bg-5">现场播报</h3>
+            <ul class="rail-list">
+                {get:party val=joins(party_select/subject/orderby/dateline DESC/rows/10/cachetime/300)}
+                <li>◎<a href="{url space/index/uid/$val[uid]}">$val[username]</a> 报名了 <a href="{url party/detail/id/$val[partyid]}">$val[subject]</a></li></li></li>
+                {/get}
+            </ul>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+</div>
+<!--{eval footer();}-->

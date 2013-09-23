@@ -60,7 +60,7 @@ if(!$p1 || !$p2) {
 $mapflag = $_G['cfg']['mapflag'] ? $_G['cfg']['mapflag'] : '51ditu';
 $version = 1.3;
 $src_extra = '';
-if(strposex(get_mapapi(),'google.com')&&!$show) {
+if(strposex(get_mapapi(),'google')&&!$show) {
     $src_extra = '&libraries=places';
 }
 include template('modoer_map');

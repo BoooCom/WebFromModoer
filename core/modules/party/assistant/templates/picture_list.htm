@@ -1,0 +1,62 @@
+{template modoer_header}
+</script>
+<div id="body">
+<div class="myhead"></div>
+<div class="mymiddle">
+    <div class="myleft">
+        <!--{template 'menu','member','member'}-->
+    </div>
+    <div class="myright">
+        <div class="myright_top"></div>
+        <div class="myright_middle">
+            <h3>照片管理&nbsp;($party[subject])</h3>
+            <div class="mainrail">
+                <ul class="optabs"><!--{if $party_owner}--><li><a href="{url party/member/ac/party/op/edit/id/$party[partyid]}">活动编辑</a></li><li><a href="{url party/member/ac/apply/id/$party[partyid]}">报名会员管理</a></li><li><a href="{url party/member/ac/party/op/content/id/$party[partyid]}">精彩回顾</a></li><!--{/if}--><li class="active"><a href="{url party/member/ac/picture/id/$party[partyid]}">图片管理</a></li><li><a href="{url party/detail/id/$party[partyid]}">浏览活动页面</a></li><li class="act"><a href="{url party/member/ac/picture/op/upload/id/$party[partyid]}">上传照片</a></li></ul><div class="clear"></div>
+                <form method="post" name="myform" action="{url party/member/ac/$ac}" >
+                <input type="hidden" name="partyid" value="$partyid" />
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                    <tr>
+                        <th width="30">删?</th>
+                        <th width="100">照片</th>
+                        <th width="*">名称</th>
+                        <th width="120">上传会员</th>
+                        <th width="100">照片状态</th>
+                        <th width="120">上传时间</th>
+                    </tr>
+                    <!--{dbres $list $val}-->
+                    <tr>
+                        <td><input type="checkbox" name="picids[]" value="$val[picid]" /></td>
+                        <td><a href="{URLROOT}/{$val[pic]}" target="_blank"><img src="{URLROOT}/{$val[thumb]}" height="80" /></a></td>
+                        <td><input type="text" class="text" size="30" name="pictures[{$val[picid]}][title]" value="$val[title]" /></td>
+                        <td><a href="{url space/index/uid/$val[uid]}" target="_blank">$val[username]</a></td>
+                        <td>{print lang('global_status_'.$val[status])}</td>
+                        <td>{date $val[dateline],'Y-m-d H:i'}</td>
+                    </tr>
+                    <!--{/dbres}-->
+                    <!--{if !$total}-->
+                    <tr>
+                        <td colspan="6">暂无信息。</td>
+                    </tr>
+                    <!--{/if}-->
+                </table>
+                <!--{if $multipage}-->
+                <div class="multipage">$multipage</div>
+                <!--{/if}-->
+                <div class="text_center" id="op_foot">
+                    <!--{if $total}-->
+                    <input type="hidden" name="dosubmit" value="yes" />
+                    <input type="hidden" name="op" value="delete" />
+                    <button type="button" onclick="easy_submit('myform','update', null);">提交更新</button>&nbsp;&nbsp;
+                    <button type="button" onclick="easy_submit('myform','delete','picids[]');">删除所选</button>&nbsp;&nbsp;
+                    <!--{/if}-->
+                    <button type="button" onclick="document.location='{url party/member/ac/party/op/my}'">返回</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="mybottom"></div>
+</div>
+<!--{eval footer();}-->

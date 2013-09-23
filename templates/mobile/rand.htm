@@ -1,0 +1,22 @@
+{include mobile_template('header')}
+<div data-role="page" id="page_rand">
+    <div data-theme="e" data-role="header">
+        <h2>随便逛逛</h2>
+        <a data-role="button" href="#" data-icon="refresh" class="ui-btn-right" id="reload">换一批</a>
+        <a data-role="button" data-transition="fade" href="{url mobile/index}" class="ui-btn-left" data-icon="home" >首页</a>
+    </div>
+    <div data-role="content" style="padding: 15px">
+        <ul data-role="listview" data-divider-theme="e" data-inset="false" id="list_item">
+            {include mobile_template('list_li')}
+        </ul>
+        <script>
+            var ajaxing = false;
+            //var rand_url = "{url mobile/rand}";
+            $(document).on("click", ".ui-btn-right", function() {
+                $.mobile.loading( 'show' );
+                setTimeout("common_rand_subject('list_item', '{url mobile/rand}')", 500 );
+            });
+        </script>
+    </div>
+</div>
+{include mobile_template('footer')}

@@ -48,6 +48,7 @@ return array(
 
     'member_reg_logined' => '您目前处于登录状态，无法注册新帐户，请退出后再进行注册。',
     'member_reg_closed' => '对不起，网站关闭了会员注册功能。',
+    'member_reg_name_len_min' => '<font color="red">用户名不能小于2个字符</font>',
     'member_reg_name_len_max' => '<font color="red">用户名不能大于15个字符</font>',
     'member_reg_name_sensitive_char' => '用户名不得包含(,)、(*)、(")、([TAB])、([SPACE])、([\r])、([\n])、(&lt;)、(&gt;)、(&amp;)其中之一',
     'member_reg_name_limit' => '<font color="red">管理员限制了您输入的用户名进行注册</font>',

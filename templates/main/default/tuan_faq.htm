@@ -1,0 +1,92 @@
+<!--{eval
+    $_HEAD[title] = '常见问题';
+}-->
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>常见问题</h2>
+                    </div>
+                    <div class="faq">
+                    <div class="faqlist">
+                        <dl>
+                            <dt><a name="faq1"></a>{$MOD[name]}是什么？<span></span></dt>
+                            <dd>{$MOD[name]}每天提供一单精品消费，为您精选餐厅、酒吧、KTV、SPA、美发店、瑜伽馆等特色商家，只要凑够最低团购人数就能享受无敌折扣。</dd>
+                            
+                            <dt><a name="faq2"></a>今天的团购看起来不错，怎么购买？<span></span></dt>
+                            <dd>只需在团购截止时间之前点击"购买"按钮，根据提示下订单付费购买即可。如果参加团购人数达到最低人数下限，则团购成交，您将得到我们的短信或邮件通知。</dd>
+                            
+                            <dt><a name="faq3"></a>如何付款，安全么？<span></span></dt>
+                            <dd>
+                                {$MOD[name]}使用支付宝、财付通等主流第三方支付方式，确保交易安全：
+                                <div class="paytype">
+                                    <p class="alipay">支付宝：推荐淘宝用户使用</p>
+                                    <p class="tenpay">财付通：无需注册，支持国内各大银行支付</p>
+                                </div>
+                            </dd>
+
+                            <dt><a name="faq4"></a>如果参加团购人数不足，怎么办？<span></span></dt>
+                            <dd>如果参加团购人数不足，则该次团购取消。已支付的款项，{$MOD[name]}将立即返还。您不会有任何损失，但失去了以超低折扣价享受精品消费的机会。如果您很希望这次团购成交，邀请您的朋友一起来购买吧~</dd>
+                        
+                            <dt><a name="faq5"></a>什么是团购券，怎么使用？<span></span></dt>
+                            <dd>团购券是当团购成功后，您以手机短信方式获取，或者自行下载打印使用的消费凭证（其中包含唯一优惠密码）。当您去消费时，出示该短信或者打印的团购券即可。</dd>
+                        
+                            <dt><a name="faq6"></a>使用团购券时，能同时享用其他优惠么？<span></span></dt>
+                            <dd>一般不可以。如果可以，我们会在团购提示里特别说明。</dd>
+
+                            <dt><a name="faq7"></a>我购买的团购券，可以给其他人使用么？<span></span></dt>
+                            <dd>当然可以！我们自己也会购买团购券送给朋友，给他/她一个惊喜 :)</dd>
+
+                            <dt><a name="faq8"></a>积分有什么用？怎样获得积分？<span></span></dt>
+                            <dd>通过在商家消费团购券，即可在网站上获得一定量的积分，您可以在网站”我的助手“里查看到您的积分，您可以用积分在网站上兑换精美的礼品！</dd>
+                        
+                            <dt><a name="faq9"></a>如何退订{$MOD[name]}发给我的每日团购邮件？<span></span></dt>
+                            <dd>如不想继续接收{$MOD[name]}每日推荐邮件，点击邮件上方的“取消订阅”即可！</dd>
+
+                            <dt><a name="faq10"></a>什么情况下可以退款？<span></span></dt>
+                            <dd>
+                                您好，以下情况可以退款：<br />
+                                1. 团购结束时没有凑够团购人数；<br />
+                                2. 团购成功后，商家因意外原因临时出现停业或搬家的情况。（我们会挑选经营状况良好的商家作为{$MOD[name]}特约商家，一般不会出现这个情况。）
+                            </dd>
+                        </dl>
+                    </div>
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+
+        <div class="sidebar has-dashboard">
+            <div class="sbox-white">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <div class="side-tip-help">
+
+                        <p>
+                            <a href="{url tuan/index}"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/faq-how-it-works1.gif"></a>
+                            <span>A 每天推出一单精品消费！</span>
+                        </p>
+                        <p>
+                            <a href="{url tuan/index}"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/faq-how-it-works2.gif"></a>
+                            <span>B 凑够一定人数就能享受无敌折扣...邀请朋友一起来买吧！</span>
+                        </p>
+
+                        <p>
+                            <a href="{url tuan/index}"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/faq-how-it-works3.gif"></a>
+                            <span>C 明天再来看，又有新惊喜！</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{template tuan_footer}

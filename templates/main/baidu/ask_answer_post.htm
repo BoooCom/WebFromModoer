@@ -1,0 +1,40 @@
+<a name="answer"></a>
+<div class="detail rail-border-3 answerbox">
+    <form method="post" name="myform" action="{url ask/member/ac/answer/op/add/rand/$_G[random]}" onsubmit="return validator(this);">
+    <input type="hidden" name="dosubmit" value="yes" />
+    <table class="table" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="80" valign="top">我也来回答：</td>
+          <td>
+            <textarea name="content" cols="50" rows="10" style="width:97%;" validator="{'empty':'N','errmsg':'请输入回答内容。'}"></textarea><br>
+            <p>回答即可获得积分，回答被采纳则获得悬赏分以及奖励 {$MOD['bestanswer']} 分。</p>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td valign="top">参考资料：</td>
+          <td>
+            <input name="brief" type="text" size="50" class="t_input">
+            <p>如果您的回答是从其他地方引用，请表明出处。</p>
+          </td>
+          <td> </td>
+        </tr>
+        <!--{if ($user->isLogin && $MOD['answer_seccode'])}-->
+        <tr>
+            <td><span class="font_1">*</span>验证码：</td>
+            <td height="36">
+                <div id="seccode" class="seccode none"></div>
+                <input type="text" name="seccode" class="t_input" onfocus="show_seccode();" validator="{'empty':'N','errmsg':'请输入登录验证码。'}" /> 请正确输入验证码,如果看不清,请点击验证码刷新。
+            </td>
+        </tr>
+        <!--{/if}-->
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <input type="hidden" name="askid" value="$askid" />
+                <input type="submit" name="onsubmit" value="提  交" class="upbtn">
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>

@@ -1,0 +1,91 @@
+<!--{eval 
+    $_HEAD['title'] = $subject[name].$subject[subname] . '的相册列表';
+}-->
+
+{template modoer_header}
+<script type="text/javascript">
+loadscript('swfobject');
+$(document).ready(function() {
+    if(!$.browser.msie && !$.browser.safari) {
+        var d = $("#thumb");
+        var dh = parseInt(d.css("height").replace("px",''));
+        var ih = parseInt(d.find("img").css("height").replace("px",''));
+        if(dh - ih < 3) return;
+        var top = Math.ceil((dh - ih) / 2);
+        d.find("img").css("margin-top",top+"px");
+    }
+
+    <!--{if $MOD['show_thumb'] && $detail['pictures']}-->
+    get_pictures($sid);
+    <!--{/if}-->
+});
+</script>
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+		<div id="content_top">
+			<div class="piece1 mb20">
+				<div class="piece1_hd"></div>
+				<div class="piece1_bd user_info">
+					<div class="user_info_left fl">
+						<div class="user_profile fl"><span class="uname">$subject[name]</span> <br>
+							<div class="home_follow">
+								<div class="followdiv fl" type="all"><a class="addfo" href="javascript:add_favorite($subject[sid]);">关注</a> </div>
+								<div class="see_more_info fl"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="user_collect_info fr">
+						<div class="collect_list"><a class="ft18 color52">$subject[pageviews]</a><br>
+							<span class="color52">浏览</span> </div>
+						<div class="collect_list bd_none"><a class="ft18 color52">$subject[favorites]</a><br>
+							<span class="color52">关注</span> </div>
+					</div>
+				</div>
+				<div class="piece1_home_ft home_nav"> 
+					<!--{loop $links $i $link}--> 
+					{if $i} {/if}<a href="$link[url]"{if $link[flag]=='item/album'}  style="background:url({urlroot}/{$_g[tplurl]}images/mogujie_home_bg_v3.png) 0 -209px #ff97bf; color:#fff;" {/if}>$link[title]</a> 
+					<!--{/loop}--> 
+				</div>
+			</div>
+		</div>
+		<div class="piece piece_w960">
+			<div class="piece_hd"><b class=hl></b><b class=hr></b></div>
+			<div class="piece_bd clearfix">
+				<div class="fl" id="content_body2">
+					<div class="show_body clear_in pt10"><!--商品或图片 -->
+						<ul class="albumlist">
+							{dbres $list $val}
+							<li>
+								<div> <a href="{url item/album/id/$val[albumid]}">{if $val[thumb]}<img src="{URLROOT}/$val[thumb]" alt="$val[name]" />{else}<img src="{URLROOT}/static/images/noimg.gif" />{/if}</a> </div>
+								<p> <span>{sublen $val[name],15}</span> <span>{date $val[lastupdate],'Y-m-d'}</span> </p>
+							</li>
+							{/dbres}
+						</ul>
+					</div>
+				</div>
+				<div class="fr" id="right_side1">
+					<div class="side_subject">
+						<h2><a href="{url item/detail/id/$sid}" src="$subject[thumb]" onmouseover="tip_start(this,1);" style="color:#87B32E">$subject[name]&nbsp;$subject[subname]</a></h2>
+						<!--{eval $reviewcfg = $_G['loader']->variable('config','review');}-->
+						<p class="start start{print get_star($subject[avgsort],$reviewcfg[scoretype]);}"></p>
+						<table class="side_subject_field_list" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td colspan="2">
+                                    <span class="font_2">$subject[reviews]</span>点评,
+                                    <span class="font_2">$subject[guestbooks]</span>留言, <span class="font_2">$subject[pageviews]</span>浏览
+                                </td>
+							</tr>
+							$subject_field_table_tr
+						</table>
+						<a class="abtn1" href="{url review/member/ac/add/type/item_subject/id/$sid}"><span>我要点评</span></a> <a class="abtn2" href="javascript:add_favorite($sid);"><span>关注</span></a> <a class="abtn2" href="{url item/detail/id/$sid/view/guestbook}#guestbook"><span>留言</span></a>
+						<div class="clear"></div>
+					</div>
+
+				</div>
+			</div>
+			<div class="piece_ft"><b class=fl></b><b class=fr></b></div>
+		</div>
+	</div>
+</div>
+
+<!--{eval footer();}-->

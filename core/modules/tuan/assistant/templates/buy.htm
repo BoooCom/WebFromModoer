@@ -1,0 +1,198 @@
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2><!--{if $order}-->修改订单<!--{else}-->提交订单<!--{/if}--></h2>
+                    </div>
+                    <div class="sect">
+                        <form method="post" action="{url tuan/member/ac/buy/rand/$_G[random]}">
+                        <table class="order-table">
+                            <tr>
+                                <th class="order-desc">项目名称</th>
+                                <th class="order-quantity">数量</th>
+                                <th class="order-multi"></th>
+                                <th class="order-price">价格</th>
+                                <th class="order-equal"></th>
+                                <th class="order-total">总价</th>
+                            </tr>
+                            <tr>
+                                <td class="order-desc">$detail[subject]</td>
+                                <td class="order-quantity"><input type="text" id="buynum" name="buynum" value="{if $order}$order[num]{else}1{/if}" autocomplete="off" /><span class="order-limit">每人最多{$buy_limit_num}份</span></td>
+                                <td class="order-multi">X</td>
+                                <td class="order-price"><span class="money">&yen;</span>{print get_numeric($detail[price])}</td>
+                                <td class="order-equal">=</td>
+                                <td class="order-total"><span id="order-buy-total">{print get_numeric($detail[price])}</span></td>
+                            </tr>
+                            <!--{if $MOD[ex_pointtype] && $MOD[ex_rate] && $detail[use_ex_point] && $detail[use_ex_price] && $user->$MOD[ex_pointtype]>0}-->
+                            <tr>
+                                <!--{eval 
+                                    $mypoint = $user->$MOD[ex_pointtype];
+                                    $maxpoint = (int) min($mypoint, get_numeric($detail[use_ex_price]*$MOD[ex_rate]));
+                                }-->
+                                <input type="hidden" name="ex_pointtype" value="$MOD[ex_pointtype]">
+                                <td class="order-desc">使用积分抵现金<br />你目前有可用 <span class="font_2">{print:member point(point/$MOD[ex_pointtype])} {$mypoint}</span> {print:member point(point/$MOD[ex_pointtype]/keyname/unit)}</td>
+                                <td class="order-quantity"><input type="text" id="ex_point" name="ex_point" value="{if $order}$order[ex_point]{else}0{/if}" autocomplete="off" /><span class="order-limit">最多可用{$maxpoint}</span></td>
+                                <td class="order-multi">X</td>
+                                <td class="order-price"><span class="money">&yen;</span>{print get_numeric(1/$MOD[ex_rate])}</td>
+                                <td class="order-equal">=</td>
+                                <td class="order-total"><span id="order-buy-ex-total">{print get_numeric($detail[price])}</span></td>
+                            </tr>
+                            <!--{/if}-->
+                            <tr>
+                                <td class="order-desc"><span class="order-total-text">应付金额</span></td>
+                                <td class="order-quantity"></td>
+                                <td class="order-multi"></td>
+                                <td class="order-price"></td>
+                                <td class="order-equal">=</td>
+                                <td class="order-total"><span class="money">&yen;</span><span id="order-buy-total-t">{print get_numeric($detail[price])}</span></td>
+                            </tr>
+                        </table>
+                        <div class="order-my-info">
+                            <!--{if $address}-->
+                            <em>
+                                <select id="address" onchange="insert_address(this.value);">
+                                    <option value=''>==选择收货地址==</option>
+                                    {dbres $address $val}
+                                    <option value="$val[name]||$val[addr]||$val[postcode]||$val[mobile]"{if $val[is_default]}default="Y"{/if}>$val[name]($val[mobile])</option>
+                                    {/dbres}
+                                </select>   
+                            </em>
+                            <!--{/if}-->
+                            <h3>其他信息</h3>
+                            <table class="info-table">
+								<tr>
+									<td class="info-key">手机号码{if $detail[sendtype]=='express'}<span style="color:red;">*</span>{/if}</td>
+									<td class="info-input"><input type="text" name="mobile" value="{if $order[mobile]}$order[mobile]{else}$user->mobile{/if}" size="30" /></td>
+								</tr>
+								<!--{if $detail[sendtype]=='express'}-->
+								<tr>
+									<td class="info-key">收货人<span style="color:red;">*</span></td>
+									<td class="info-input"><input type="text" name="contact[linkman]" value="$order[contact][linkman]" size="30" /></td>
+								</tr>
+								<tr>
+									<td class="info-key">邮编号码</td>
+									<td class="info-input"><input type="text" name="contact[postcode]" value="$order[contact][postcode]" size="30" /></td>
+								</tr>
+								<tr>
+									<td class="info-key">收货地址<span style="color:red;">*</span></td>
+									<td class="info-input"><input type="text" name="contact[address]" value="$order[contact][address]" size="52" /></td>
+								</tr>
+								<!--{/if}-->
+								<tr>
+									<td class="info-key" valign="top">订单备注</td>
+									<td class="info-input">
+										<textarea name="contact[des]" rows="5" cols="50">$order[contact][des]</textarea>
+									</td>
+								</tr>
+                            </table>
+                        </div>
+                        <div class="order-form-submit">
+                            <input type="hidden" name="id" value="$detail[tid]" />
+                            <!--{if $order}--><input type="hidden" name="oid" value="$order[oid]" /><!--{/if}-->
+                            <input type="submit" value="确认无误，购买" name="dosubmit" id="dosubmit" class="formbutton">&nbsp;
+                            <span id="order-buy-message" style="color:red;"></span>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic1.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic2.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic3.jpg" /></p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+var prices = new Array(2);
+window.onload = function() {
+    prices[0] = prices[1] = 0;
+    $('#buynum').keyup(change_quantity);
+    if($('#ex_point')[0]) {
+        $('#ex_point').keyup(change_exchange);
+    }
+    change_quantity();
+    {if !$order[oid]} auto_address(); {/if}
+}
+function auto_address() {
+    var sel = $('#address');
+    if(!sel[0]) return;
+    sel.find('option').each(function(i) {
+        if($(this).attr('default')=='Y') {
+            insert_address($(this).val());
+        }
+    });
+}
+function insert_address(value) {
+    if(value=='') return;
+    var addr = value.split('||');
+    $('[name="contact[linkman]"]').val(addr[0]);
+    $('[name="contact[address]"]').val(addr[1]);
+    $('[name="contact[postcode]"]').val(addr[2]);
+    $('[name="mobile"]').val(addr[3]);
+}
+function change_quantity() {
+    var limit_num = $buy_limit_num;
+    var price = {print get_numeric($detail[price])};
+    var num = $('#buynum').val();
+    if(!is_numeric(num)) {
+        $('#buynum').css('background-color','#FFE2C4');
+        $('#order-buy-message').html('请输入正确的数字');
+    } else if(num>limit_num) {
+        $('#buynum').css('background-color','#FFE2C4');
+        $('#order-buy-message').html('每人最多购买 '+limit_num+' 份');
+    } else {
+        prices[0] = accMul(num,price);
+        $('#order-buy-total').html(prices[0]);
+        $('#order-buy-total-t').html(accTotal());
+        $('#buynum').css('background-color','#FFF');
+        $('#order-buy-message').html('');
+    }
+}
+function change_exchange() {
+    var limit_point = {print (int)$maxpoint};
+    var price = {print get_numeric(1/$MOD[ex_rate])};
+    var point = $('#ex_point').val();
+    var pointname = '{print:member point(point/$MOD[ex_pointtype])}';
+    if(!is_numeric(point)) {
+        $('#ex_point').css('background-color','#FFE2C4');
+        $('#order-buy-message').html('请输入正确的数字');
+    } else if(point>limit_point) {
+        $('#ex_point').css('background-color','#FFE2C4');
+        $('#order-buy-message').html('您最多只能使用 '+limit_point+' '+pointname);
+    } else {
+        prices[1] = -accMul(point,price);
+        $('#order-buy-ex-total').html(prices[1]);
+        $('#order-buy-total-t').html(accTotal());
+        $('#ex_point').css('background-color','#FFF');
+        $('#order-buy-message').html('');
+    }
+}
+function accMul(arg1,arg2){
+    var m=0,s1=arg1.toString(),s2=arg2.toString();  
+    try{m+=s1.split(".")[1].length}catch(e){}  
+    try{m+=s2.split(".")[1].length}catch(e){}  
+    return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+}
+function accAdd(arg1,arg2){
+    var r1,r2,m;
+    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+    m=Math.pow(10,Math.max(r1,r2));
+    return (arg1*m+arg2*m)/m;
+}
+function accTotal() {
+    var total = 0;
+    for (var i=0; i<prices.length; i++) {
+        total = accAdd(total,prices[i]);
+    }
+    return total;
+}
+</script>
+{template tuan_footer}

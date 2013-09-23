@@ -1,0 +1,37 @@
+{include mobile_template('header')}
+<div data-role="page" id="page_list">
+    <div data-theme="e" data-role="header">
+        <h2>商铺大全</h2>
+        {if $_GET['act']!='search'}
+        <a data-role="button" data-icon="search" href="{url mobile/list/catid/$pid/op/filter/in_dlg/y}" class="ui-btn-right" data-rel="dialog">筛选</a>
+        <a data-role="button" data-icon="grid" href="{url mobile/category}" class="ui-btn-left">商铺大全</a>
+        {else}
+        <a data-role="button" data-rel="back" data-icon="back" class="ui-btn-left" href="#">返回</a>
+        {/if}
+    </div>
+    <div data-role="content" style="padding: 15px">
+        <ul data-role="listview" data-divider-theme="c" data-inset="false" id="list_item">
+            {if $urlpath}
+            <li data-role="list-divider" role="heading">
+                {print implode('&nbsp;&gt;&nbsp;', $urlpath)}
+                <span class="ui-li-count">{$total}</span>
+            </li>
+            {/if}
+            {include mobile_template('list_li')}
+            {if $multipage}<li id="nextpage"><a href="#"style="text-align:center;">更多...</a></li>{/if}
+        </ul>
+        <div id="loadingmessage"></div>
+    </div>
+    <div id="list_item_ajax_li" style="display:none;">
+    {if $multipage}<div class="multipage" id="multipage">$multipage</div>{/if}
+    </div>
+    <script>
+        var ajax_loading = true;
+        $('#page_list').live('pageshow', function (event) {
+            $('#nextpage').find('a').click(function(event) {
+                common_ajax_next_page('list_item','nextpage');
+            });
+        });
+        </script>
+</div>
+{include mobile_template('footer')}

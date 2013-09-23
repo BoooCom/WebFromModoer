@@ -52,6 +52,12 @@ $system[] = array(
     'name' => lang('itemcp_cphome_apply_title'),
     'content' => '<a href="'.cpurl('item','subject_apply').'">'.lang('admincp_cphome_check_title').'</a>:'. $total,
 );
-
+$_G['db']->from('dbpre_subjectlog');
+$_G['db']->where('disposal',0);
+$total = $_G['db']->count();
+$system[] = array(
+    'name' => '主题补充',
+    'content' => '<a href="'.cpurl('item','subject_log').'">'.$total.'</a>',
+);
 unset($total,$check);
 ?>

@@ -1,0 +1,137 @@
+<!--{eval
+    $_HEAD[title] = '自助团购';
+}-->
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-tab">
+                <ul>
+                    <li{if !isset($succeed)} class="current"{/if}><a href="{url tuan/wish}">全部</a><span></span></li>
+                    <li{if $succeed=='0'} class="current"{/if}><a href="{url tuan/wish/succeed/0}">尚未建团</a><span></span></li>
+                    <li{if $succeed=='1'} class="current"{/if}><a href="{url tuan/wish/succeed/1}">已成功建团</a><span></span></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>自助团购</h2>
+                    </div>
+                    <div class="sect">
+                        <!--{if $total}-->
+                        <ul class="wish-list">
+                            <!--{loop $list $val}-->
+                            <li>
+                                <div class="deals-pic">
+                                    <img width="200" height="121" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[subject]">
+                                </div>
+                                <div class="deals-info">
+                                    <h4>$val[title]</h4>
+									<div>
+                                        <span>期望价格：<strong class="count">$val[price]</strong>元<span><br />
+                                        <p>$val[content]</p>
+                                    </div>
+                                </div>
+                                <div class="deals-operation">
+                                    <span id="span-interest-$val[twid]">
+                                        <!--{if $val['interest_users'][$user->uid]}-->
+                                        <span class="interested">我已设置感兴趣</span>
+                                        <!--{else}-->
+                                        <a href="javascript:tuan_wish_interest($val[twid]);" title="我对这个团购感兴趣，我要参与"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/button-tuan-wish-interest.png" /></a>
+                                        <!--{/if}-->
+                                    </span>
+                                    <!--{if $val[tid]>0}-->
+                                    <span><a href="{url tuan/detail/id/$val[tid]}" title="自助团购已成功建团，点击查看团购"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/button-tuan-wish-succeed.png" /></a></span>
+                                    <!--{else}-->
+                                    <span id="span-undertake"><a href="javascript:tuan_wish_undertake($val[twid]);" title="我有资源，愿意承接这个团购"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/button-tuan-wish-undertake.png" /></a></span>
+                                    <!--{if $val[undertakers]}-->
+                                    <span>已有<span class="font_2">$val[undertakers]</span>人愿承接</span>
+                                    <!--{/if}-->
+                                    <!--{/if}-->
+                                </div>
+                                <div class="clear"></div>
+                                <div class="deals-interest">
+                                    <div class="onlyuser">发起人：
+                                        <a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" title="$val[username]" /></a>
+                                    </div>
+                                    <div class="interest">
+                                        <!--{if $val[interest]}-->
+                                            已有<span class="font_2">$val[interest]</span>人感兴趣：
+                                            <!--{eval $i = 0;}-->
+                                            <!--{loop $val['interest_users'] $__uid $__uname}-->
+                                            <a href="{url space/index/uid/$__uid}"><img src="{print get_face($__uid)}" title="$__uname" /></a>
+                                            <!--{eval if(++$i>=10) break;}-->
+                                            <!--{/loop}-->
+                                        <!--{/if}-->
+                                    </div>
+                                    <div class="onlyuser">
+                                        <!--{if $val[undertaker]}-->
+                                        承接方：
+                                        <!--{eval list($undertake_uid,$undertake_uname) = explode("\t", $val[undertaker]);}-->
+                                        <a href="{url space/index/uid/$undertake_uid}"><img src="{print get_face($undertake_uid)}" title="$undertake_uname" /></a>
+                                        <!--{/if}-->
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </li>
+                            <!--{/loop}-->
+                        </ul>
+                        <div class="multipage">$multipage</div>
+                        <!--{else}-->
+                        <div>暂无信息!</div>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+
+        <div class="sidebar has-dashboard">
+            <div class="sidebar-top"></div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>自助团购</h2>
+                    <div class="tuan-comment">
+                        <p>没有您想要的团购吗？那么就发起自助团购，有多数人感兴趣时，我们将会发起这个团购！</p>
+                        <center><a href="{url tuan/member/ac/wish/op/add}"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/button-tuan-wish.gif" /></a></center>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>今天的团购</h2>
+                    <div class="sidebar-tuan-list">
+                        <ul>
+                            <!--{get:modoer val=table(table/dbpre_tuan/select/tid,mode,subject,price,goods_sell,peoples_sell,thumb/where/city_id IN(_NULL_CITYID_) AND status='new'/orderby/tid DESC/rows/3/cachetime/600)}-->
+                            <li>
+                                <h4><a href="{url tuan/detail/id/$val[tid]}" title="$val[subject]">{sublen $val[subject],20,'..'}</a></h4>
+                                <div class="thumb">
+                                    <a href="{url tuan/detail/id/$val[tid]}"><img src="{URLROOT}/$val[thumb]" alt="$val[subject]" /></a>
+                                </div>
+                                <div class="info">
+                                    <!--{eval
+                                        $is_product = $val['mode']=='wholesale';
+                                        $num = $is_product ? $val['goods_sell'] : $val['peoples_sell'];
+                                    }-->
+                                    <span><strong>$num</strong>{if $is_product}件已销售{else}人已购买{/if}</span>
+                                    <a href="{url tuan/detail/id/$val[tid]}" class="buy"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/btn-sidedeal-see.png" alt="去看看" /></a>
+                                </div>
+                            </li>
+                            <!--{/get}-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{template tuan_footer}

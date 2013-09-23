@@ -1,0 +1,17 @@
+<form method="post" action="{url ask/member/ac/ask/op/reward/in_ajax/1}" class="post" id="frm_reward" name="frm_reward" target="ajaxiframe">
+    <input type="hidden" name="askid" value="$askid" />
+    <input type="hidden" name="dosubmit" value="yes" />
+    <table class="table" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="right" width="70" valign="top"><span class="font_1">*</span>悬赏积分：</td>
+            <td width="*"><input type="text" name="reward" id="reward" class="t_input" value="$preward[reward]" style="width:95%;" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="center">
+                <button type="button" onclick="ajaxPost('frm_reward', '', null);">提交</button>&nbsp;
+                <button type="button" class="button" onclick="dlgClose();">关闭</button>
+            </td>
+        </tr>
+    </table>
+</form>

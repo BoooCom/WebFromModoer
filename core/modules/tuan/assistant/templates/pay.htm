@@ -1,0 +1,137 @@
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>订单编号：$order[oid]</h2>
+                    </div>
+                    <div class="sect">
+                        <form method="post" action="{url tuan/member/ac/pay/rand/$_G[random]}" id="payform">
+                        <table class="order-table">
+                            <tr>
+                                <th class="order-desc">项目</th>
+                                <th class="order-quantity">数量</th>
+                                <th class="order-multi"></th>
+                                <th class="order-price">价格</th>
+                                <th class="order-equal"></th>
+                                <th class="order-total">总价</th>
+                            </tr>
+                            <tr>
+                                <td class="order-desc">$detail[subject]</td>
+                                <td class="order-quantity">$order[num]</td>
+                                <td class="order-multi">X</td>
+                                <td class="order-price"><span class="money">&yen;</span>{print get_numeric($detail[price])}</td>
+                                <td class="order-equal">=</td>
+                                <td class="order-total"><span id="order-buy-total">{print $order[num]*$detail[price]}</span></td>
+                            </tr>
+                            <!--{if $detail[use_ex_point] && $order[ex_price]>0 && $MOD[ex_pointtype]}-->
+                            <tr style="color:#ff6600;">
+                                <td class="order-desc">{print:member point(point/$order[ex_pointtype])} 抵换 现金</td>
+                                <td class="order-quantity">$order[ex_point]</td>
+                                <td class="order-multi">X</td>
+                                <td class="order-price"><span class="money">&yen;</span>{print ($order[ex_price]/$order[ex_point])}</td>
+                                <td class="order-equal">=</td>
+                                <td class="order-total">- <span id="order-buy-total">{$order[ex_price]}</span></td>
+                            </tr>
+                            <!--{/if}-->
+                            <tr>
+                                <td class="order-desc"><span class="order-total-text">应付金额</span></td>
+                                <td class="order-quantity"></td>
+                                <td class="order-multi"></td>
+                                <td class="order-price"></td>
+                                <td class="order-equal order-total-text">=</td>
+                                <td class="order-total"><span class="money">&yen;</span><span id="order-buy-total-t">$order[price]</span></td>
+                            </tr>
+                        </table>
+                        <!--{if $order[price]>0}-->
+                        <div class="order-my-rmb">
+                            <h3><label for="payment_balance"><input type="radio" name="payment" value="balance" id="payment_balance">余额支付</label></h3>
+                            <p>
+                            <!--{eval 
+                                $needprice = get_numeric($order[price]-$user->rmb);
+                                $forward = base64_encode(url("tuan/member/ac/pay/id/$oid",'',TRUE));
+                            }-->
+                            您目前有 <span class="money">&yen;</span><strong>{print get_numeric($user->rmb)}</strong>，<!--{if $user->rmb < $order[price]}-->金额不足，您需要先充值 <span class="money">&yen;$needprice</span>，<a href="{url pay/member/ac/pay/select/rmb/price/$needprice/forward/$forward}" target="_blank">请点击这里进行充值</a>。<!--{else}-->足够支付本次订单。<!--{/if}-->
+                            </p>
+                        </div>
+                        <!--{if $PAY->cz_enable}-->
+                        <div class="order-my-rmb">
+                            <h3><input type="radio" name="payment" value="online" id="payment_online" checked="checked"><label for="payment_online">在线支付</label></h3>
+                            <input type="hidden" name="payment_name" id="payment_name" value="">
+                            <ul id="online_payments">
+                                <!--{loop $PAY->payments $i $payment}-->
+                                <li att="{$payment}"><a href="javascript:select_payment('$payment');">{print lang('pay_name_'.$payment)}</a></li>
+                                <!--{/loop}-->
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                        <!--{/if}-->
+                        <!--{if $MOD[localpay_des]}-->
+                        <div class="order-my-rmb">
+                            <h3><input type="radio" name="payment" value="offline" id="payment_offline"><label for="payment_offline">线下支付</label></h3>
+                            <p>$MOD[localpay_des]</p>
+                        </div>
+                        <!--{/if}-->
+                        <!--{else}-->
+                        <input type="hidden" name="payment" value="balance" />
+                        <!--{/if}-->
+                        <div class="order-form-submit">
+                            <input type="hidden" name="oid" value="$order[oid]" />
+                            <input type="hidden" name="dosubmit" value="yes">
+                            <input type="button" value="确认订单，付款" class="formbutton" onclick="check_payment();">&nbsp;
+                            <span class="order-form-return"><a href="{url tuan/member/ac/buy/oid/$order[oid]}">返回修改订单</a></span>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic1.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic2.jpg" /></p>
+            <p><img src="{URLROOT}/{$_G[tplurl]}images/tuan/subscribe-pic3.jpg" /></p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+function check_payment() {
+    if($('#payment_online').attr('checked')) {
+        if($('#payment_name').val()=='') {
+            alert('未选择在线支付商，请选择。');
+            return false;
+        } else {
+            var content = $('<div></div>').css({'text-align':'center','margin':'10px 0'});
+            var btn1 = $('<button></button>').html('支付成功，查看订单').addClass('formbutton').css({'margin':'5px 5px'})
+                .click(function(){
+                    jslocation("{url tuan/member/ac/order}");
+                });
+            var btn2 = $('<button></button>').html('支付失败，重新支付').addClass('formbutton').css({'margin':'5px 5px'})
+                .click(function(){
+                    dlgClose();
+                });
+            content.append(btn1).append(btn2);
+            dlgOpen('在线支付', content, 330, 140);
+            $('#payform').attr('target','_blank');
+            $('#payform')[0].submit();
+        }
+    } else {
+        $('#payform').attr('target','');
+        $('#payform')[0].submit();
+    }
+}
+
+function select_payment (payment) {
+    $('#online_payments li').each(function(i){
+        if($(this).attr('att')==payment)
+            $(this).addClass('selected');
+        else
+            $(this).removeClass('selected');
+    });
+    if(payment!=null)$('#payment_name').val(payment);
+}
+</script>
+{template tuan_footer}

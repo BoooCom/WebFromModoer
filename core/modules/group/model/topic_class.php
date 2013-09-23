@@ -262,10 +262,10 @@ class msm_group_topic extends ms_model {
         }
     }
 
-    function pageview($gid, $num=1) {
+    function pageview($tpid, $num=1) {
         $this->db->from($this->table);
-        $this->db->where('gid', $gid);
-        $this->db->set_add('pageview',$num);
+        $this->db->where('tpid', (int)$tpid);
+        $this->db->set_add('pageview',(int)$num);
         $this->db->update();
     }
 

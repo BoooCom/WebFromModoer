@@ -1,0 +1,76 @@
+<!--{eval $_HEAD['title'] = $member[username] . '的好友' . $_CFG['titlesplit'] . $space['spacename'];}-->
+
+{template modoer_header} 
+<script type="text/javascript">
+loadscript('item');
+</script>
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body">
+		<DIV id="content_top">
+			<DIV class="piece1 mb20">
+				<DIV class="piece1_hd"></DIV>
+				<DIV class="piece1_bd user_info">
+					<DIV class="user_info_left fl"><A href="{url space/index/uid/$uid}"><IMG class="avatar fl r5" alt="" src="{print get_face($member[uid])}"></A>
+						<DIV class="user_profile fl"><SPAN class=uname>$member[username]</SPAN> <BR>
+							<DIV class="home_follow">
+								<DIV class="followdiv fl" type="all" uid="1imto"><A class=addfo href="javascript:member_follow($uid);">关注</A> </DIV>
+								<DIV class="see_more_info fl"> <a href="javascript:add_friend($uid);">加好友</a> <a href="javascript:send_message($uid);">发短信</a> </DIV>
+							</DIV>
+						</DIV>
+					</DIV>
+					<DIV class="user_collect_info fr">
+						<DIV class="collect_list">$member[reviews]<BR>
+							<SPAN class=color52>点评</SPAN> </DIV>
+						<DIV class="collect_list">$member[subjects]<BR>
+							<SPAN class=color52>登记</SPAN> </DIV>
+						<DIV class="collect_list">$member[flowers]<BR>
+							<SPAN class=color52>鲜花</SPAN> </DIV>
+						<DIV class="collect_list">$member[follow]<BR>
+							<SPAN class=color52>关注</SPAN> </DIV>
+						<DIV class="collect_list">$member[fans]<BR>
+							<SPAN class=color52>粉丝</SPAN> </DIV>
+						<DIV class="collect_list">$space[pageview]<BR>
+							<SPAN class=color52>访问</SPAN> </DIV>
+					</DIV>
+				</DIV>
+			</DIV>
+		</DIV>
+		<DIV class="fl" id="content_body"  style=" width:715px !important">
+			<DIV class="piece piece_wb">
+				<DIV class="piece_hd"><B class=hl></B><B class=hr></B></DIV>
+				<DIV class="piece_bd">
+					<DIV class="user_info_detail">
+						<DIV class="info_title clearfix">
+							<H1 class="setting_tilte fl">我的好友</H1>
+						</DIV>
+					</DIV>
+					<div class="mainrail">
+						<h3 class="rail-h-1">我的好友</h3>
+						<!--{if $friends}-->
+						<ul class="friend_list">
+							<!--{loop $friends $val}-->
+							<li>
+								<div><img src="{print get_face($val[friend_uid])}" /></div>
+								<p><a href="{url space/index/uid/$val[friend_uid]}" target="_blank">$val[username]</a><br />
+									{print:member group(groupid/$val[groupid])}</p>
+							</li>
+							<!--{eval $i++;}--> 
+							<!--{/loop}-->
+						</ul>
+						<div class="clear"></div>
+						<!--{if $multipage}-->
+						<div class="multipage">$multipage</div>
+						<!--{/if}--> 
+						<!--{else}-->
+						<div class="messageborder"> <span class="msg-ico">暂时没有信息。</span> </div>
+						<!--{/if}--> 
+					</div>
+				</DIV>
+				<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+			</DIV>
+		</DIV>
+		{template space_side}
+	</DIV>
+</DIV>
+
+<!--{eval footer();}-->

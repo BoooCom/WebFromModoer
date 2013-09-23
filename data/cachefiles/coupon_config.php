@@ -13,5 +13,6 @@ return array (
   'meta_keywords' => '优惠券模块',
   'meta_description' => 'Modoer点评系统之优惠券模块',
   'post_comment' => '1',
+  'model_flag_10' => 'coupon',
 ); 
 ?>

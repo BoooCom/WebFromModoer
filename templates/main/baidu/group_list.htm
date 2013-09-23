@@ -1,0 +1,35 @@
+{template modoer_header}
+<div id="body" style="margin-top:10px;">
+    <div class="discussion_left">
+        <div class="mainrail rail-border-3" style="padding-bottom:10px;">
+            <h3 class="rail-h-3 rail-h-bg-3" style="position:relative;">
+                共有 <span class="font_2">$total</span> 个小组
+                <div style="position:absolute;right:5px;top:5px;">
+                    ∷ <a href="{url group/index}">小组首页</a>
+                    &nbsp;|&nbsp;
+                    + <a href="{url group/member/ac/group/op/add}">创建小组</a>
+                </div>
+            </h3>
+            {if $total > 0}
+            {template group_part_list}
+            {/if}
+        </div>
+        {if $multipage}<div class="multipage">$multipage</div>{/if}
+    </div>
+    <div class="discussion_right">
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">分类标签</h3>
+            <!--{get:group val=category()}-->
+            <ul class="side_categorylist">
+                <h5><a {if $tag==$val[name]}class="selected"{/if}href="{url group/list/tag/$val[name]}">$val[name]</a></h5>
+                <!--{get:group vval=category_tag(catid/$val[catid])}-->
+                <li><a {if $tag==$vval}class="selected"{/if}href="{url group/list/tag/$vval}">$vval</a></li>
+                <!--{/get}-->
+            </ul>
+            <div class="clear"></div>
+            <!--{/get}-->
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<!--{eval footer();}-->

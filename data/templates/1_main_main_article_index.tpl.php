@@ -19,7 +19,7 @@ if(is_array($_QUERY['get_val']))foreach($_QUERY['get_val'] as $val_k => $val) { 
                     $('#l1_pics').d_imagechange({width:350,height:200,repeat:'draw'});
                 </script>
                 <div class="l1_comment_news">
-                    <h2 class="rail-h-2 rail-h-bg-2"><b>热评文章</b></h2>
+                    <h2 class="rail-h-3 rail-h-bg-3"><b>热评文章</b></h2>
                     <ul class="rail-list2">
                         
 <?php $_QUERY['get_val']=$_G['datacall']->datacall_get('table',array('table'=>"dbpre_articles",'select'=>"articleid,subject,comments",'where'=>"city_id IN (_NULL_CITYID_) AND comments>0 AND status=1",'orderby'=>"comments DESC",'rows'=>5,'cachetime'=>1000,),'');

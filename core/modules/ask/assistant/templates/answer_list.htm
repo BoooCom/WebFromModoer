@@ -1,0 +1,49 @@
+{template modoer_header}
+<div id="body">
+<div class="myhead"></div>
+<div class="mymiddle">
+    <div class="myleft">
+        <!--{template 'menu','member','member'}-->
+    </div>
+    <div class="myright">
+        <div class="myright_top"></div>
+        <div class="myright_middle">
+            <h3>我的回答</h3>
+            <div class="mainrail">
+                <ul class="optabs"><!--{loop $status_name $k $v}--><li{if $status==$k} class="active"{/if}><a href="{url ask/member/ac/$ac/status/$k}">$v({print (int)$status_group[$k]})</a></li><!--{/loop}--></ul><div class="clear"></div>
+                <input type="hidden" name="answerid" value="$answerid" />
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                    <tr class="thbg">
+                        <th width="40">编号</th>
+                        <th width="*">问题名称</th>
+                        <th width="60">好评</th>
+                        <th width="60">差评</th>
+                        <th width="60">状态</th>
+                        <th width="110">回答时间</th>
+                    </tr>
+                    <!--{dbres $list $val}-->
+                    <tr>
+                        <td>$val[answerid]</td>
+                        <td><a href="{url ask/detail/id/$val[askid]}" target="_blank">$val[subject]</a>{if $val[bestanswer]}&nbsp;<span class="font_1">最佳</span>{/if}</td>
+                        <td>$val[goodrate]</td>
+                        <td>$val[badrate]</td>
+                        <td>{print $status_name[$val[status]]}</td>
+                        <td>{date $val[dateline],'Y-m-d'}</td>
+                        
+                    </tr>
+                    <!--{/dbres}-->
+                    <!--{if !$total}-->
+                    <tr>
+                        <td colspan="5">暂无信息。</td>
+                    </tr>
+                    <!--{/if}-->
+                </table>
+                <div class="multipage">$multipage</div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="mybottom"></div>
+</div>
+<!--{eval footer();}-->

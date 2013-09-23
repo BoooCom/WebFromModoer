@@ -1,0 +1,363 @@
+<!--{eval
+    $_HEAD[title] = $detail[subject];
+}-->
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div class="content">
+            <!--{eval $myprice = $detail['status']=='succeeded' ? $detail['real_price'] : $detail['price'];}-->
+            <div id="detail-intro">
+                <h1><!--{if $detail[endtime] >= $_G[today]}--><a href="{url tuan/detail/id/$detail[tid]}">今日团购:</a><!--{/if}-->{if $detail['mode']!='normal'}[{print lang('tuan_mode_'.$detail[mode])}]{/if}$detail[subject]</h1>
+                <div class="detleft">
+                    <div class="buy">
+                        <div class="buy-tag"></div>
+                        <div class="buy-price">
+                            <strong>&yen;&nbsp;{print get_numeric($myprice)}</strong>
+                            <!--{if $detail['goods_total']<=$detail['goods_sell']}-->
+                            <span class="price-soldout"></span>
+                            <!--{elseif $detail[status]!='new'}-->
+                            <span class="price-expire"></span>
+                            <!--{else}-->
+                            <span><a href="{url tuan/member/ac/buy/id/$detail[tid]}"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/button-deal-buy.gif" /></a></span>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                    <table class="buy-discount">
+                        <tbody>
+                        <tr><th>原价</th><th>折扣</th><th>节省</th></tr>
+                        <tr>
+                            <td>&#165;{print get_numeric($detail[market_price])}</td>
+                            <td>{print get_numeric(round($myprice/$detail[market_price],2)*10)}折</td>
+                            <td>&#165;{print get_numeric($detail[market_price]-$myprice)}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--{if $detail[status]=='new'}-->
+                    <div class="detail-box detail-timeleft detail-on">
+                        <h3>剩余时间</h3>
+                        <div class="limitdate">
+                            <!--{eval 
+                                $time = $detail[endtime]-$_G[timestamp];
+                                list($h,$i,$s) = get_time($time);
+                                $d = 0;
+                                if($h>=24) $d = floor($h / 24);
+                                if($h>=24) $h = $h % 24;
+                            }-->
+                            <script type="text/javascript">
+                                var d = $d;
+                                var h = $h;
+                                var i = $i;
+                                var s = $s;
+                                var timer = window.setInterval("OnTimer()", 1000); 
+                                function OnTimer() {
+                                    s -= 1;
+                                    if(s<0) {i-=1;s=59;}
+                                    if(i<0) {h-=1;i=59;}
+                                    if(h<0) {d-=1;h=23;}
+                                    if(d<0) {
+                                        clearInterval(timer);
+                                        $('#counter').val('<li>团购结束.</li>');
+                                    } else {
+                                        $('#detail_d').text(d);
+                                        $('#detail_h').text(h);
+                                        $('#detail_i').text(i);
+                                        $('#detail_s').text(s);
+                                    }
+                                    if(d == 0) {
+                                        $('#detail_d').parent().hide();
+                                        $('#detail_s').parent().show();
+                                    } else {
+                                        $('#detail_d').parent().show();
+                                        $('#detail_s').parent().hide();
+                                    }
+                                }
+                            </script>
+                            <ul id="counter">
+                                <li{if !$d} style="display:none;"{/if}><span id="detail_d">$d</span>天</li>
+                                <li><span id="detail_h">$h</span>小时</li>
+                                <li><span id="detail_i">$i</span>分钟</li>
+                                <li{if $d} style="display:none;"{/if}><span id="detail_s">$s</span>秒</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--{else}-->
+                    <div class="detail-box detail-timeleft detail-off">
+                        <h3>本团购结束于</h3>
+                        <div class="limitdate">
+                            <p>{date $detail[endtime],'Y年n月j日'}<br />{date $detail[endtime],'G点i分'}</p>
+                        </div>
+                    </div>
+                    <!--{/if}-->
+                    <!--{eval 
+                        $is_product = $detail['mode'] == 'wholesale';
+                        $now = $is_product ? $detail['goods_sell'] : $detail['peoples_sell'];
+                        $now += (int)$detail[v_peoples_sell];
+                        $min = $is_product ? $detail['goods_min'] : $detail['peoples_min'];
+                    }-->
+                    <div class="detail-box detail-status">
+                        <!--{if $detail[status] == 'new'}-->
+                            <p class="detail-buy-tip-top">
+                                <!--{if $is_product}-->
+                                <strong>$now</strong>件已销售,
+                                <!--{else}-->
+                                <strong>$now</strong>人已购买,
+                                <!--{/if}-->
+                                仅剩<strong>{print $detail[goods_total]-$detail[goods_sell]}</strong>件
+                            </p>
+                            <!--{if $detail[succeedtime] > 0}-->
+                            <p class="detail-buy-on">团购已成功，<br>可继续购买…</p>
+                                <!--{if $is_product}-->
+                                <p class="detail-buy-tip-btm">{date $detail[succeedtime],'G点i分'}达到最低销售数量：<strong>$min</strong> 件</p>
+                                <!--{else}-->
+                                <p class="detail-buy-tip-btm">{date $detail[succeedtime],'G点i分'}达到最低团购人数：<strong>$min</strong> 人</p>
+                                <!--{/if}-->
+                            <!--{else}-->
+                            <div style="padding-left: {print round($now/$min*186)}px;" class="progress-pointer"><span></span></div>
+                            <div class="progress-bar"><div style="width:{print round($now/$min*185)}px;" class="progress-left"></div><div class="progress-right"></div></div>
+                            <div class="cf"><div class="min">0</div><div class="max">$min</div><div class="clear"></div></div>
+                                <!--{if $is_product}-->
+                                <p class="detail-buy-tip-btm">还差{print $min-$now}份达到团购数量：{$min}件</p>
+                                <!--{else}-->
+                                <p class="detail-buy-tip-btm">还差{print $min-$now}人达到团购人数：{$min}人</p>
+                                <!--{/if}-->
+                            <!--{/if}-->
+                        <!--{elseif $detail[status] == 'succeeded'}-->
+                            <div class="detail-buy-status-succed"></div>
+                            <p class="detail-buy-tip-top">
+                                <!--{if $is_product}-->
+                                总共销售了 <strong>$now</strong> 件
+                                <!--{else}-->
+                                总共有 <strong>$now</strong> 人购买
+                                <!--{/if}-->
+                            </p>
+                        <!--{elseif $detail[status]}-->
+                            <div class="detail-buy-status-fail"></div>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <div class="detright">
+                    <div class="detail-picture">
+                        <img src="{URLROOT}/$detail[picture]" alt="$detail[subject]" />
+                    </div>
+                    <div class="detail-notetip">
+                        {print nl2br($detail[intro])}
+                        <!--{if $_CFG[sharecode]}-->
+                        <div>$_CFG[sharecode]</div>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <!--{if $detail['mode'] == 'average'}-->
+            <div class="mode-intro">
+                <!--{eval $maxpeople = round($detail[goods_total]/$detail[people_buylimit]);}-->
+                本次团购为<span class="font_1">平摊团购</span>模式：当前团购产品的总价格<span class="font_2">{$detail[total_price]}元</span>，下单时，每位顾客均以<span class="font_2">{$detail[price]}元</span>的价格购买，当团购人数达到<span class="font_2">{$detail[peoples_min]}</span>人时，团购成功；在团购结束后，每位顾客最终得到的价格 = 产品的总价格 ÷ 实际购买的总人数，如果本次团购最终有<span class="font_2">{$maxpeople}</span>人成功购买，按照平摊价格模式，每位用户最终只需花费<span class="font_2">{print round($detail[total_price]/$maxpeople, 2)}元</span>即可。团购结束后，如果最终价格少于下单时的价格，网站会退还多余的钱到您的帐号内。
+            </div>
+            <!--{elseif $detail['mode'] == 'wholesale'}-->
+            <div class="mode-intro">
+                本次团购为<span class="font_1">批发团购</span>模式：当前每件产品价格为<span class="font_2">{$detail[price]}元</span>，当本次团购累计销售<span class="font_2">{$detail[goods_min]}件</span>产品时，即团购成功！当本次团购结束时，最后累计的销售数量，根据批发数量和价格表进行计算，最后得到每件产品的最终价格，如果最终每件产品的价格低于下单时的价格，网站将退还多出来的差价到用户帐号。以下为数量和价格表：
+                <!--{eval $prices = explode(',', $detail['prices']);}-->
+                <p>
+                <!--{loop $prices $_pri}-->
+                <!--{eval list($_n,$_p)=explode('=', $_pri);}-->
+                <div>销售数量大于<span class="font_2">$_n</span>件产品时，最终单价为<span class="font_2">$_p</span>元/件；</div>
+                <!--{/loop}-->
+                </p>
+            </div>
+            <!--{elseif $detail['mode'] == 'forestall'}-->
+            <div class="mode-intro">
+                本次团购为<span class="font_1">抢鲜团购</span>模式：当前团购下单价格为<span class="font_2">{$detail[price]}元</span>，当本次团购累计购买人数打到<span class="font_2">{$detail[peoples_min]}人</span>时，即团购成功！下单越早的人价格越低，当本次团购结束时，根据最终团购价，网站将退还多出来的差价到用户帐号。以下为价格策略：
+                <!--{eval $prices = explode(',', $detail['prices']);}-->
+                <p>
+                <!--{eval $_x=1;}-->
+                <!--{loop $prices $_pri}-->
+                <!--{eval
+                    list($_n, $_p) = explode('=', $_pri);
+                    $_xx = $_n == $_x ? $_n : ($_x . '-' . $_n);
+                    $_x = $_n+1;
+                }-->
+                <div>第 {$_xx} 位下单的用户，最终团购价格为<span class="font_2">$_p</span>元；</div>
+                <!--{/loop}-->
+                <div>从 {$_x} 位开始下单的用户，最终团购价格为<span class="font_2">{$detail[price]}</span>元；</div>
+                </p>
+            </div>
+            <!--{/if}-->
+
+            <div class="detail-content">
+                <div class="detail-content-top"></div>
+                <div class="detail-content-body">
+                    <div class="detail-content-area">
+                        <h2 class="detail-content-h2">本单详情</h2>
+                        <div class="detail-content-foo">
+                            $detail[content]
+                        </div>
+                        <h2 class="detail-content-h2">会员点评</h2>
+                        <div class="detail-review-foo">
+                            <!--{get:review val=review(idtype/item_subject/id/$detail[sid]/best/1/orderby/posttime DESC/rows/5)}-->
+                            <div class="review">
+                                <div class="member">
+                                    <!--{if $val[uid]}-->
+                                    <a href="{url space/index/uid/$val[uid]}" title="$val[username]"><img src="{print get_face($val[uid])}" class="face"></a>
+                                    <!--{else}-->
+                                    <img src="{print get_face(0)}" class="face">
+                                    <!--{/if}-->
+                                </div>
+                                <div class="field">
+                                    <ul class="score">
+                                        <!--{get:item _val=reviewopt(catid/$val[pcatid])}-->
+                                        <li>$_val[name]</li><li class="start start{print cfloat($val[$_val[flag]])}"></li>
+                                        <!--{/get}-->
+                                    </ul>
+                                    <!--{eval $reviewurl = '... <a href="' . url("review/detail/id/".$val[rid]) . '">查看全文</a>';}-->
+                                    <p class="shortcontent">
+                                        <!--{if $val[uid]}-->
+                                        <span class="member-ico"><a href="{url space/index/uid/$val[uid]}">$val[username]</a></span>
+                                        <!--{else}-->
+                                        <span class="font_3">游客({print preg_replace("/^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/","\\1.\\2.*.*", $val[ip])})</span>
+                                        <!--{/if}-->
+                                        说:
+                                        {sublen $val[content],42,$reviewurl}
+                                    </p>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <!--{/get}-->
+                            <!--{if $_val}-->
+                            <div class="link"><a href="{url item/detail/id/$detail[sid]}">查看全部点评</a></div>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                    <div class="detail-content-add">
+                        <h3><a href="{url item/detail/id/$subject[sid]}"><span class="font_2">$subject[name]&nbsp;$subject[subname]</span></a></h3>
+                        <div class="subject">
+                            <!--{eval $itemcfg=$_G['loader']->variable('config','item');}-->
+                            <p class="start start{print get_star($subject[avgsort],$itemcfg[scoretype])}"></p>
+                            <table class="subject_field_list" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td colspan="2"><span class="font_2">$subject[reviews]</span>点评,
+                                    <span class="font_2">$subject[guestbooks]</span>留言,
+                                    <span class="font_2">$subject[pageviews]</span>浏览</td>
+                                </tr>
+                                $subject_field_table_tr
+                            </table>
+                            <a href="{url review/member/ac/add/type/item_subject/id/$subject[sid]}"><span>我要点评</span></a>&nbsp;
+                            <a href="{url item/detail/id/$subject[sid]/view/guestbook}#guestbook"><span>留言</span></a>&nbsp;
+                            <div class="clear"></div>
+                        </div>
+                        <!--{if $subject[mappoint]}-->
+                        <div class="detail-content-map">
+                            <!--{eval $mapparam = array(
+                                'width' => '255',
+                                'height' => '245',
+                                'title' => $subject[name] . $subject[subname],
+                                'p' => $subject[mappoint],
+                                'show' => $subject[mappoint]?1:0,
+                            );}-->
+                            <iframe class="map" src="{URLROOT}/index.php?act=map&{print url_implode($mapparam)}" frameborder="0" scrolling="no" height="245"></iframe>
+                        </div>
+                        <!--{/if}-->
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="detail-content-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <!--{if $detail[mode]!='normal'}-->
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>什么是{print lang('tuan_mode_'.$detail[mode])}？</h2>
+                    <div class="tuan-comment">
+                        {print lang('tuan_mode_'.$detail[mode].'_des')}
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+            <!--{/if}-->
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>自助团购</h2>
+                    <div class="tuan-comment">
+                        <p>没有您想要的团购吗？那么就发起自助团购，有多数人感兴趣时，我们将会发起这个团购！</p>
+                        <center><a href="{url tuan/member/ac/wish/op/add}"><img src="{URLROOT}/{$_G[tplurl]}images/tuan/button-tuan-wish.gif" /></a></center>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>本单答疑</h2>
+                    <div class="tuan-comment">
+                        <div class="tuan-comment-total"><a href="{url tuan/discuss/id/$detail[tid]}">查看全部($total)</a>
+                        &nbsp;|&nbsp;
+                        <a href="{url tuan/discuss/id/$detail[tid]}#post">我要提问</a></div>
+                        <!--{if $total}-->
+                        <ul class="tuan-comment-list">
+                            <!--{eval $discuss_tid = $MOD['discuss_all'] ? 0 : $detail['tid'];}-->
+                            <!--{get:tuan val=discuss(select/id,content/tid/$discuss_tid/orderby/dateline DESC/rows/10)}-->
+                            <li><a href="{url tuan/discuss/id/$detail[tid]}#discuss-$val[id]">{sublen $val[content],32,'...'}</a></li>
+                            <!--{/get}-->
+                        </ul>
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+            <!--{if $detail[peoples_sell]}-->
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>近期购买用户</h2>
+                    <div class="sidebar-face">
+                        <ul>
+                            <!--{get:modoer val=table(table/dbpre_tuan_order/select/uid,username/where/tid=$detail[tid] and status='payed'/orderby/oid DESC/rows/9)}-->
+                            <li><div><a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" /></a><a href="{url space/index/uid/$val[uid]}" title="$val[username]"></div><span>$val[username]</span></a></li>
+                            <!--{/get}-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+            <!--{/if}-->
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>商家新闻资讯</h2>
+                    <div class="sidebar-faq">
+                        <ul class="sidebar-faq-list">
+                            <!--{get:article val=getlist(sid/$detail[sid]/orderby/dateline DESC/rows/5)}-->
+                            <li><a href="{url article/detail/id/$val[articleid]}" title="$val[subject]">{sublen $val[subject],16}</a></li>
+                            <!--{getempty(val)}-->
+                            <li>暂无信息</li>
+                            <!--{/get}-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <h2>团购常见问题</h2>
+                    <div class="sidebar-faq">
+                        <ul class="sidebar-faq-list">
+                            <li><a href="{url tuan/faq}#faq1">什么是团购？</a></li>
+                            <li><a href="{url tuan/faq}#faq2">今天的团购很不错，怎么购买？</a></li>
+                            <li><a href="{url tuan/faq}#faq3">如何付款，安全么？</a></li>
+                            <li><a href="{url tuan/faq}#faq4">如果参加团购人数不足，怎么办？</a></li>
+                            <li><a href="{url tuan/faq}#faq5">什么是团购券，怎么使用？</a></li>
+                            <li><a href="{url tuan/faq}#faq6">积分有什么用？怎样获得积分？</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{template tuan_footer}

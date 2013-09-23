@@ -1,0 +1,33 @@
+<?php
+!defined('IN_MUDDER') && exit('Access Denied');
+return array (
+  'review_min' => '2',
+  'review_max' => '5000',
+  'respond_min' => '2',
+  'respond_max' => '5000',
+  'avatar_review' => '0',
+  'review_num' => '5',
+  'respond_num' => '10',
+  'seccode_review' => '0',
+  'seccode_respond' => '1',
+  'scoretype' => '10',
+  'decimalpoint' => '2',
+  'seccode_review_guest' => '1',
+  'index_digst_rand_num' => '2',
+  'index_pk_rand_num' => '1',
+  'index_show_bad_review' => '1',
+  'index_review_num' => '5',
+  'index_review_gettype' => 'new',
+  'meta_keywords' => '',
+  'meta_description' => '',
+  'respondcheck' => '1',
+  'tag_split_sp' => '0',
+  'default_grade' => '0',
+  'digest_price' => '',
+  'digest_pointtype' => 'point1',
+  'digest_gain' => '20',
+  'index_review_pids' => '1,4',
+  'index_top_pids' => '1,4',
+  'model_flag_9' => 'review',
+); 
+?>

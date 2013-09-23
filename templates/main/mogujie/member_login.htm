@@ -1,0 +1,70 @@
+{template modoer_header_login} 
+<script type="text/javascript" src="{URLROOT}/static/javascript/validator.js"></script>
+<div>
+	<div class="login_wrap">
+		<div class="fm960">
+			<div class="logo"><A class="mogujie fl" title="首页" href="{url modoer/index}">首页</A> </div>
+			<div class="content">
+				<div class="lg_left">
+					<h1>用户登录</h1>
+					<div class="lg_form">
+						    <form method="post" action="{url member/login/op/login/rand/$_G[random]}" onsubmit="return validator(this);">
+							<!--{if $passport}-->
+							<input type="hidden" name="passport" value="$passport_type">
+							<input type="hidden" name="passport_id" value="$passport_id">
+							<!--{/if}-->
+							<div class="lg_name">
+								<span>用户名：</span>
+								<input class="text r3" maxlength="32"  type="text" name="username" validator="{'empty':'N','errmsg':'请输入登录名'}">
+							</div>
+							<div class="err_name"><span>请输入登录名</span></div>
+							<div class="clear"></div>
+
+							<div class="lg_pass">
+								<span>密码：</span>
+								<input class="text r3" type="password" name="password" maxlength="32" validator="{'empty':'N','errmsg':'请输入密码'}">
+							</div>
+							<div class="err_pass"><span>请输入密码</span></div>
+							<div class="clear"></div>
+
+							<!--{if $MOD['seccode_login']}-->
+							<div class="lg_seccode">
+								<span>验证码：</span>
+								<input type="text" name="seccode" class="r3 text" style="width:118px;" onblur="check_seccode(this.value);" onfocus="show_seccode();" validator="{'empty':'N','errmsg':'请输入注册验证码'}" />
+								<div id="seccode" class="none" style="float:left;margin-left:5px;width:80px;position:relative;top:3px;"></div>
+								<div id="msg_seccode" class="formmessage none" style="float:left;"></div>
+							</div>
+							<div class="clear"></div>
+							<!--{/if}-->
+							<div class="lg_remember">
+								<input type="checkbox" name="life" id="life" value="2592000" />
+								<label for="life"><span>记住密码(30天)</span></label>
+							</div>
+							<div class="lg_login">
+								<input type="hidden" name="forward" value="$forward" />
+								<input type="hidden" name="onsubmit" value="yes" />
+								<button type="submit" class="sub">&nbsp;</button>
+								<a href="{url member/login/op/forget}">忘记密码？</a>
+							</div>
+						</form>
+						<!--{if $_G['passport_apis']}-->
+						<div class="ot_login"><span>您也可以用以下方式登录：</span>
+							<div class="ot_btn"> 
+								<!--{loop $_G['passport_apis'] $passport_name $passport_title}--> 
+								<a href="{url member/login/op/passport_login/type/$passport_name}"><img src="{URLROOT}/static/images/passport/{$passport_name}_n.png"></a> 
+								<!--{/loop}--> 
+							</div>
+						</div>
+						<!--{/if}--> 
+					</div>
+				</div>
+				<div class="lg_right">
+					<h2>注册</h2>
+					<span style="margin-left: 40px">还没有账号？</span> <a class=reg style="margin-left: 40px" href="{url member/reg}"></a></div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<!--{eval output();}-->

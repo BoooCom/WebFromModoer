@@ -1,0 +1,577 @@
+body { background-color:#F0F0F0; color:#000000; font-family:tahoma,arial,宋体,sans-serif; font-size:12px; line-height:18px; }
+html, body, ul, ol, li, dl, dt, dd, p, h1, h2, h3, h4, h5, h6, a, img, th, td, form, fieldset, iframe, object, pre, code, legend, blockquote {
+    border:0 none;margin:0;outline:0 none;padding:0; 
+}
+body { background:url("images/tuan/bg-deal.jpg") no-repeat 50% 150px #A3DCEF; }
+h1, h2, h3, h4, h5, h6 { font-family:Helvetica,Arial,Tahoma,sans-serif; }
+a { color:#339999; text-decoration: none; }
+a:hover { color: #FF6600; text-decoration: underline; }
+table { border-collapse:collapse;border-spacing:0; }
+
+.clear { clear:both; }
+.formbutton { background:#63C5C8;border-color:#82D0D4 #4D989B #54A3A7 #92D6D9; border-style:solid; border-width:2px;
+    color:#FFF; cursor:pointer; letter-spacing:0.1em; padding:4px 1em; font-size:14px; }
+.frominput { border:1px solid #89B4D6; font-size:14px; padding:3px 4px; }
+.formtextarea { border-color: #7C7C7C #C3C3C3 #DDDDDD; border-style:solid; border-width:1px; font-size:14px; padding:3px 4px; }
+
+.font { font-size:12px; font-weight:normal; margin:0; padding:0; }
+.font_1 { color: #FF0000; padding: 0 1px; }
+.font_2 { color: #FF6600; padding: 0 1px; }
+.font_3 { color: #969696; padding: 0 1px; }
+.font_4 { color: #969696; padding: 0 1px; font: 10px Helvetica,Arial,Tahoma,sans-serif; }
+.font_5 { color: #0033FF; padding: 0 1px; }
+
+#tuan_header { width:100%; background:#434343; }
+#tuan_top { background:#191919; color:#999; height:21px; line-height:14px; padding-top:7px; }
+    #tuan_top a { color:#808080; }
+    #tuan_top .cont { margin:0 auto; position:relative; width:960px; }
+    #tuan_top .topmenu { list-style:none outside none;  }
+    #tuan_top .topmenu li { float:left; padding:0 10px; }
+#tuan_logo { height:120px; color:#ddd; font-family:Helvetica,Arial,Tahoma,sans-serif; }
+    #tuan_logo .cont { width:960px; margin:0 auto; }
+    #tuan_logo .left { float:left; width:600px; }
+        #tuan_logo .left .logo { float:left; padding-top:28px; padding-left:20px;  }
+		#tuan_logo .left .city_foo { float:left; width:120px; margin-left:15px; margin-top:55px; }
+			#tuan_logo .left .city_foo a { color:#63c5c8; }
+			#tuan_logo .left .city_foo span { font-size:14px; font-weight:bold; color:#fff; }
+    #tuan_logo .right { float:right; margin-top:28px; width:300px; }
+        #tuan_logo .right .dingyue { }
+        #tuan_logo .right .dingyue input { border:1px #CCC; height:20px; width:200px; margin-right:10px; }
+        #tuan_logo .right .dingyue img { position:relative; top:7px;  }
+#mainnav { background:#44abaf; border-top:4px solid #338888; height:40px; }
+    #mainnav .cont { width:960px; margin:0 auto; }
+    #mainnav .left { float:left; width:660px; }
+    #mainnav .right { float:right; width: 290px; line-height:40px; }
+    #mainnav .menu { left:0; list-style:none outside none;}
+        #mainnav .menu .lileft { float:left; width:auto; }
+        #mainnav .menu .liright { float:right; }
+		#mainnav .menu a { font-size:15px; font-weight:bold; padding:0 15px;}
+        #mainnav .menu .liright a { padding:0 20px;}
+        #mainnav .menu a { color:#FFFFFF; display:block; float:left; height:40px; line-height:40px; text-align:center; text-decoration: none; }
+        #mainnav .menu a:hover { color:#328889; background:#63c5c8; }
+        #mainnav .menu .hover { color:#328889; background:#63c5c8; }
+        #mainnav .menu .liright a { padding:0 8px; }
+
+.tuan-dropdown-city {
+    padding:10px 0 5px 5px; background:#3b3b3b;
+    display:none; font-size:12px; width:250px; -moz-border-radius:3px; -webkit-border-radius:3px;
+}
+.tuan-dropdown-city ul {
+    margin:0; padding:0 5px; list-style:none; overflow-x:hidden; 
+}
+.tuan-dropdown-city li {
+    float:left; width:32%; margin:0 2px 5px 0; padding:0; _border-bottom:1px dashed #3b3b3b;
+}
+.tuan-dropdown-city li a {
+    display:block; padding:3px 0; color:#FFF; text-align:center;
+}
+.tuan-dropdown-city li a:hover {
+    text-decoration:none; color:#FFF; background:#808080; -moz-border-radius:2px; -webkit-border-radius:2px;
+}
+.tuan-dropdown-city li.current {
+    color:#FFF; background:#808080; -moz-border-radius:2px; -webkit-border-radius:2px;
+}
+.tuan-dropdown-city .morecitys {
+    margin:5px 5px 0; border-top:1px dashed #616161; padding-top:5px; text-align:right;
+}
+.tuan-dropdown-city .morecitys a { 
+    color:#ff9900; padding:0 2px; margin-right:2px;
+}
+
+.tuan-dropdown-menu {
+    margin:0; padding:1px 0 5px; list-style:none; background-color:#63C5C8; overflow-x:hidden; 
+    display:none; font-size:14px; min-width:120px; 
+}
+.tuan-dropdown-menu li {
+    margin:5px; padding:0; _border-bottom:1px dashed #63C5C8;
+}
+.tuan-dropdown-menu li a {
+    display:block; padding:5px 10px; color:#FFF; background-repeat:no-repeat; background-position:2px 5px;
+}
+.tuan-dropdown-menu li a:hover {
+    text-decoration:none; color:#328889; background-color:#ade1e2;
+}
+
+#tuan_body { margin:30px auto 65px; width:960px; }
+#tuan_body .layout { margin-top:10px; }
+#tuan_body .layout .content { float:left; margin-left:8px; margin-right:16px; *margin-right:6px; padding:0; width:702px; }
+#tuan_body .layout .sidebar { float:right; width:230px;  }
+#tuan_body .layout .sidebar p { margin:0 0 10px 0; }
+
+#tuan_body .layout .share { background:url("images/tuan/bg-share-corner.png") no-repeat; float:left; margin-left:16px; height:33px; }
+#tuan_body .layout .share a { background:url("images/tuan/icons-share.gif") no-repeat; color:#000000; font-family:Helvetica,arial,sans-serif;
+font-size:12px; height:16px; line-height:16px; margin-right:10px; outline:0 none; padding-left:20px; }
+#tuan_body .layout .share a:hover { color:#0981BE; }
+#tuan_body .layout .share a img { margin-right:2px; vertical-align:-2px; }
+#tuan_body .layout .share .im { line-height:16px; }
+#tuan_body .layout .share .kaixin { background-position:0 -40px; }
+#tuan_body .layout .share .renren { background-position:0 -80px; }
+#tuan_body .layout .share .douban { background-position:0 -120px; }
+#tuan_body .layout .share .email { background-position:0 -161px; }
+#tuan_body .layout .share .sina { background-position:0 -201px; }
+#tuan_body .layout .share-block { padding:8px 10px; }
+#tuan_body .layout .share-right { background:url("images/tuan/bg-share-corner.png") no-repeat scroll 100% -50px; float:left; height:33px; width:10px; }
+
+#share-im-c { clear:both; margin-left:16px; width:493px; *width:495px; }
+.share-im-b { background:#E5F8FF; border-width:0 1px;border-color:#89B4D6;border-style:solid; height:50px; padding:10px 10px 20px; }
+.share-im-b h3 { margin:5px 0 5px; padding:0; font-size:14px; }
+.share-im-b input { width:350px; }
+
+#detail-intro { clear:both; border:2px solid #89b4d4; background:#FFF; padding:25px 14px 15px; }
+#detail-intro h1 { font-family:'黑体',arial,sans-serif; font-size:30px; line-height:1.2; padding:0 50px 20px; }
+#detail-intro h1 a { color:#339999; text-decoration: none; }
+#detail-intro .detleft { float:left; font-family:Helvetica,arial,sans-serif; margin-right:15px; width:215px; }
+#detail-intro .detright { float:right; margin-right:0; width:440px; }
+#detail-intro .buy { position:relative; }
+#detail-intro .buy-tag { background:url("images/tuan/bg-deal-price.png") no-repeat; _background:none;  height:97px; left:-72px; padding-left:50px; position:absolute; width:237px; z-index:1;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="/templates/main/default/images/tuan/bg-deal-price.png"); }
+#detail-intro .buy-price span { color:#FFF; left:146px; position:absolute; top:0; }
+#detail-intro .buy-price span.price-expire { background:url("images/tuan/bg-deal-expired-text.gif") no-repeat 6px 17px; height:84px; width:140px; }
+#detail-intro .buy-price span.price-soldout { background:url("images/tuan/bg-deal-soldout-text.gif") no-repeat 6px 17px; height:84px; width:140px; }
+#detail-intro .buy-price { height:97px; left:-72px; line-height:82px; padding-left:50px; position:absolute; width:237px; z-index:2; }
+#detail-intro .buy-price strong {color:#FFFFFF; float:left; font-size:30px; font-weight:normal; margin-left:5px;}
+#detail-intro .buy-price span { color:#FFFFFF; left:146px; position:absolute; top:0; z-index:2;  }
+#detail-intro .buy-price span a { height:53px; line-height:53px; margin-top:19px; outline:0 none; width:144px; display:block; }
+#detail-intro .buy-discount { background:none repeat scroll 0 0 #DEF9F0;border:1px solid #339A99;margin-top:77px;width:100%;}
+#detail-intro .buy-discount th { padding:15px 0 0 0; font-weight:normal; }
+#detail-intro .buy-discount td { text-align:center; font-weight:bold; font-size:14px; padding-bottom:10px; }
+#detail-intro .progress-pointer {float:left;padding:3px 0;}
+#detail-intro .progress-pointer span {background:url("images/tuan/bg-progress-pointer.gif") no-repeat;float:left;height:13px;width:14px;}
+#detail-intro .progress-bar {background:url("images/tuan/bg-progress-bottom.gif") no-repeat left top;float:left;height:17px;padding:0 2px;width:194px;}
+#detail-intro .progress-left, #detail-intro .progress-right {background:url("images/tuan/bg-progress-top-l.gif") no-repeat left top;float:left;height:9px;margin-top:3px;}
+#detail-intro .progress-left { margin-left:2px; }
+#detail-intro .progress-right {background:url("images/tuan/bg-progress-top-r.gif") no-repeat; width:6px; }
+#detail-intro .hide {display:none;}
+#detail-intro .min {clear:both;float:left;font-weight:bold;}
+#detail-intro .max {float:right;font-weight:bold;}
+
+.sidebar-face ul { height:100%; padding:5px 0; margin:5px 0 0 5px; padding:0; list-style:none; overflow:hidden; color:#808080; }
+.sidebar-face li { float:left; margin:0 3px; width:66px; height:75px; text-align:center; overflow:hidden; }
+.sidebar-face li div { width:66px; margin:0 auto; }
+.sidebar-face li img { width: 48px; height: 48px; padding: 2px; border: 1px solid #ddd; }
+.sidebar-face li span { display: block; line-height: 17px; clear:right; margin-top:1px; }
+
+.sidebar-feed ul { height:100%; padding:5px 0; margin:5px 5px 0 5px; padding:0; list-style:none; overflow:hidden; color:#808080; }
+.sidebar-feed li { margin:0 2px 5px; height:60px; overflow:hidden; border-bottom:1px dashed #ccc; }
+.sidebar-feed li .sface { float:left; width:60px; }
+.sidebar-feed li .sface img { width:48px; height:48px; padding:2px; border:1px solid #ddd; }
+.sidebar-feed li .sfeed { float:left; width:150px; margin:0; padding:0; }
+.sidebar-feed li .sfeed a { margin:0 2px; }
+
+
+.mode-intro { clear:both; border:2px solid #89b4d4; background:#FFF; padding:15px 14px 15px; margin-top:10px; }
+.tuan-bar { clear:both; border:1px solid #89b4d4; background:#FFF; padding:5px; margin-bottom:10px; }
+.tuan-bar cite { float:right; margin-top:-22px; margin-left:5px; font-style:normal; font-size:14px;  }
+
+.detail-off {background:url("images/tuan/bg-deal-end.gif") no-repeat 90% 50%;; }
+.detail-on { background:url("images/tuan/bg-deal-open.gif") no-repeat 90% 50%; }
+.detail-box { background-color:#E4F1FA; border:1px solid #89B4D6; margin-top:12px; padding:8px;}
+
+.detail-timeleft { padding:10px 20px 10px 24px; }
+.detail-timeleft h3 { font-size:14px;font-weight:normal; }
+.detail-timeleft li { font-weight:bold;list-style:none; }
+.detail-timeleft li span {float:left;font-weight:bold;margin-right:4px;padding-right:2px;text-align:right;width:16px; }
+.detail-timeleft p { margin:9px 0 9px; }
+
+.detail-status { text-align:center; line-height:22px; }
+.detail-buy-tip-top { font-size:16px; }
+.detail-buy-tip-top strong { color:#990000; margin:0 1px; }
+.detail-buy-on { background:url("images/tuan/deal-buy-succ.gif") no-repeat 28px 6px; font-size:16px;font-weight:bold;margin:12px 0;padding-left:65px;text-align:left }
+.detail-buy-tip-btm { color:#666; font-size:12px; }
+.detail-buy-status-succed { background:url("images/tuan/bg-deal-expired-success.gif") no-repeat; height:92px; width:147px; margin:0 auto; }
+.detail-buy-status-soldout { background:url("images/tuan/bg-deal-sold-out.gif") no-repeat; height:92px; width:146px; margin:0 auto; }
+.detail-buy-status-fail { background:url("images/tuan/bg-deal-expired-fail.gif") no-repeat; height:92px; width:155px; margin:0 auto; }
+.detail-buy-total { font-size:14px; font-weight:bold; margin-top:5px; }
+
+.detail-picture { height:267px; text-align:center; }
+.detail-picture img { max-width:440px; max-height:267px; 
+    _width: expression(this.width > 440 ? 440 : true); _height: expression(this.height > 267 ? 267 : true);  }
+.detail-notetip { background:url("images/tuan/bg-deal-voice-quote.gif") no-repeat; color:#666666; margin-left:10px; margin-top:28px; min-height:70px; padding-left:70px;
+    padding-right:35px; font-size:14px; line-height:22px; }
+
+.detail-content { margin:10px 0 20px 0; }
+.detail-content-top { background:url("images/tuan/bg-box-split-702.png") no-repeat; height:20px; }
+.detail-content-body { background:url("images/tuan/bg-box-split-702b.png") repeat-y; padding:0 20px; margin:0; border-bottom: 1px; }
+.detail-content-bottom { clear:both;background:url("images/tuan/bg-box-split-702.png") no-repeat 0 -21px; height:20px; font-size:1px; }
+.detail-content-body img { max-width:420px; _width:expression(this.width > 420 ? 420 : true); }
+.detail-content-h2 { font-size:14px; margin:5px 0; padding-bottom:3px; }
+.detail-content-area { float:left; width:418px; }
+.detail-content-foo { font-size:14px; line-height:200%; }
+.detail-content-add { float:right; width:210px; }
+.detail-content-add h3 { font-size:14px; margin:0 0 10px 0; padding:0; }
+.detail-content-foo { min-height:100px; }
+.detail-content-map { margin:10px 0; }
+.detail-content-map .map { width:210px; }
+
+.detail-review-foo { margin:10px 0 20px 0; }
+.detail-review-foo .review { color:#808080; border-bottom:1px dashed #ccc; margin:5px 0 0; padding-bottom:5px; *padding-bottom:0px; }
+.detail-review-foo .review .member { float:left; width:55px; text-align:center; }
+.detail-review-foo .review .member img { border:1px solid #ddd; padding:1px; max-width:50px; }
+.detail-review-foo .review .field { float:right; width:360px; }
+.detail-review-foo .review .score { list-style:none; margin:0; padding:0; }
+.detail-review-foo .review .score li { float:left; width:auto; height:15px; }
+.detail-review-foo .review .score li.start { float:left; width:63px; height:15px; }
+.detail-review-foo .review .shortcontent { clear:both; margin:0; padding:0; }
+.detail-review-foo .link { margin-top:10px; text-align:right; }
+
+.subject { width:100%; line-height:18px; }
+.subject .start { margin:0; padding:0; height:15px;  }
+.subject_field_list { color:#808080; margin:0; }
+
+.sidebar-top { margin-top:33px; }
+.sbox-border { width:230px; margin-bottom:10px; }
+.sbox-border .sbox-top { background:url("images/tuan/bg-sbox-230.png") no-repeat; height:13px; font-size:0px; line-height:0px; overflow:hidden;}
+.sbox-border .sbox-body { background:#EFF8FF; border-left:2px solid #89B4D6; border-right:2px solid #89B4D6; }
+.sbox-border .sbox-body h2 { font-size:14px; margin:0; padding:5px 12px; }
+.sbox-border .sbox-bottom { background:url("images/tuan/bg-sbox-230.png") no-repeat 0 -14px; height:13px; }
+
+.sbox-white { width:230px; }
+.sbox-white .sbox-top { background:url("images/tuan/bg-sbox-230-white.png") no-repeat scroll 0 0 transparent; height:12px;overflow:hidden; }
+.sbox-white .sbox-body { background:none repeat scroll 0 0 #FFFFFF; border:medium none; }
+.sbox-white .sbox-bottom { background:url("images/tuan/bg-sbox-230-white.png") no-repeat 0 -14px; height:13px; }
+
+.side-tip {padding:10px 10px 10px 15px;}
+.side-tip h3.first {margin-top:0;}
+.side-tip h3 {margin:15px 0 5px;font-size:14px;}
+.side-tip p {color:#666666;font-size:12px;margin:5px 0 10px;}
+
+.tuan-comment,.sidebar-faq { padding:5px 12px; color:#808080; } 
+.tuan-comment-total { color:#339999 }
+.tuan-comment-list,.sidebar-faq-list { list-style:none; }
+.tuan-comment-list li,.sidebar-faq-list li { padding:5px 0 5px 12px; border-bottom:1px dashed #ccc; line-height:20px; 
+	background:url("img/dot1.png") no-repeat 5px 15px; }
+.tuan-comment-list li a,.sidebar-faq-list li a { color:#808080; }
+
+.tuan-main-box {}
+.tuan-main-box-top { background:url("images/tuan/bg-box-702.gif") no-repeat; height:20px; overflow:hidden; }
+.tuan-main-box-body { background-color:#FFF; border-left:2px solid #89B4D6; border-right:2px solid #89B4D6; }
+.tuan-main-box-body .head { padding:10px 10px 20px 10px; }
+.tuan-main-box-body .head h2 { display:inline; font-size:30px; padding-left:10px; }
+.tuan-main-box-body .head .filter { float:right; position:relative;right:10px; top:25px; list-style:none;text-align:right; }
+.tuan-main-box-body .head .filter li {float:left;font-size:12px;margin:0 5px 0 0;}
+.tuan-main-box-body .head .filter a {padding:3px 1px;}
+.tuan-main-box-body .head .filter .current a {-moz-border-radius:2px 2px 2px 2px;background:#00ADB2;color:#FFF;padding:3px 7px;}
+.tuan-main-box-body .sect { border-top:1px solid #DDEEFF; padding:10px 20px; margin-top:10px; }
+.tuan-main-box-body .sect .info { padding:10px 0; font-size:14px; line-height:21px; }
+.tuan-main-box-bottom { background:url("images/tuan/bg-box-702.gif") no-repeat 0 -21px; height:20px; overflow:hidden; }
+
+.tuan-subscibe { background:#FDFEEE; border:1px solid #F3D3C4; margin:10px 0; padding:15px 20px 30px }
+.tuan-subscibe span { color:#808080; }
+.tuan-subscibe .email { display:block; margin:5px 0; width:250px; }
+.tuan-subscibe .enter-address { float:left; width:260px; }
+.tuan-subscibe .enter-button { float:right; width:320px; padding-top:20px; }
+
+.tuan-info { clear:both; margin-bottom:10px; border:2px solid #89b4d4; background:#FFF; padding:0; }
+.tuan-info-table { padding:0; margin:0 }
+.tuan-info-table .link { font-size:14px; padding:20px; width:425px; }
+.tuan-info-table .link h2 { margin:10px 0; line-height:130%; }
+.tuan-info-table .buy { background:#DEF9F0 url("images/tuan/bg-consult-deal-buy.gif") no-repeat 100% 52%; padding:25px 0; vertical-align:middle; width:235px; }
+.tuan-info-table .buy a {float:right;height:85px;text-indent:-9999px;width:185px;}
+
+.discuss-list { list-style:none; }
+.discuss-list li { border-bottom:1px solid #eee; margin-bottom:10px; }
+.discuss-head {}
+.discuss-head .username { float:left; width:300px; font-weight:bold; }
+.discuss-head .dateline { float:right; width:200px; color:#808080; text-align:right; }
+.discuss-info { clear:both; font-size:14px; }
+.discuss-content { padding:5px 0; color:#808080;  }
+.discuss-reply { margin-bottom:5px; padding:5px 0; color:#CC0000; }
+.discuss-reply .re { font-weight:bold; }
+
+.discuss-form { padding:10px; }
+.discuss-form textarea { width:405px; height:100px; display:block; margin-bottom:10px; }
+.discuss-form-login { font-size:14px; padding:10px 0; }
+
+.tuan-category { clear:both; list-style:none; margin:0; padding:0; }
+.tuan-category .category-title { float:left; font-weight:bold; width:50px; text-align:right; margin-right:2px; padding:2px; color:#515151; }
+.tuan-category li { float:left; width:auto; margin-right:5px;margin-bottom:2px; }
+.tuan-category li.selected { background:#00ADB2; -moz-border-radius:2px; -webkit-border-radius:2px; }
+.tuan-category li.selected a { color:#FFF; }
+.tuan-category li a { display:block; padding:2px 5px; }
+.tuan-category li a:hover { background:#00ADB2; text-decoration:none; color:#FFF; -moz-border-radius:2px; -webkit-border-radius:2px; }
+
+.deals-list { list-style:none; margin:0; padding:0; }
+.deals-list li { float:left; padding-bottom:5px; border-bottom:1px dashed #ddd; }
+.deals-list li.first {  width:315px;border-right:1px dashed #ddd;}
+.deals-list li.alt {  width:322px;border-right:medium none; padding-left:20px; }
+.deals-list .deals-time { padding:5px 0; font-size:12px; font-weight:bold; }
+.deals-list h4 { font-size:14px; font-weight:normal; height:45px; }
+.deals-list h4 a { color:#808080; }
+.deals-list .deals-pic { float:left; width:205px;  }
+.deals-list .deals-info { float:right; width:100px; line-height:21px; color:#808080; }
+.deals-list .total { margin:0; padding:0 0 10px 0;}
+.deals-list .count{ font-size:20px; font-weight:bold; color:#CC0000; }
+.deals-list .price { color:#808080; }
+.deals-list .old { text-decoration:line-through; font-size:14px;color:#000;   }
+.deals-list .discount { color:#CC0000; font-size:14px; }
+.deals-list .money { font-weight:bold; color:#000; font-size:14px; font-family:Arial; }
+
+.sidebar-tuan-list { margin:0; padding:0; clear:both; }
+.sidebar-tuan-list h4 { font-size:13px; margin:0; padding:0; }
+.sidebar-tuan-list ul { margin:0; padding:0; list-style:none; }
+.sidebar-tuan-list ul li { margin:10px 10px 0; }
+.sidebar-tuan-list ul li .thumb { text-align:center; margin:5px 0 0; padding-top:1px; background:#FFF; border:1px solid #eee; }
+.sidebar-tuan-list ul li .info { background:#FFF; padding:8px 10px; position:relative; font-weight:bold; }
+.sidebar-tuan-list ul li .info span { vertical-align:middle; }
+.sidebar-tuan-list ul li .info span strong { color:#cc0000; margin-right:2px; font-weight:bold; font-size:14px; }
+.sidebar-tuan-list ul li .info .buy { position:absolute; right:8px; top:5px; }
+.sidebar-tuan-list ul li .info .buy img { vertical-align:middle; }
+
+.tuan-list-a { list-style:none; margin:0; padding:0; }
+.tuan-list-a .money { font-weight:bold; color:#000; font-size:14px; font-family:Arial; }
+.tuan-list-a-s { float:left; width:336px; border:1px solid #89B4D4; background:#FFF; height:390px; margin-bottom:20px; }
+.tuan-list-a .list-split { margin-right:26px; }
+.tuan-list-a-s h3 { margin:10px 15px; font-size:16px; line-height:26px; height:45px; _height:58px; }
+.tuan-list-a-s h3 a { color:#373737; }
+.tuan-list-a-s h3 a:hover { color:#119fce; text-decoration: none;  }
+.tuan-list-a-thumb { text-align:center; height:210px; }
+.tuan-list-a-thumb img { max-width:308px; max-height:208px; 
+    _width: expression(this.width > 308 ? 308 : true); _height: expression(this.height > 208 ? 208 : true); }
+.tuan-list-a-price { margin:10px 0 5px; }
+.tuan-list-a-price-r { position:relative; }
+.tuan-list-a-price-p { position:absolute; left:-28px; float:left; 
+    background:url(images/tuan/bg-deal-see-s.png) no-repeat;
+    _background:none;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/templates/main/default/images/tuan/bg-deal-see-s.png");
+    height:76px; width:218px; z-index:2; }
+.tuan-list-a-price-v { float:left; z-index:4; position:absolute; margin:22px 0 0 8px; font-size:20px; 
+    font-weight:bold;color:#FFF; font-family:Arial; }
+.tuan-list-a-price-l { margin-left:200px; line-height:17px; color:#808080; }
+.tuan-list-a-price-l strong { margin-right:2px; color:#000; }
+.tuan-list-a-price-r span {color: #FFFFFF;left: 90px;position: absolute;top:12px;z-index: 2; display:block; 
+    height:40px; width:90px; text-indent:-3000px; }
+.tuan-list-a-price-r span a { display:block; height:40px; }
+.tuan-list-a-time { margin-top:0; font-size:14px; }
+.tuan-list-a-time .countdown { display:block; float:left; text-align:right; width:190px; }
+.tuan-list-a-time .sellnum { display:block;  float:left; text-align:left; margin-left:10px; }
+.tuan-list-a-time .sellnum .font_1 { font-size:18px; }
+
+.wish-list { list-style:none; margin:0; padding:0; }
+.wish-list li { padding-bottom:10px; border-bottom:1px dashed #ddd; margin-bottom:10px; }
+.wish-list .discount { color:#CC0000; font-size:14px; }
+.wish-list h4 { height:30px; color:#990000; font-size:16px; }
+.wish-list .deals-pic { float:left; width:215px; }
+.wish-list .deals-pic img { padding:1px; border:1px solid #ddd; }
+.wish-list .deals-info { float:left; width:345px; color:#484848; }
+.wish-list .deals-info p { margin:5px 0; }
+.wish-list .deals-info strong { color:red; margin-right:5px; }
+.wish-list .deals-operation { float:right; width:95px; color:#808080; text-align:center; }
+.wish-list .deals-operation img { margin-bottom:5px; }
+.wish-list .deals-operation .interested { display:block; margin:5px; color:green; }
+.wish-list .deals-interest { line-height:20px;color:#808080; }
+.wish-list .deals-interest img { position:relative; top:6px; max-width:20px; max-height:20px; border:1px solid #ddd;
+ _width: expression(this.width > 20 ? 20 : true); _height: expression(this.height > 20 ? 20 : true);  }
+.wish-list .deals-interest .interest  { float:left;width:460px;  }
+.wish-list .deals-interest .onlyuser { float:left;width:90px; }
+
+.order-table, .info-table { width:100%; font-size:14px; }
+.order-table th, .info-table th {background:#EFF8FF; padding-bottom:10px; padding-top:10px; white-space:nowrap;}
+.order-table td, .info-table td {border-top:1px solid #EFF8FF; padding:8px 16px; text-align:center; }
+.order-table .order-desc { padding-left:16px; text-align:left; width:auto; }
+.order-table .order-quantity { width:80px; }
+.order-table .order-quantity input { width:100%; height:35px; line-height:35px; border:1px solid #89b4d6; text-align:center; font-size:16px; font-weight:bold; }
+.order-table .order-multi { width:15px; }
+.order-table .order-price { width:50px; }
+.order-table .order-equal { width:15px; }
+.order-table .order-total { padding-right:12px; text-align:right; width:80px;}
+.order-table .order-total-text { font-weight:bold;color:#CC0000; }
+.order-table .money { color:#000; font-size:14px; margin-right:5px;font-family:Arial; }
+.order-table .order-limit { color:#808080; font-size:12px; }
+#order-buy-total { font-size:20px; }
+#order-buy-ex-total { font-size:20px; }
+#order-buy-total-t { font-size:20px; color:#CC0000; }
+.info-table .info-key { padding-left:15px; text-align:left; width:130px;  }
+.info-table .info-input { width:auto; text-align:left; }
+.info-table .info-input input { height:30px; line-height:30px; border:1px solid #89b4d6; font-size:16px; padding:0 3px; }
+.info-table .info-input textarea { height:80px; line-height:30px; border:1px solid #89b4d6; font-size:16px; padding:0 3px; }
+.order-my-rmb p { padding:10px 20px; font-size:14px; }
+.order-my-rmb .money { color:#000; font-size:14px; margin-right:5px;font-family:Arial; }
+.order-my-rmb strong { color:#cc0000; }
+.order-my-rmb h3,.order-my-info h3 { background:#EFF8FF; padding-bottom:10px; padding-top:10px; white-space:nowrap; font-size:14px; margin:0; padding:10px 20px; }
+.order-form-submit { margin:10px 5px; }
+.order-form-return { font-size:14px; margin-left:10px; }
+.order-my-rmb em,.order-my-info em { float:right; font-style:normal; margin-top:10px; margin-right:10px; }
+
+.tuan-tab  {bottom:-2px;float:left;margin-left:24px;position:relative;z-index:2;}
+.tuan-tab ul {float:left;list-style:none;}
+.tuan-tab li {float:left;font-size:14px;margin-right:4px;}
+.tuan-tab li a {background:url("images/tuan/bg-dashboard-tab.png") no-repeat 0 -200px;float:left;height:27px;outline:0 none;padding:7px 7px 0 17px;}
+.tuan-tab li span {background:url("images/tuan/bg-dashboard-tab.png") no-repeat -161px -300px;float:left;height:34px;width:10px;}
+.tuan-tab li.current a {background-position:0 0;}
+.tuan-tab li.current span {background-position:-161px -100px;}
+
+.tuan-credit { font-size:14px; }
+.tuan-credit-charge { border:1px solid #ffec19; background:#fffbcc; padding:10px 20px; }
+.tuan-credit-message { padding:20px 0; font-weight:bold; }
+.tuan-credit-message .money { color:#000; font-size:24px; color:#CC0000; }
+
+.coupons-table {margin:0;width:100%;}
+.coupons-table .alt { background:#F2F3F4; }
+.coupons-table td, .coupons-table th {text-align:center; border:1px solid #FFF;padding:10px;font-size:14px;  }
+.coupons-table td { font-size:12px; }
+.coupons-table .unpay {color:#B32E2D;}
+.coupons-table .fade {color:#999999;}
+.coupons-table .deal {text-align:left;}
+.coupons-table .deal-info td {background:none repeat 0 0;border:medium none;padding:0;width:100%;}
+.coupons-table .deal-info .pic {padding-right:10px;width:75px;}
+.coupons-table .deal-info .pic img {display:block;}
+.coupons-table .deal-info .text {text-align:left;}
+.coupons-table .sort {background:url("images/tuan/bg-coupons-sort.gif") no-repeat;color:#000000;display:block;padding-right:15px;}
+.coupons-table .order-asc {background-position:70px 5px;}
+.coupons-table .order-desc {background-position:70px -45px;}
+.coupons-table .disorder-asc {background-position:70px -95px;}
+.coupons-table .disorder-desc {background-position:70px -145px;}
+.coupons-table .money { color:#000; font-family:Arial; }
+
+#online_payments{ margin:0 0 0 15px; padding:0; list-style:none;}
+#online_payments li { float: left; width:198px; margin: 10px 5px; padding: 5px 0px;text-align:center;border:1px solid #44ABAF;}
+#online_payments li a { display: block; }
+#online_payments li.selected { background:#44ABAF; }
+#online_payments li.selected a { font-weight:bold; color:#FFF; }
+/* help */
+.guide {
+padding:20px 30px;
+width:auto;
+}
+.guide-steps {
+color:#666666;
+list-style:none;
+}
+.guide-steps li {
+position:relative;
+z-index:1;
+}
+.guide-steps h3 {
+background:url("images/tuan/bg-learn-guide-titles.gif") no-repeat scroll 0 0 transparent;
+height:38px;
+margin-top:50px;
+text-indent:-999em;
+width:370px;
+}
+.guide-steps h3.step1 {
+margin-top:0;
+}
+.guide-steps h3.step2 {
+background-position:0 -200px;
+}
+.guide-steps h3.step3 {
+background-position:0 -400px;
+}
+.guide-steps h3.step4 {
+background-position:0 -600px;
+}
+.guide-steps .text {
+margin-top:5px;
+padding-left:50px;
+width:290px;
+}
+.bubble {
+left:370px;
+position:absolute;
+top:0;
+}
+.bubble-top {
+background:url("images/tuan/bg-learn-guide-bubble.gif") no-repeat 0 0;
+padding:20px 10px 20px 28px;
+width:237px;
+}
+.bubble ol.buy li.last {
+margin-bottom:0;
+}
+.bubble ol.buy li {
+margin-bottom:25px;
+}
+.bubble li {
+list-style-position:inside;
+list-style-type:decimal;
+}
+.bubble-bottom {
+background:url("images/tuan/bg-learn-guide-bubble.gif") no-repeat 0 -588px ;
+height:12px;
+overflow:hidden;
+width:275px;
+}
+.box-bottom {
+    background:url("images/tuan/bg-box-702.png") no-repeat scroll 0 -21px transparent;
+    height:20px;
+    overflow:visible;
+}
+.has-dashboard {
+padding-top:0px;
+}
+.side-tip-help {
+padding:10px 12px 1px;
+}
+.side-tip-help span {
+display:block;
+margin:5px 0 15px;
+padding-left:10px;
+}
+
+/* faq */
+.faq { border-top:1px solid #DDEEFF; padding:16px 10px 10px;
+width:auto;}
+.faqlist {margin:10px 10px 50px;}
+.faqlist dt.fold {
+background-position:0 0;
+}
+.faqlist dt span {
+background:url("images/tuan/bg-help-title-arrow.png") no-repeat scroll 0 0 transparent;
+display:block;
+font-size:0;
+height:7px;
+left:636px;
+line-height:0;
+position:absolute;
+top:13px;
+width:9px;
+}
+.faqlist dt.unfold {
+background-position:0 -100px;
+}
+.faqlist dt.unfold span {
+background-position:0 -150px;
+}
+.faqlist dt {
+background:url("images/tuan/bg-help-title.png") no-repeat scroll 0 0 transparent;
+color:#666666;
+cursor:pointer;
+font-weight:bold;
+height:33px;
+line-height:33px;
+margin-bottom:5px;
+padding:0 10px 0 20px;
+position:relative;
+}
+.faqlist dd {
+color:#000000;
+margin:10px 20px 30px;
+font-size:14px;
+}
+
+/*--- star ---*/
+.start0 { background:url('img/review_start.gif') no-repeat 0 -1px;  width:58px; height:10px; }
+.start1 { background:url('img/review_start.gif') no-repeat 0 -15px; width:58px; height:10px; }
+.start2 { background:url('img/review_start.gif') no-repeat 0 -29px; width:58px; height:10px; }
+.start3 { background:url('img/review_start.gif') no-repeat 0 -43px; width:58px; height:10px; }
+.start4 { background:url('img/review_start.gif') no-repeat 0 -57px; width:58px; height:10px; }
+.start5 { background:url('img/review_start.gif') no-repeat 0 -71px; width:58px; height:10px; }
+
+/*--- multipage ---*/
+.multipage { clear:both; margin-bottom: 5px; text-align:right;}
+.p_bar { clear:both; margin:5px 0; }
+.p_bar a { font-size:12px;text-decoration:none;padding:3px 6px; }
+.p_bar a:hover { background:#00ADB2;border:1px solid #FFE4CA;text-decoration:none;color:#FFF; }
+.p_info { background:#FFF;border:1px solid #DDD;margin-right:1px;padding:3px 6px;color:#FF6600; }
+.p_num { background:#FFF;border:1px solid #DDD;margin-right:1px; }
+.p_redirect { background:#FFF; border:1px solid #DDD; margin-right:1px; font-size:12px; }
+.p_curpage { margin-right:1px; border:1px solid #DDD; background:#FFFFD9; color:#92A05A; font-weight:700; padding:3px 6px; }
+
+#tuan_footer { clear:both; margin:18px auto; width:960px; text-align:center; }
+
+.maintable { width: 100%; }
+.maintable .tblth { /*background:#FFFFFF;*/  }
+.maintable .tblth th { /*border-bottom:1px solid #FFFFCC;*/ }
+.maintable th { text-align: left; color: #808080; padding: 5px 10px; font-weight: normal; }
+.maintable td { padding: 5px 10px; }
+

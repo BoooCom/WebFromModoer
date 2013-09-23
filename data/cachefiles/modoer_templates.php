@@ -28,6 +28,28 @@ return array (
       'price' => '0',
       'pointtype' => 'point1',
     ),
+    3 => 
+    array (
+      'templateid' => '3',
+      'name' => 'baidu',
+      'directory' => 'baidu',
+      'copyright' => 'baidu',
+      'tpltype' => 'main',
+      'bind' => '0',
+      'price' => '0',
+      'pointtype' => 'point1',
+    ),
+    4 => 
+    array (
+      'templateid' => '4',
+      'name' => 'mogujie',
+      'directory' => 'mogujie',
+      'copyright' => 'mogujie',
+      'tpltype' => 'main',
+      'bind' => '0',
+      'price' => '0',
+      'pointtype' => 'point1',
+    ),
   ),
 ); 
 ?>

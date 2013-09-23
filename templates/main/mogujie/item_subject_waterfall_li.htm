@@ -1,0 +1,46 @@
+<!--{eval $i=0;}-->
+<!--{loop $arrlist $val}-->
+<div class="wf-container">
+	<div class="bd">
+        <div class="item_thumb_box">
+            <div class="item_thumb">
+                {if $val[favorites]}<div class="picnumber">{$val[favorites]}关注</div>{/if}
+                <a href="{url item/detail/id/$val[sid]}" target="_blank">
+                    <img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[name]{if $val[subname]}($val[subname]){/if}" />
+                </a>
+            </div>
+        </div>
+        <div class="who_share_s">
+            <div class="share_info">
+                <a class="n" href="{url item/detail/id/$val[sid]}" target=_blank>$val[name]&nbsp;$val[subname]</a>
+            </div>
+            <div class="reviewopt">
+                <!--{loop $reviewpot $_val}-->
+                $_val[name]:<span class="font_2">{print cfloat($val[$_val[flag]])}</span>
+                <!--{/loop}-->
+            </div>
+            <!-- 相关点评 -->
+            <!--{if $revews[$val[sid]]}-->
+            <ul class="wf-reviews">
+                <!--{loop $revews[$val[sid]] $rval}-->
+                <li class="rev">
+                    <div class="face"><a href="{print get_face($rval[uid])}"><img src="{print get_face($rval[uid])}" title="$rval[username]" /></a></div>
+                    <p><strong><a href="{url space/index/uid/$rval[uid]}">$rval[username]</a></strong>{sublen $rval[content],12,'...'}</p>
+                    <div class="clear"></div>
+                </li>
+                <!--{/loop}-->
+                <li class="count"><a href="{url review/item/sid/$val[sid]}">查看全部 <strong>{$val[reviews]}</strong> 条点评...</a></li>
+            </ul>
+            <!--{/if}-->
+        </div>
+
+	</div>
+	<div class="ft"></div>
+</div>
+<!--{/loop}--> 
+<!--{if $multipage}-->
+<div class="multipage" id="multipage">$multipage</div>
+<!--{/if}--> 
+<!--{if $wf_multipage}-->
+<div class="multipage" id="wf_multipage">$wf_multipage</div>
+<!--{/if}--> 

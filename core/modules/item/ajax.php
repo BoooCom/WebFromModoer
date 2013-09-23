@@ -17,7 +17,7 @@ $loginacs = array( 'post_respond', 'delete_respond', 'add_flower', 'post_membere
 // 可返回地址
 $_G['forward'] = $_G['web']['referer'] ? $_G['web']['referer'] : $_G['cfg']['siteurl'];
 
-$act = empty($do) || !in_array($do, $allowacs) ? '' : $do;
+$do = empty($do) || !in_array($do, $allowacs) ? '' : $do;
 
 if(!$do) redirect('global_op_unkown');
 

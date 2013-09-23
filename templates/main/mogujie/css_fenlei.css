@@ -1,0 +1,66 @@
+#fenlei_left { float:left; width:650px; }
+#fenlei_right { float:right; width:300px; }
+
+.piece_wb {width: 670px;margin: 0 0 20px 0;position: relative;clear: both;}
+
+.c_category {  border:1px solid #ddd; margin-bottom:10px; padding-bottom:10px; }
+.c_category ul { margin:10px; padding: 0 10px; list-style:none;  }
+.c_category ul h3 { font-size:12px; padding:0; margin:20px 0 10px; }
+.c_category li { float:left; width:100px; padding:5px 0; }
+.c_category li.selected a{ color:#CC0000; font-weight:bold; }
+
+.f_category { border:1px solid #ddd; margin-bottom:10px; padding-top:5px; padding-bottom:0px; }
+.f_category ul { margin:5px; padding: 0 5px; list-style:none;  }
+.f_category ul h3 { font-size:12px; padding:0; margin:5px 0 5px; }
+.f_category li { float:left; width:100px; padding:5px 0; }
+.f_category li.selected a{ color:#CC0000; font-weight:bold; }
+
+.xsearch { margin:5px 0 0 10px; line-height:18px; }
+.xsearch td { padding:5px 0; }
+
+.fenlei-list {  padding:5px; }
+.fenlei-list-dv { color:both; margin: 10px 5px 10px 10px; border-bottom:1px dashed #ccc; }
+.fenlei-list-dv .thumb { float:left; width:110px; margin-bottom:5px; }
+.fenlei-list-dv .thumb img { padding:1px; border:1px solid #ccc; max-width:100px; _width:expression(this.width > 100 ? 100 : true); }
+.fenlei-list-dv .foor { float:right; width:510px; }
+.fenlei-list-dv .title h3 { margin:0 0 4px;padding:0; font-size:14px; color:#000033; font-weight:normal; }
+.fenlei-list-dv .title h3 a { margin:0 1px; }
+.fenlei-list-dv .title h3 .title a { font-weight:bold; }
+.fenlei-list-dv .introduce { color:#666; line-height:20px; padding:0;margin:0 0 5px 0;}
+.fenlei-list-dv .otherinfo { margin-bottom: 10px; }
+.fenlei-list-dv .otherinfo .info{ margin-right: 5px;}
+.fenlei-list-dv em { float:right; font-style:normal; margin-top:-2px;}
+.fenlei-list-dv .fenlei_field_table { color:#808080; margin:2px 0; }
+.fenlei-list-dv .fenlei_field_table td { padding:2px 0;}
+
+.fenlei {}
+.fenlei .head h3 { font-size:14px; font-weight:bold; color:#CC0000; margin:5px 0 5px 0; }
+.fenlei .head .op { color:#808080; line-height:20px; font-size:12px; border-bottom:1px dashed #E1E1E1; padding-bottom:5px; }
+.fenlei .field table { margin:0; width:100%; }
+.fenlei .field td { padding:5px 5px; border-bottom:1px dashed #E1E1E1; font-size:14px; }
+.fenlei .field .key { width:100px; text-align:right; background:#FFFBF7; }
+.fenlei .info { margin:10px 0; font-size:14px; line-height:20px; }
+.fenlei .contcat { margin-top:10px; background:#FFFEF0; border:1px solid #FFDD7C; }
+.fenlei .contcat ul { list-style:none; margin:5px 5px; padding:0; }
+.fenlei .contcat ul li { padding:0 10px; line-height:20px; color:#808080; }
+
+.fenlei .pics { margin-bottom:10px; list-style:none; margin:0; padding:0; }
+.fenlei .pics li { float:left; width:108px; max-height:110px; }
+.fenlei .pics li img { margin-right:5px; padding:1px; border:1px solid #ccc; max-width:100px; height-width:100px;
+    _width:expression(this.width > 100 ? 100 : true); _height:expression(this.height > 100 ? 100 : true); }
+
+.fenlei .waring { margin:10px 10px 5px; color:#FF9900; border-top:1px dashed #FF9900; padding-top:8px; }
+
+.sponsor-table { width:99%; margin:10px auto; }
+.sponsor-table .face { width:60px; text-align:center; }
+.sponsor-table .face img { border:1px solid #ddd; padding:1px; }
+.sponsor-table .sponsor { width:auto; }
+.sponsor-table .sponsor ul { margin:0;padding:0;list-style:none; }
+.sponsor-table .sponsor ul li { padding:2px 0; color:#808080; }
+
+.subject { width:90%; margin:5px auto; line-height:18px; }
+.subject h2 { font-size:14px; margin:10px 0 5px; padding:0; }
+.subject h2 a{ color:red;  }
+.subject .start { margin:0; padding:0; height:15px;  }
+.subject_field_list { color:#808080; margin:5px 0 10px; }
+.map { width:255px; }

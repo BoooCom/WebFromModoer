@@ -1,0 +1,167 @@
+<!--{eval
+    if(SCRIPTNAV != 'index' && $_G[show_sitename]):
+        $_HEAD[title] .= $_G['cfg']['titlesplit'] . $_G['cfg']['sitename'];
+    endif;
+    if(!$_HEAD['keywords']):
+        $_HEAD[keywords] = $_G['cfg']['meta_keywords'];
+    endif;
+    if(!$_HEAD['description']):
+        $_HEAD[description] = $_G['cfg']['meta_description'];
+    endif;
+}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$_G[charset]" />
+<meta http-equiv="x-ua-compatible" content="ie=9" />
+<title>$_HEAD[title] - Powered by Modoer</title>
+<meta name="keywords" content="$_HEAD[keywords]" />
+<meta name="description" content="$_HEAD[description]" />
+<link rel="stylesheet" type="text/css" href="{URLROOT}/{$_G[tplurl]}css_common.css" />
+<link rel="stylesheet" type="text/css" href="{URLROOT}/{$_G[tplurl]}css_reset.css" />
+<link rel="stylesheet" type="text/css" href="{URLROOT}/static/images/mdialog.css" />
+<script type="text/javascript" src="{URLROOT}/data/cachefiles/config.js"></script>
+<script type="text/javascript">
+<!--{if !empty($MOD)}-->
+var mod = modules['{$MOD[flag]}'];
+<!--{/if}-->
+</script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/jquery.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/common.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/mdialog.js"></script>
+<!--[if lte IE 6]>
+<script type="text/javascript" src="{URLROOT}/static/javascript/supersleight-min.js"></script>
+<![endif]-->
+<!--{if $_CFG[headhtml]}-->{LF}$_CFG[headhtml]{LF}<!--{/if}-->
+</head>
+<body>
+<!--{if SCRIPTNAV == 'index'}-->
+<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_index.css");</style>
+<!--{elseif SCRIPTNAV == 'assistant'||SCRIPTNAV == 'manage'}-->
+<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_assistant.css");</style>
+<!--{elseif !empty($MOD) && is_file(MUDDER_ROOT . $_G[tplurl] . 'css_' . $MOD['flag'] . '.css')}-->
+<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_{$MOD[flag]}.css");</style>
+<!--{/if}-->
+<script type="text/javascript" src="{URLROOT}/static/javascript/member.js"></script>
+<!--{if !empty($MOD) && $MOD['flag']!='member' && is_file(MUDDER_ROOT . 'static/javascript/' . $MOD['flag'] . '.js')}-->
+<script type="text/javascript" src="{URLROOT}/static/javascript/$MOD[flag].js"></script>
+<!--{/if}-->
+<div class="headtop">
+	<ul class="headtop_ul">
+    	<li class="htu_left">
+            <a href="javascript:;" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('$_CFG[siteurl]')">设首页</a>|<a href="javascript:;" onclick="window.external.addFavorite('$_CFG[siteurl]','$_CFG[sitename]');">加收藏</a>|<a href="{url item/tag}">TAG</a>|<a href="{url item/rss/catid/$catid}" target="_blank">RSS</a>{if check_module('mobile') && is_mobile()}|<a href="{url mobile/index}"><strong class="font_1">手机版</strong></a>{/if}|<a href="{url item/member/ac/subject_add}">添商铺</a>|<a href="{url review/member/ac/add}">发点评</a>|<a href="{url item/map}">浏览地图</a>
+        </li>
+        <li class="htu_right">
+        	<div id="login_0" style="display:none;">
+                <!--{if $_G['passport_apis']}-->
+                <span class="passport_api">
+                    <!--{loop $_G['passport_apis'] $passport_name $passport_title}-->
+                    <span onclick="document.location='{url member/login/op/passport_login/type/$passport_name}';"><img src="{URLROOT}/static/images/passport/{$passport_name}_n.png" />使用{$passport_title}登录</span>
+                    <!--{/loop}-->
+                </span>&nbsp;&nbsp;|
+                <!--{/if}-->
+                <a href="{url member/login}">登录</a>|<a href="{url member/reg}">快速注册</a>
+            </div>
+            <div id="login_1" style="display:none;">
+                    <div class="mainuser-operation-foo"><span class="member-ico"><a href="{url space}" id="login_name"></a></span><span class="xsplit">|</span><span class="arrwd-ico" id="assistant_menu" rel="assistant_menu_box"><a href="{url member/index}">我的助手</a></span><span class="xsplit">|</span><span class="arrwd-ico" id="manage_menu" rel="manage_menu_box"><a href="{url item/member/ac/g_subject}">主题管理</a></span><span class="xsplit">|</span><span><a href="{url member/index/ac/task}">任务</a><span id="login_task" style="display:none;"></span></span><span class="xsplit">|</span><a href="{url member/index/ac/pm/folder/inbox}">短信箱</a><span id="login_newmsg" style="display:none;">(0)</span><span class="xsplit">|</span><a href="{url member/login/op/logout}">退出</a></div>
+            </div>
+            <div id="login_2" style="display:none;">
+                <span id="login_activation"></span>,<a href="{url ucenter/activation/auth/_activationauth_}" id="login_activation_a">您的帐号需要激活</a> [<a href="{url member/login/op/logout}">退出</a>]
+            </div>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="mainmenu">
+        <div class="logo">
+            <a href="{url modoer/index}"><img src="{URLROOT}/static/images/logo.jpg" alt="$_CFG[sitename]" title="$_CFG[sitename]"></a>
+        </div>
+        <div class="nav_citys">
+			<h2>$_CITY[name]</h2>
+            <span><a href="#" id="city_menu_src" rel="city_menu_box">[切换城市]</a></span>
+			<div class="clear"></div>
+		</div>
+        {if check_module('product') && $_MODULES[product][extra]}
+        <div class="headcart">
+            <div class="shopping-cart">
+                {eval 
+                    $C = $_G['loader']->model('product:cart');
+                    $cartid = $C->getcookie('shop_cart');
+                    $totalp = $C->count_products($cartid);
+                }
+                <span class="cart-ico"><a href="{url product/cart}">购物车<strong id="cart_num">{if isset($_COOKIE['shop_cart']) && !empty($_COOKIE['shop_cart']) && $totalp}$totalp{else}0{/if}</strong>件</a></span>
+            </div>
+        </div>
+        {/if}
+        <div class="charmenu">
+           	<div class="search">
+        	<form method="get" action="{URLROOT}/index.php">
+        		<input type="hidden" name="act" value="search" />
+        		<input type="hidden" name="ordersort" value="addtime" />
+        		<input type="hidden" name="ordertype" value="desc" />
+        		<input type="hidden" name="searchsubmit" value="yes" />
+        		<select name="module_flag" class="commonselect">
+          			<option value="item"{if $MOD['flag']=='item'}selected="selected"{/if}>商户</option>
+          			<option value="article"{if $MOD['flag']=='article'}selected="selected"{/if}>新闻</option>
+                    <option value="product"{if $MOD['flag']=='product'}selected="selected"{/if}>产品</option>
+                    <option value="coupon"{if $MOD['flag']=='coupon'}selected="selected"{/if}>优惠券</option>
+        		</select>
+        		<input type="text" name="keyword" value="" class="input" x-webkit-speech="x-webkit-speech" />
+        		<input type="submit" class="btn" value="搜索" />
+        	</form>
+        	<div class="advanced_search"><a href="{url item/search}">高级搜索</a></div>
+    		</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <!--{eval $main_menus = $_CFG['main_menuid'] ? $_G['loader']->variable('menu_' . $_CFG['main_menuid']) : '';}-->
+    <ul class="tabmenu">
+        <!--{loop $main_menus $val}-->
+        <li{if SCRIPTNAV==$val[scriptnav]} class="current"{/if}><a href="{url $val[url]}"{if $val[target]} target="$val[target]"{/if}>$val[title]</a></li>
+        <!--{/loop}-->
+    </ul>
+</div>
+<!-- 切换城市 下拉菜单 -->
+<div id="city_menu_box" class="comm-dropdown-city">
+    <ul>
+        <!--{eval $index=0;}-->
+        <!--{get:modoer val=citys(num/9)}-->
+        <li{if $_CITY[aid]==$val[aid]} class="current"{/if}><a href="{print:modoer cityurl(city_id/$val[aid])}">$val[name]</a></li>
+        <!--{eval $index++;}-->
+        <!--{/get}-->
+    </ul>
+    <!--{if $index>1}--><div class="morecitys"><a href="{url index/city}">全部城市</a></div><!--{/if}-->
+</div>
+<!--{if $index}-->
+<script type="text/javascript">
+$("#city_menu_src").powerFloat({offsets:{x:0,y:2}});
+</script>
+<!--{/if}-->
+<!-- 我的助手 下拉菜单 -->
+<ul id="assistant_menu_box" class="dropdown-menu">
+    {if check_module('product') && $_MODULES[product][extra]}
+    <li><a href="{url product/member/ac/m_order}">我的订单</a></li>
+    {/if}
+    <li><a href="{url member/index/ac/point}">我的积分</a></li>
+    <li><a href="{url member/index/ac/follow}">我的关注</a></li>
+    <li><a href="{url member/index/ac/task}">我的任务</a></li>
+    <li><a href="{url member/index/ac/myset}">个人设置</a></li>
+    <li><a href="{url member/index/ac/face}">修改头像</a></li>
+</ul>
+<!-- 主题管理 下拉菜单 -->
+<ul id="manage_menu_box" class="dropdown-menu">
+    {if check_module('product')}
+    <li><a href="{url product/member/ac/g_product}">产品管理</a></li>
+    {if $_MODULES[product][extra]}
+    <li><a href="{url product/member/ac/g_order}">订单管理</a></li>
+    {/if}
+    {/if}
+    {if check_module('tuan')}
+    <li><a href="{url tuan/member/ac/g_tuan}">团购管理</a></li>
+    {/if}
+    <li><a href="{url item/member/ac/g_album}">相册管理</a></li>
+    <li><a href="{url item/member/ac/g_guestbook}">留言管理</a></li>
+</ul>
+<!-- 登录 -->
+<script type="text/javascript" src="{URLROOT}/static/javascript/login.js"></script>
+{LF}

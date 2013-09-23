@@ -1,0 +1,99 @@
+{template modoer_header}
+{template modoer_header}
+<script type="text/javascript" src="{URLROOT}/static/javascript/item.js"></script>
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+        {if $subject}
+		<DIV id="content_top">
+			<DIV class="piece1 mb20">
+				<DIV class="piece1_hd"></DIV>
+				<DIV class="piece1_bd user_info">
+					<DIV class="user_info_left fl">
+						<DIV class="user_profile fl"><SPAN class=uname>$subject[name]</SPAN> <BR>
+							<DIV class="home_follow">
+								<DIV class="followdiv fl" type="all" uid="1508hy"><A class=addfo href="javascript:add_favorite($detail[sid]);">关注</A> </DIV>
+								<DIV class="see_more_info fl"> </DIV>
+							</DIV>
+						</DIV>
+					</DIV>
+					<DIV class="user_collect_info fr">
+						<DIV class="collect_list"><A class="ft18 color52">$subject[pageviews]</A><BR>
+							<SPAN class=color52>浏览</SPAN> </DIV>
+						<DIV class="collect_list bd_none"><A class="ft18 color52">$subject[favorites]</A><BR>
+							<SPAN class=color52>关注</SPAN> </DIV>
+					</DIV>
+				</DIV>
+				<DIV class="piece1_home_ft home_nav"> 
+					<!--{loop $links $i $link}--> 
+					{if $i} {/if}<a href="$link[url]"{if $link[flag]=='group'}  style="background:url({URLROOT}/{$_G[tplurl]}images/site_home_bg.png) 0 -209px #ff97bf; color:#fff;" {/if}>$link[title]</a> 
+					<!--{/loop}--> 
+				</DIV>
+			</DIV>
+		</DIV>
+        {/if}
+		<div class="piece piece_w960">
+			<div class="piece_hd"><B class=hl></B><B class=hr></B></div>
+			<div class="piece_bd clearfix">
+                <div class="fl discussion_left">
+                    <div class="show_body clear_in">
+                            <h3>会员列表</h3>
+                            <ul class="memberlist">
+                            {dbres $list $val}
+                                <li>
+                                    <div class="face"><img src="{print get_face($val[uid])}" /></div>
+                                    <div class="content">
+                                        <span><a href="{url space/index/uid/$val[uid]}">$val[username]</a></span>
+                                        <span>{date $val[jointime]} 加入</span>
+                                        {eval $langtype='group_member_type_'.$val[usertype];}
+                                        <span>{print lang($langtype)}</span>
+                                    </div>
+                                </li>
+                            {/dbres}
+                            </ul>
+                            <div class="clear"></div>
+                        <!--{if $multipage}--><div class="multipage">$multipage</div><!--{/if}-->
+                    </div>
+                </div>
+                <div class="fr discussion_right">
+                    <div class="xxx">
+                        {template group_side_info}
+                    </div>
+                </div>
+            </div>
+            <div class="piece_ft"><B class=fl></B><B class=fr></B></div>
+        </div>
+    </div>
+</div>
+<!--{eval footer();}-->
+<div id="body">
+    <div class="link_path">
+        <a href="{url modoer/index}">{lang global_index}</a>&raquo;&nbsp;{print implode('&nbsp;&raquo;&nbsp;', $urlpath)}&nbsp;&raquo;&nbsp;小组成员</span>
+    </div>
+    <div class="discussion_left">
+        <div class="mainrail rail-border-3">
+            <h2 class="rail-h-3 rail-h-bg-3">会员列表</h2>
+            <ul class="memberlist">
+            {dbres $list $val}
+                <li>
+                    <div class="face"><img src="{print get_face($val[uid])}" /></div>
+                    <div class="content">
+                        <span><a href="{url space/index/uid/$val[uid]}">$val[username]</a></span>
+                        <span>{date $val[jointime]} 加入</span>
+                        {eval $langtype='group_member_type_'.$val[usertype];}
+                        <span>{print lang($langtype)}</span>
+                    </div>
+                </li>
+            {/dbres}
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <!--{if $multipage}--><div class="multipage">$multipage</div><!--{/if}-->
+    </div>
+    <div class="discussion_right">
+        <div class="mainrail rail-border-3">
+            {template group_side_info}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<!--{eval footer();}-->

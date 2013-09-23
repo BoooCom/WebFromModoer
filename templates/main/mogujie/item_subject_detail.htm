@@ -1,0 +1,329 @@
+{template modoer_header}
+
+<script type="text/javascript" src="{URLROOT}/static/javascript/swfobject.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    if(!$.browser.msie && !$.browser.safari) {
+        var d = $("#thumb");
+        var dh = parseInt(d.css("height").replace("px",''));
+        var ih = parseInt(d.find("img").css("height").replace("px",''));
+        if(dh - ih < 3) return;
+        var top = Math.ceil((dh - ih) / 2);
+        d.find("img").css("margin-top",top+"px");
+    }
+    get_membereffect($sid, $modelid);
+    <!--{if $MOD['ajax_taoke'] && $taoke_product_field}-->
+    get_subject_taoke($sid);
+    <!--{/if}-->
+});
+</script>
+<div id="body_wrap">
+    <div class="fm960 clearfix" id="body">
+        <div id="content_top">
+            <div class="piece1 mb20">
+                <div class="piece1_hd"><b class="hl"></b><b class="hr"></b></div>
+                <div class="piece1_bd user_info">
+                    <div class="user_info_left fl">
+                        <div class="user_profile fl">
+                            <span class="uname">$subject[name]</span><br>
+                            <div class="home_follow">
+                                <div class="followdiv fl" type="all" uid="1508hy">
+                                    <a class="addfo" href="javascript:add_favorite($detail[sid]);">关注</a>
+                                </div>
+                                <div class="see_more_info fl">
+                                    <!--{if $detail[owner]}-->
+                                     管理员：<a href="{url space/index/username/$detail[owner]}" target="_blank">$detail[owner]</a>
+                                    <!--{elseif $catcfg[subject_apply]}-->
+                                    <a href="{url item/member/ac/subject_apply/sid/$detail[sid]}">认领$model[item_name]</a>
+                                    <!--{/if}-->
+                                    <!--{if $catcfg[use_subbranch]}-->
+                                    <a href="{url item/member/ac/subject_add/subbranch_sid/$detail[sid]}">添加分店</a>
+                                    <!--{/if}-->
+                                    <!--{if $detail}-->
+                                    <a href="javascript:item_impress_add($sid);">添加印象</a>
+                                    <!--{/if}-->
+                                    <!--{if $MOD[gourd_enabled] && (!$gourd||$gourd[status]=='finish')}-->
+                                    <span class="gourd-ico"><a href="javascript:void(0);" onclick="item_buy_gourd($sid,'{$MOD[gourd_buy_point]}个{print:member point(point/$MOD[gourd_buy_pointtype])}');return false;">种葫芦</a></span>
+                                    <!--{/if}-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user_collect_info fr">
+                        <div class="collect_list">
+                            <a class="ft18 color52">$detail[pageviews]</a><br>
+                            <span class="color52">浏览</span>
+                        </div>
+                        <div class="collect_list bd_none">
+                            <a class="ft18 color52">$detail[favorites]</a><br>
+                            <span class="color52">关注</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="piece1_home_ft home_nav">
+                    <!--{loop $links $i $link}-->
+                     {if $i} {/if}<a href="$link[url]"{if $link[flag]=="item/detail"} class="current"{/if}>$link[title]</a>
+                    <!--{/loop}-->
+                </div>
+            </div>
+        </div>
+        <div class="piece piece_w960">
+            <div class="piece_hd"><b class="hl"></b><b class="hr"></b></div>
+            <div class="piece_bd clearfix">
+                <div class="fl" id="content_item_body">
+                    <div class="show_body clear_in pt10">
+                        <!--商品或图片 -->
+                        <div class="img_show fl">
+                            <div class="show_big_wrap" type="image">
+                                {eval $thumb=str_replace('/thumb_','/',$detail[thumb]);}
+                                <a class="show_big" href="{url item/pic/sid/$detail[sid]}" target='_blank'><img alt="" src="{URLROOT}/{if $thumb}$thumb{else}static/images/noimg.gif{/if}"></a>
+                            </div>
+                            <div class="show_more">
+                                <div class="show_list_warp" style="text-align:center;">
+                                    <span style="background:url('{URLROOT}/{$_G[tplurl]}img/mini-update.gif') no-repeat 0 -1px; padding-left:16px; "><a href="{url item/member/ac/pic_upload/sid/$sid}">上传图片</a></span>
+                                    <!--{if $detail[pictures]}-->
+                                    <span style="background:url('{URLROOT}/{$_G[tplurl]}img/mini_image.gif') no-repeat 0 -1px; padding-left:18px; "><a href="{url item/pic/sid/$detail[sid]}">$detail[pictures]图</a></span>
+                                    <!--{/if}-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body_info fl">
+                            <table class="custom_field" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td class="key" align="right">会员打分：</td>
+                                    <td width="*">
+                                        <!--{loop $reviewpot $val}-->
+                                        $val[name]:<span class="font_2">{print cfloat($detail[$val[flag]])}</span>
+                                        <!--{/loop}-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="key" align="right">综合得分：</td>
+                                    <td width="*">
+                                        <span class="font_2">{print cfloat($detail[avgsort])}</span>
+                                        <!--{if $catcfg[useprice]}-->
+                                        <span>$catcfg[useprice_title]:</span><span class="font_2">$detail[avgprice]</span> $catcfg[useprice_unit] 
+                                        <!--{/if}-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="key" align="right">会员印象：</td>
+                                    <td width="*">
+                                        <span id="subject_impress">
+                                        <!--{get:item val=impress(sid/$sid/orderby/total DESC/rows/5)}-->
+                                        <span class="{print:item tagclassname(total/$val[total])}">$val[title]</span>
+                                        <!--{/get}-->
+                                        </span>
+                                    </td>
+                                </tr>
+                                <!--{if $detail_custom_field}-->
+                                $detail_custom_field
+                                <!--{/if}-->
+                            </table>
+                        </div>
+                        <div class="clear"></div>
+
+            <!--{loop $relate_subject_field $field}-->
+            <!--{if $detail[$field[fieldname]]}-->
+            <div class="item_info">
+                <em>[<a href="{url item/related/fid/$field[fieldid]/id/$detail[sid]}">查看全部</a>]&nbsp;[<a href="javascript:;" onclick="$('#relate_subject_$field[fieldid]').toggle();">收起/展开</a>]</em>
+                <h3><span class="arrow-ico">$field[title]</span></h3>
+                <ul class="item_relate" id="relate_subject_$field[fieldid]">
+                <!--{get:item val=related(fieldid/$field[fieldid]/sid/$detail[sid]/rows/$field[config][savelen])}-->
+                <li>
+                    <div class="relate_thumb">
+                        <a href="{url item/detail/id/$val[sid]}"><img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" title="$val[name]" alt="$val[name]" /></a>
+                    </div>
+                    <div class="relate_info">
+                        <h5><a href="{url item/detail/id/$val[sid]}" title="$val[name]&nbsp;$val[subname]">{sublen $val[name],7}</a></h5>
+                        <span class="relate_sp">分类: <a href="{url item/list/catid/$val[catid]}">{print:item category(catid/$val[catid])}</a></span>
+                        <span><a href="{url item/detail/id/$val[sid]}#review" class="font_2">点评</a></span> <span><a href="{url item/detail/id/$val[sid]/view/guestbook}#guestbook" class="font_2">留言</a></span> 
+                    </div>
+                </li>
+                <!--{/get}-->
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <!--{/if}-->
+            <!--{/loop}-->
+
+                        <!--{if $MOD['ajax_taoke'] && $taoke_product_field}-->
+                        <div class="item_taobaoke">
+                            <!--淘宝客数据AJAX加载层-->
+                            <div id="taoke_field_foo">
+                                <div style="margin:10px 5px;"><span class="loading-ico">正在加载数据,请稍候...</span></div>
+                            </div>
+                        </div>
+                        <!--{elseif $taoke_product_field}-->
+                            <!--{template item_subject_detail_taoke}-->
+                        <!--{/if}-->
+
+                        <!--{if $textarea_field}-->
+                        <div class="item_textarea">
+                            <!--{loop $textarea_field $field}-->
+                            <!--{if $detail[$field[fieldname]]}-->
+                            <div class="welfare_text">
+                                <h3>$field[title]：</h3>
+                                <div style="color:#323232;margin-left:10px;">$detail[$field[fieldname]]</div>
+                            </div>
+                            <!--{/if}-->
+                            <!--{/loop}-->
+                        </div>
+                        <!--{/if}-->
+
+                        <script type="text/javascript" src="{URLROOT}/static/javascript/review.js"></script>
+                        <style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_review.css");</style>
+                        <a name="$view" id="$view"></a>
+                        <!--{if $view == 'forum'}-->
+                            {template item_subject_detail_forum}
+                        <!--{elseif $view == 'guestbook'}-->
+                            {template item_subject_detail_guestbook}
+                        <!--{else}-->
+                            {template item_subject_detail_review}
+                        <!--{/if}-->
+                    </div>
+                </div>
+                <div class="fr" id="right_side">
+                    <!--{if $detail[video] && check_flash_domain($detail[video])}-->
+                    <div class="mainrail" style="text-align:center;" id="video_foo"></div>
+                    <script type="text/javascript">
+                    $(document).ready(function() {
+                        var so = new SWFObject("$detail[video]", 'video1', 185, 180, 7, '#FFF');
+                        so.addParam("allowScriptAccess", "always");
+                        so.addParam("allowFullScreen", "true");
+                        so.addParam("wmode", "transparent");
+                        so.write("video_foo");
+                    });
+                    </script>
+                    <!--{/if}-->
+                    <!--{if $MOD[show_qrcode]}-->
+                    <div class="more_albums" >
+                        <div style="text-align:center">
+                            <img alt="主题二维码" src="{print get_qrcode(url("item/detail/id/$sid",'',1))}">
+                        </div>
+                    </div>
+                    <!--{/if}-->
+                    <!--{if $MOD[gourd_enabled] && $gourd && $gourd[status]!='finish'}-->
+                    <div class="more_albums" >
+                        <h2 class="more_album_h2">种葫芦</h2>
+                        <!--{if $gourd[status]=='harvest'}-->
+                        <div class="gourd_txt">
+                            <span class="gourd-ico"><a href="javascript:void(0);" onclick="item_pick_gourd($gourd[id]);return false;">摘取葫芦</a></span>
+                        </div>
+                        <!--{/if}-->
+                        <!--{eval $gps = round($gourd[progress]/$MOD[gourd_condition]*100/20)+1;}-->
+                        <div class="gourd_pic {if $gourd[status]=='harvest'}gourd_6{else}gourd_$gps{/if}" id="gourd_image" rel="gourd_box"></div>
+                        <div class="float_remind_box none" id="gourd_box">
+                            <strong>葫芦藤是什么？</strong>
+                            <br />会员通过浏览，点评和添加印象可以使葫芦藤成长，当葫芦藤结果后，会员即可采摘取葫芦(获得积分)。
+                            <br />1 个葫芦为<span class="font_2">{$MOD[gourd_point]}</span>个{print:member point(point/$MOD[gourd_pointtype])}
+                            <!--{if $gourd[status]=='grow'}-->
+                            <br />当前葫芦藤成熟度: <span class="font_2">{print round($gourd[progress]/$MOD[gourd_condition]*100)}%</span>
+                            <!--{else}-->
+                            <br />剩余葫芦数量: <span class="font_2" id="ground_num" num="{print $gourd[total]-$gourd[num]}">{print $gourd[total]-$gourd[num]}</span>个
+                            <!--{/if}-->
+                        </div>
+                        <script type="text/javascript">
+                            $("#gourd_image").powerFloat({position:"8-6",reverseSharp:true});
+                        </script>
+                    </div>
+                    <!--{/if}-->
+                    <!--{if $MOD['show_thumb'] && $detail['pictures']}-->
+                    <div class="more_albums" >
+                        <em><a class="more_group" target="_blank" href="{url item/pic/sid/$detail[sid]}">更多</a></em>
+                        <h2 class="more_album_h2">{$model[item_name]}图片</h2>
+                        <div class="border_bottom">
+                            <ul class="more_album_list clearfix">
+                                <!--{get:modoer val=table(table/dbpre_pictures/where/sid=$detail[sid]/orderby/addtime DESC/rows/9)}-->
+                                <li><a href="{url item/detail/id/$val[sid]}" target='_blank'><img alt="" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}"></a>
+                                </li>
+                                <!--{/get}-->
+                            </ul>
+                        </div>
+                    </div>
+                    <!--{/if}-->
+                    <!--{if $model[usearea] && $fields[mappoint][show_detail]}-->
+                    <div class="mainrail rail-border-3" style="margin-top:0px; margin-bottom:10px" >
+                        <!--{eval $mapparam = array(
+                            'title' => $detail[name] . $detail[subname],
+                            'show' => $detail[mappoint]?1:0,
+                        );}-->
+                        <iframe id="item_map" style="width:185px !important;height:245px !important;" src="{url index/map/width/185/height/245/title/$mapparam[title]/p/$detail[mappoint]/show/$mapparam[show]}" frameborder="0" scrolling="no">
+                        </iframe>
+                        <div style="text-align:center;">
+                            <!--{if !$detail['mappoint']}-->
+                            <a href="javascript:post_map($detail[sid], $detail[pid]);">地图未标注，我来标注</a>
+                            <!--{else}-->
+                            <a href="javascript:show_bigmap();">查看大图</a>&nbsp; <a href="javascript:post_map($detail[sid], $detail[pid]);">报错</a>
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        function show_bigmap() {
+                            var src = "{url index/map/width/600/height/400/title/$mapparam[title]/p/$detail[mappoint]/show/$mapparam[show]}";
+                            var html = '<iframe src="' + src + '" frameborder="0" scrolling="no" width="100%" height="400" id="ifupmap_map"></iframe>';
+                            dlgOpen('查看大图', html, 600, 450);
+                        }
+                    </script>
+                    <!--{/if}-->
+                    <!--{if $model[usearea] && $fields[mappoint][show_detail]}-->
+                    <div class="slide_show hot_group_slide">
+                        <!--{eval $reviewcfg = $_G['loader']->variable('config','review');}-->
+                        <h3>附近{$model[item_name]}</h3>
+                        <ul>
+                            <!--{get:modoer val=table(table/dbpre_subject/where/pid=$detail[pid] AND aid=$detail[aid] AND sid!=$sid/orderby/reviews DESC/rows/6)}-->
+                            <li>
+                                <a class="fl" href="{url item/detail/id/$val[sid]}" target="_blank"><img class="r5" src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}"></a>
+                                <h4 class="ag_t"><a class="glink" href="{url item/detail/id/$val[sid]}" title="$val[name].$val[subname]" target='_blank'>{sublen $val[name].$val[subname],9}</a></h4>
+                                <p class="start{print get_star($val[avgsort], $reviewcfg[scoretype])}" style="height: 16px; line-height: 16px; overflow: hidden;"></p>
+                            </li>
+                            <!--{/get}-->
+                        </ul>
+                    </div>
+                    <!--{/if}-->
+                    <div class="slide_show" >
+                        <h3>来过这里的人</h3>
+                        <ul class="clear_in"  style="width:180px;">
+                            <!--{get:modoer val=table(table/dbpre_visitor/where/sid=$sid/orderby/dateline DESC/rows/9)}-->
+                            <li><a class="show_img" title="" href="{url space/index/uid/$val[uid]}" target='_blank'><img alt="" src="{print get_face($val[uid])}"></a>
+                            <!-- 80*80 -->
+                            <a class="show_title" title="" href="{url space/index/uid/$val[uid]}">$val[username]</a>
+                            </li>
+                            <!--{getempty(val)}-->
+                            <div>
+                                暂无来访会员
+                            </div>
+                            <!--{/get}-->
+                        </ul>
+                    </div>
+                    <div class="slide_show" >
+                        <h3>关注这里的人</h3>
+                        <ul class="clear_in"  style="width:180px;">
+                            <!--{get:modoer val=table(table/dbpre_favorites/where/idtype='subject'AND id=$sid/orderby/addtime DESC/rows/9)}-->
+                            <li><a class="show_img" title="" href="{url space/index/uid/$val[uid]}" target='_blank'><img alt="" src="{print get_face($val[uid])}"></a>
+                            <!-- 80*80 -->
+                            <a class="show_title" title="" href="{url space/index/uid/$val[uid]}">$val[username]</a>
+                            </li>
+                            <!--{getempty(val)}-->
+                            <div class="nothing">
+                                暂无关注会员
+                            </div>
+                            <!--{/get}-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="piece_ft">
+                    <b class="fl"></b><b class="fr"></b>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="adv_1_content" style="display:none;">
+    <!--{include display('adv:show','name/主题内容页_点评间广告')}-->
+</div>
+<script type="text/javascript">
+//加载广告
+replace_content('adv_1=adv_1_content');
+</script>
+<!--{eval footer();}-->

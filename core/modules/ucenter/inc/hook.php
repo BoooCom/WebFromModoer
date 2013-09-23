@@ -6,7 +6,10 @@
 */
 !defined('IN_MUDDER') && exit('Access Denied');
 
-require_once MUDDER_DATA . 'config_uc.php';
+$ucfile=MUDDER_DATA . 'config_uc.php';
+if(is_file($ucfile)){
+    require_once $ucfile;
+}
 class hook_ucenter extends ms_base {
 
     function __construct() {
@@ -17,7 +20,7 @@ class hook_ucenter extends ms_base {
         $ucfg = $this->loader->variable('config','ucenter');
         if($ucfg['uc_enable']) {
             require_once MUDDER_ROOT . 'uc_client' . DS . 'client.php';
-            //model mapping
+            //model mappingcon
             $this->loader->add_mapping(array(
                     ':member'=>'ucenter:member',
                     'member:user'=>'ucenter:user',

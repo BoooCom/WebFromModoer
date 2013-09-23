@@ -824,12 +824,15 @@ function jslocation (url) {
     while (url.indexOf('&amp;') > 0) {
         url = url.replace('&amp;', '&');
     }
-    if(is_ie) {
+    /*
+	if(is_ie) {
         document.write("<a id='jslocation' href='"+url+"' style='display:none;'>a</a>");
         document.getElementById("jslocation").click();
     } else {
         document.location = url;
     }
+	*/
+	document.location = url;
 }
 
 function round (value, precision, mode) {

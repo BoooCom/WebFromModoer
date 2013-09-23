@@ -27,5 +27,13 @@ $system[] = array(
     'content' => $total . '&nbsp;<a href="' . cpurl('review','respond','checklist') . '">'.lang('admincp_cphome_check_title').'</a>: ' . $check,
 );
 
+$_G['db']->from('dbpre_reports');
+$_G['db']->where('disposal',0);
+$total = $_G['db']->count();
+$system[] = array(
+    'name' => '点评举报',
+    'content' => '<a href="' . cpurl('review','report') . '">'.$total.'</a>',
+);
+
 unset($total,$check);
 ?>

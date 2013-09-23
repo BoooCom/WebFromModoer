@@ -1,0 +1,50 @@
+.fenlei_list .title_a {
+    font-size: 14px;
+    display: inline-block;
+    margin:5px 0 0 85px;
+    padding:0;
+    position: relative;
+}
+
+.fenlei_detail {
+    margin:5px 10px;
+}
+
+.fenlei_detail_title {
+    margin:0 0 10px;
+}
+
+.fenlei_detail_title h1 { 
+    font-size: 16px;
+    padding: 0;
+    margin: 10px 0;
+    color:#323232;
+}
+
+.fenlei_detail_title span {
+    color:#808080;
+}
+
+.fenlei_detail_title span.split {
+    margin:0 3px;
+}
+
+.fenlei_detail_content {
+    margin-top:10px;
+    line-height: 180%;
+    font-size:12px;
+    color:#323232;
+}
+
+.fenlei_detail_content img {
+    max-width: 100%;
+}
+
+.box-li-pics { padding:10px; }
+    .box-li-pics span { display:block-inline; width:108px; max-height:110px; }
+        .box-li-pics span img { margin-right:5px; padding:5px 1px; border:1px solid #ccc; width:100px; width:100px; }
+
+#floatbox-box { text-align:center;  }
+.showimg { text-align:center; width:100%; }
+    .showimg img {  }
+

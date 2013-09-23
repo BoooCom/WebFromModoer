@@ -1,0 +1,38 @@
+{include mobile_template('header')}
+<div data-role="page" id="page_top">
+    <div data-theme="e" data-role="header">
+        <h2>排行榜</h2>
+        <a data-role="button" data-rel="back" data-icon="back" class="ui-btn-left" href="#">返回</a>
+        <a data-role="button" data-transition="fade" href="{url mobile/index}" class="ui-btn-right" data-icon="home" >首页</a>
+    </div>
+    <div data-role="content" style="padding: 15px">
+        <ul data-role="listview" data-divider-theme="e" data-inset="false">
+            <!--{get:item val=top(city_id/_NULL_CITYID_/pid/$catid/field/avgsort/orderby/avgsort DESC/rows/10)}-->
+            <li class="list_item_box">
+                <div class="thumb">
+                    <img src="{URLROOT}/{if $val[thumb]}$val[thumb]{else}static/images/noimg.gif{/if}" alt="$val[name]"/>
+                </div>
+                <a href="{url mobile/subject/id/$val[sid]}" class="list_item_a">
+                    $val[fullname]
+                    <div style="clear:left;margin-top:5px;">
+                        <div class="list_start list_start_price s{print get_star($val[avgsort],$reviewcfg[scoretype])}">
+                            {if $catcfg[useprice] && $val[avgprice]}
+                                ￥$val[avgprice]
+                            {/if}
+                        </div>
+                        <div class="list_item_info">
+                            <span>{$val[reviews]}个点评</span>
+                            <span class="split"></span>
+                            <span>{$val[favorites]}个关注</span>
+                        </div>
+                    </div>
+                    <span class="ui-li-count">{$val[index]}</span>
+                    
+                </a>
+                <div style="clear:both;"></div>
+            </li>
+            <!--{/get}-->
+        </ul>
+    </div>
+</div>
+{include mobile_template('footer')}

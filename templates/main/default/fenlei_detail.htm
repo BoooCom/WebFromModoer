@@ -1,0 +1,195 @@
+<!--{eval
+    $_HEAD['title'] = $detail[subject];
+}-->
+{template modoer_header}
+<script type="text/javascript">
+function copyToClipboard(txt) {   
+     if(window.clipboardData) {   
+         window.clipboardData.clearData();   
+         window.clipboardData.setData("Text", txt);   
+     } else if(navigator.userAgent.indexOf("Opera") != -1) {   
+          window.location = txt;   
+     } else if (window.netscape) {   
+          try {   
+               netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");   
+          } catch (e) {   
+               alert("被浏览器拒绝！\n请在浏览器地址栏输入'about:config'并回车\n然后将'signed.applets.codebase_principal_support'设置为'true'");   
+                return;
+          }
+          var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);   
+          if (!clip)   
+               return;   
+          var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);   
+          if (!trans)   
+               return;   
+          trans.addDataFlavor('text/unicode');   
+          var str = new Object();   
+          var len = new Object();   
+          var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);   
+          var copytext = txt;   
+          str.data = copytext;   
+          trans.setTransferData("text/unicode",str,copytext.length*2);   
+          var clipid = Components.interfaces.nsIClipboard;   
+          if (!clip)   
+               return false;   
+          clip.setData(trans,null,clipid.kGlobalClipboard);   
+     }
+     alert("已复制到剪贴板。");
+}
+function AddFavorite(sURL, sTitle) { 
+    try { 
+         window.external.addFavorite(sURL, sTitle); 
+     } catch (e) { 
+        try { 
+             window.sidebar.addPanel(sTitle, sURL, ""); 
+         } catch (e) { 
+             alert("加入收藏失败，请使用Ctrl+D进行添加"); 
+         } 
+     } 
+}
+</script>
+<div id="body">
+    <div class="link_path">
+        <em><span class="review-ico"><a href="{url fenlei/member/ac/manage/op/add}"><b>发布信息</b></a></span></em>
+        <a href="{url modoer}">首页</a>&nbsp;&raquo;&nbsp;{print implode('&nbsp;&raquo;&nbsp;', $urlpath)}
+    </div>
+
+    <div id="fenlei_right">
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">组织者信息</h3>
+            <table class="sponsor-table">
+                <tr>
+                    <td class="face" valign="top"><img src="{print get_face($detail[uid])}" title="$detail[uid]" /></td>
+                    <td class="sponsor" valign="top">
+                        <ul>
+                            <!--{if $detail[uid]}-->
+                            <li><a href="{url space/index/uid/$detail[uid]}">$detail[username]</a></li>
+                            {get:member val=detail(uid/$detail[uid])}
+                            <li>会员组：{print:member group(groupid/$val[groupid])}</li>
+                            {/get}
+                            <!--{else}-->
+                            <li><span class="font_1"><b>网站发布的信息</b></span></li>
+                            <!--{/if}-->
+                            <li>联系人：$detail[linkman]</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--{if $subject}-->
+        <script type="text/javascript">loadscript('item');</script>
+        <div class="mainrail rail-border-3">
+            <h2 class="rail-h-2"><b><a href="{url item/detail/id/$subject[sid]}"><span class="font_2">$subject[name]&nbsp;$subject[subname]</span></a></b></h2>
+            <div class="subject">
+                <!--{eval $reviewcfg=$_G['loader']->variable('config','review');}-->
+                <p class="start start{print get_star($subject[avgsort],$reviewcfg[scoretype])}"></p>
+                <table class="subject_field_list" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td colspan="2"><span class="font_2">$subject[reviews]</span>点评,
+                        <span class="font_2">$subject[guestbooks]</span>留言,
+                        <span class="font_2">$subject[pageviews]</span>浏览</td>
+                    </tr>
+                    $subject_field_table_tr
+                </table>
+                <a class="abtn1" href="{url review/member/ac/add/type/item_subject/id/$subject[sid]}"><span>我要点评</span></a>
+                <a class="abtn2" href="javascript:add_favorite($subject[sid]);"><span>关注</span></a>
+                <a class="abtn2" href="{url item/detail/id/$subject[sid]/view/guestbook}#guestbook"><span>留言</span></a>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="mainrail rail-border-3">
+            <em><a href="{url fenlei/list/sid/$detail[sid]}">更多</a></em>
+            <h3 class="rail-h-3 rail-h-bg-3">主题其他信息</h3>
+            <ul class="rail-list">
+                {get:fenlei val=getlist(sid/$detail[sid]/row/10)}
+                <li><cite>{date $val[dateline],'m-d'}</cite><a href="{url fenlei/detail/id/$val[fid]}">{sublen $val[subject],20}</a></li>
+                {/get}
+            </ul>
+        </div>
+        <!--{/if}-->
+        <!--{if $detail[uid]}-->
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">会员发布的其他信息</h3>
+            <ul class="rail-list">
+                {get:fenlei val=getlist(uid/$detail[uid]/row/10)}
+                <li><cite>{date $val[dateline],'m-d'}</cite><a href="{url fenlei/detail/id/$val[fid]}">{sublen $val[subject],20}</a></li>
+                {/get}
+            </ul>
+        </div>
+        <!--{/if}-->
+        <!--{if $detail[mappoint]}-->
+        <div class="mainrail">
+            <!--{eval $mapparam = array(
+                'width' => '300',
+                'height' => '245',
+                'title' => $detail[subject],
+                'p' => $detail[mappoint],
+                'show' => $detail[mappoint]?1:0,
+            );}-->
+            <iframe src="{URLROOT}/index.php?act=map&{print url_implode($mapparam)}" frameborder="0" scrolling="no" height="245" width="300"></iframe>
+        </div>
+        <!--{/if}-->
+    </div>
+
+    <div id="fenlei_left">
+        <div class="mainrail fenlei">
+            <div class="field">
+                <div class="head">
+                    <!--{if $detail[endtime]<=$_G['timestamp']}-->
+                    <em><span class="font_1"><strong>信息已过期</strong></span></em>
+                    <!--{/if}-->
+                    <h3>$detail[subject]</h3>
+                    <div class="op">
+                        发布者：<a href="{url space/index/uid/$val[uid]}">$detail[username]</a>&nbsp;&nbsp;&nbsp;
+                        发布时间：{date $detail[dateline],'Y-m-d H:i'}&nbsp;&nbsp;&nbsp;
+                        过期时间：{date $detail[endtime],'Y-m-d'}&nbsp;&nbsp;&nbsp;
+                        <a href="#" onclick="AddFavorite(window.location.href,'$detail[subject]')">关注</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" onclick="copyToClipboard(window.location.href);">分享</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" onclick="window.print();">打印</a></span>
+                    </div>
+                </div>
+                <!--{if $detail_custom_field}-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    $detail_custom_field
+                </table>
+                <!--{/if}-->
+            </div>
+            <div class="info">{print nl2br($detail[content])}</div>
+            <ul class="pics">
+            <!--{eval $pictures = is_serialized($detail[pictures]) ? unserialize($detail[pictures]) : array();}-->
+            <!--{loop $pictures $pic}-->
+            <!--{eval $thumbpic = dirname($pic) . '/thumb_' . basename($pic); }-->
+                <li><a href="{URLROOT}/$pic" target="_blank"><img src="{URLROOT}/$thumbpic" /></a></li>
+            <!--{/loop}-->
+            </ul>
+            <div class="clear"></div>
+            <div class="contcat">
+                <ul>
+                    <li>联&nbsp;&nbsp;系&nbsp;&nbsp;人：$detail[linkman]</li>
+                    <li>联系电话：$detail[contact]</li>
+                    <li>电子邮箱：$detail[email]</li>
+                    <li>QQ/MSN：$detail[im]</li>
+                    <li>联系地址：$detail[address]</li>
+                </ul>
+                <div class="waring"><center>免责声明：本站只提供信息交流平台，各交易者自己审辨真假，本站不承担由此引起的法律责任。</center></div>
+            </div>
+        </div>
+<!--
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">会员评论</h3>
+            <table style="margin-top:10px" width="100%" class="post table">
+                <tr>
+                    <td width="100" align="right" valign="top">评论内容：</td>
+                    <td width="*"><textarea name="content" style="width:95%;height:80px;"></textarea></td>
+                </tr>
+                <tr><td>&nbsp;</td><td><input type="submit" value="发布评论" class="button"  /></td></tr>
+            </table>
+            <div class="fenlei comment">
+                <div></div>
+            </div>
+        </div>
+-->
+    </div>
+    <div class="clear"></div>
+</div>
+<!--{eval footer();}-->

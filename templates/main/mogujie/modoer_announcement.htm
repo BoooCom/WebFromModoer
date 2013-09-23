@@ -1,0 +1,69 @@
+<!--{eval
+    $_HEAD['title'] = $detail[title] ? $detail[title] : ($_CITY[name].'公告');
+}-->
+
+{template modoer_header}
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body">
+		<DIV class="piece piece_w960">
+			<DIV class="piece_hd"><B class=hl></B><B class=hr></B></DIV>
+			<DIV class="piece_bd clearfix">
+				<DIV class="fl" id="content_body1">
+					<DIV class="show_body clear_in pt20"><!--商品或图片 --> 
+						<!--{if $_GET['do']=='list'}-->
+						<div class="link_path">
+							<div><a href="{url modoer/index}">$_CITY[name]</a>&nbsp;&raquo;&nbsp;<a href="{url index/announcement/do/list}">公告</a>&nbsp;&raquo;&nbsp;列表</div>
+						</div>
+						<div class="article_root">
+							<ul>
+								<!--{dbres $list $val}-->
+								<li><cite>{date $val[dateline]}</cite><a href="{url index/announcement/id/$val[id]}">$val[title]</a></li>
+								<!--{/dbres}-->
+							</ul>
+						</div>
+						
+						<!--{else}-->
+						
+						<div class="link_path">
+							<div><a href="{url modoer/index}">$_CITY[name]</a>&nbsp;&raquo;&nbsp;<a href="{url index/announcement/do/list}">公告</a>&nbsp;&raquo;&nbsp;$detail[title]&nbsp;&raquo;&nbsp;正文</div>
+						</div>
+						<div class="mainrail rail-border-3" style="background:#FDFDFD;">
+							<h1 style="text-align:center; font-size:24px; margin:20px 0 5px 0; padding:0;">$detail[title]</h1>
+							<div style="text-align:center; line-height:30px; margin-bottom:10px; color:#808080;"> 发布时间：{date $detail[dateline]}  作者：$detail[author] </div>
+							<div style="margin:20px;font-size:14px;line-height:200%;">
+								<p>$detail[content]</p>
+							</div>
+						</div>
+						
+						<!--{/if}--> 
+						
+					</DIV>
+				</DIV>
+				<DIV class="fr" id="right_side1">
+					<DIV class="coupon_side">
+						<H3>资讯推荐</H3>
+						<UL>
+							{get:modoer val=table(table/dbpre_articles/select/articleid,subject,catid,dateline/where/status=1 AND att=1/orderby/dateline DESC/row/10)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url article/detail/id/$val[articleid]}" target=_blank>{sublen $val[subject],15}</A></H4>
+								<span>$val[comments]</span></LI>
+							{/get}
+						</UL>
+					</DIV>
+					<DIV class="coupon_side">
+						<H3>热门评论</H3>
+						<UL>
+							{get:modoer val=table(table/dbpre_articles/select/articleid,subject,comments,dateline/where/comments>0 AND status=1/orderby/comments DESC/row/10)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url article/detail/id/$val[articleid]}" target=_blank>{sublen $val[subject],15}</A></H4>
+								<span>$val[comments]&nbsp;评论</span></LI>
+							{/get}
+						</UL>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

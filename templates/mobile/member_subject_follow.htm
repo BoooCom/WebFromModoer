@@ -1,0 +1,23 @@
+{include mobile_template('header')}
+<div data-role="page" id="page_subject_follow">
+    <div data-theme="e" data-role="header">
+        <h2>我的关注</h2>
+        <a data-role="button" href="{url mobile/member}" data-icon="back" class="ui-btn-left" href="#">我的助手</a>
+        <a data-role="button" data-icon="home" href="{url mobile/index}" class="ui-btn-right">首页</a>
+    </div>
+    <div data-role="content" style="padding: 15px">
+        <ul data-role="listview" data-divider-theme="c" data-inset="false" id="subject_follow">
+            {include mobile_template('member_subject_follow_li')}
+            {if $multipage}<li id="nextpage"><a href="#"style="text-align:center;">加载更多...</a></li>{/if}
+        </ul>
+    </div>
+    <script>
+        var ajax_loading = true;
+        $('#page_subject_follow').live('pageshow', function (event) {
+            $('#nextpage').find('a').click(function(event) {
+                common_ajax_next_page('subject_follow','nextpage');
+            });
+        });
+    </script>
+</div>
+{include mobile_template('footer')}

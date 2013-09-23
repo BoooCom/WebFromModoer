@@ -33,8 +33,7 @@
 <div id="ajax_loading"></div>
 <!--{if !empty($MOD) && $MOD['flag']!='member' && is_file(MUDDER_ROOT . 'static/javascript/' . $MOD['flag'] . '.js')}-->
 <script type="text/javascript" src="{URLROOT}/static/javascript/$MOD[flag].js"></script>
-<!--{/if}-->
-<!--{if SUB_NAVSCRIPT=='item/detail' && $user->isLogin && $subject[owner]==$user->username && !$is_preview}-->
+<!--{/if}--><!--{if SUB_NAVSCRIPT=='item/detail' && $user->isLogin && $subject[owner]==$user->username && !$is_preview}-->
 <script type="text/javascript" src="{URLROOT}/static/javascript/item_setting.js"></script>
 <script type="text/javascript" src="{URLROOT}/static/javascript/jquery.colorpicker.js"></script>
 <!--{/if}-->
@@ -134,7 +133,7 @@
     <div class="item-nav">
         <a href="{url modoer/index}">{if $subject[aid]}$_CITY[name]{else}首页{/if}</a>&nbsp;&raquo;&nbsp;{print:item category_nav(subject/$subject)}&nbsp;&raquo;&nbsp;$subject[name]{if $subject[subname]}($subject[subname]){/if}
     </div>
-    <div class="item-banner" id="item_banner" style="background:url('{if $tplsetting[banner]}{URLROOT}/$tplsetting[banner]{else}{ITEM_TPL_DIR}/images/banner.png{/if}')">
+    <div class="item-banner" id="item_banner" style="background:url('{if $tplsetting[banner]}{URLROOT}/$tplsetting[banner]{else}{ITEM_TPL_DIR}/images/banner.jpg{/if}')">
         <!--{eval 
             $title_offset = $tplsetting[title_offset]?$tplsetting[title_offset]:'30,20';
             list($t,$l) = explode(',',$title_offset);

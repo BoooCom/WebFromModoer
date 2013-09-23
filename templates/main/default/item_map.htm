@@ -10,12 +10,10 @@
 					<dt>选择地区<b>:</b></dt>
 					<dd>
 						<ul>
-                             <!-- update, leo, here add pid-->
-                            <li><span{if !$aid} class="selected"{/if}><a href="{url item/map/catid/$catid/aid/0/pid/$pid}">全部地区</a></span></li>
+                            <li><span{if !$aid} class="selected"{/if}><a href="{url item/map/catid/$catid/aid/0}">全部地区</a></span></li>
                             <!--{get:area val=area(pid/$_CITY[aid])}-->
-                            <li><span{if $val[aid]==$aid} class="selected"{/if}><a href="{url item/map/catid/$catid/aid/$val[aid]/pid/$pid}">$val[name]</a></span></li>
+                            <li><span{if $val[aid]==$aid} class="selected"{/if}><a href="{url item/map/catid/$catid/aid/$val[aid]}">$val[name]</a></span></li>
                             <!--{/get}-->
-                            <!-- end update -->
 						</ul>
 					</dd>
 					<div class="clear"></div>
@@ -23,8 +21,8 @@
             </div>
         </div>
         <div style="float:left;width:250px;">
-            <div id="subjects" class="mainrail rail-border-1">
-                <h2 class="rail-h-1 rail-h-bg-1">搜索结果</h2>
+            <div id="subjects" class="mainrail rail-border-3">
+                <h2 class="rail-h-3 rail-h-bg-3">搜索结果</h2>
                 <!--{if $total}-->
                 <!--{eval $index=0;}-->
                 <!--{dbres $list $val}-->
@@ -50,12 +48,11 @@
             </div>
         </div>
         <div style="float:right;width:700px;">
-            <div class="mainrail rail-border-1">
+            <div class="mainrail rail-border-3">
                 <div id="map_container" style="width:100%;height:800px;"></div>
             </div>
             <div style="text-align:center;">$multipage</div>
         </div>
-		
         <div class="clear"></div>
 
     </div>

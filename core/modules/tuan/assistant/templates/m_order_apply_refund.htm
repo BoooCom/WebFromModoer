@@ -1,0 +1,49 @@
+<div class="mainrail">
+    <form method="post"name="frm_respond" id="frm_respond" action="{url tuan/member/ac/order/op/apply_refund}" onsubmit="return check_apply_refund(this);">
+        <input type="hidden" name="oid" value="$oid">
+        <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+            <tr>
+                <td width="100" algin="right">订单号：</td>
+                <td>$oid</td>
+            </tr>
+            <tr>
+                <td algin="right">团购项目：</td>
+                <td>$tuan[subject]</td>
+            </tr>
+            <tr>
+                <td algin="right">申请理由：</td>
+                <td><input type="txtbox" name="apply_refund_des" size="45"></td>
+            </tr>
+            <tr>
+                <td algin="right">验证码：</td>
+                <td>
+                    <div style="float:left;margin-left:2px;margin-right:5px;">
+                        <input type="text" name="seccode" class="t_input" style="width:118px;" onfocus="show_seccode('seccode_refund');" />
+                    </div>
+                    <div id="seccode_refund" class="none" style="float:left;width:80px;position:relative;top:-3px;"></div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div style="margin-bottom:5px;color:#808080;">退款审核过程中，您将无法{if $tuan[sendtype]!='express'}使用团购券{else}收货{/if}。</div>
+                    <button type="submit" name="dosubmit" value="Y">提交申请</button>&nbsp;
+                    <button type="button" onclick="dlgClose();">取消</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+function check_apply_refund(frm) {
+    var apply_refund_des = $(frm).find('[name="apply_refund_des"]').val().trim();
+    if(!apply_refund_des) {
+        alert('未填写申请理由。');return false;
+    }
+    var seccode = $(frm).find('[name="seccode"]').val().trim();
+    if(!seccode) {
+        alert('未填写验证码。');return false;
+    }
+    return true;
+}
+</script>

@@ -1,0 +1,139 @@
+<!--{eval
+    $_HEAD['title'] = ($subject ? ($subject[name]  . ',' . $subject[subname] . ',') : '') . (isset($catid)?$category[$catid][name]:'') . $_CITY[name].$MOD[name] . $_CFG['titlesplit'] . $MOD[subtitle];
+}-->
+{template modoer_header}
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body">
+		<DIV id="content_top">
+			<DIV class="piece1 mb20">
+				<DIV class="piece1_hd"></DIV>
+				<DIV class="piece1_bd user_info">
+					<DIV class="user_info_left fl">
+						<DIV class="user_profile fl"><SPAN class="uname">$subject[name]</SPAN> <BR>
+							<DIV class="home_follow">
+								<DIV class="followdiv fl" type="all"><A class="addfo" href="javascript:add_favorite($subject[sid]);">关注</A> </DIV>
+								<DIV class="see_more_info fl"> 优惠券数量：($total) </DIV>
+							</DIV>
+						</DIV>
+					</DIV>
+					<DIV class="user_collect_info fr">
+						<DIV class="collect_list"><A class="ft18 color52">$subject[pageviews]</A><BR>
+							<SPAN class="color52">浏览</SPAN> </DIV>
+						<DIV class="collect_list bd_none"><A class="ft18 color52">$subject[favorites]</A><BR>
+							<SPAN class="color52">关注</SPAN> </DIV>
+					</DIV>
+				</DIV>
+				<DIV class="piece1_home_ft home_nav"> 
+					<!--{loop $links $i $link}--> 
+					{if $i} {/if}<a href="$link[url]"{if $link[flag]=='coupon'} class="current " style="background:url({URLROOT}/{$_G[tplurl]}images/site_home_bg.png) repeat-x 0 -209px #ff97bf; color:#fff;" {/if}>$link[title]</a> 
+					<!--{/loop}--> 
+				</DIV>
+			</DIV>
+		</DIV>
+		<DIV class="piece piece_w960">
+			<DIV class="piece_hd"><B class="hl"></B><B class="hr"></B></DIV>
+			<DIV class="piece_bd clearfix">
+				<DIV class="fl" id="content_body2">
+					<DIV class="show_body clear_in pt10"><!--商品或图片 -->
+						
+						<DIV class="ff" style="MARGIN:0px"> <A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">分类：</A>
+							<UL class="mr10" style="height:36px">
+								{get:coupon val=category()} <li$active[catid][$val[catid]]><a href="{url coupon/index/catid/$val[catid]}">$val[name]</a>
+								</li>
+								{/get}
+							</UL>
+							<div class="clear"></div>
+							<A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">排序：</A>
+							<UL class="mr10" style="height:36px">
+								<li$active[order][dateline]><a href="{url coupon/list/sid/$sid/catid/$catid/order/dateline}">最新发布</a>
+								</li>
+								<li$active[order][pageview]><a href="{url coupon/list/sid/$sid/catid/$catid/order/pageview}">浏览量</a>
+								</li>
+								<li$active[order][effect1]><a href="{url coupon/list/sid/$sid/catid/$catid/order/effect1}">最有用的</a>
+								</li>
+								<li$active[order][comments]><a href="{url coupon/list/sid/$sid/catid/$catid/order/comments}">最多评论</a>
+								</li>
+							</UL>
+						</DIV>
+						<div class="mainrail coupon-view"> {dbres $list $val}
+							<div class="il_coupon">
+								<h2>[<a href="{url coupon/index/catid/$val[catid]}">$category[$val[catid]][name]</a>]&nbsp;<a href="{url coupon/detail/id/$val[couponid]}">$val[subject]</a></h2>
+								<div class="thumb"><a href="{url coupon/detail/id/$val[couponid]}"><img src="{URLROOT}/$val[thumb]" alt="$val[subject]" /></a></div>
+								<ul class="info">
+									<li class="full">商户：<a href="{url item/detail/id/$val[sid]}">$val[name]{if $val[subname]}($val[subname]){/if}</a></li>
+									<li>开始日期：{date $val[starttime], 'Y-m-d'}</li>
+									<li>截止日期：{date $val[endtime], 'Y-m-d'}</li>
+									<li class="full">现有<span class="font_2">$val[pageview]</span>次浏览，<span class="font_2">$val[comments]</span>个评论，其中有<span class="font_2">$val[effect1]</span>人认为有用</li>
+									<li class="full">优惠：$val[des]</li>
+								</ul>
+								<div class="clear"></div>
+							</div>
+							{/dbres} 
+							<!--{if $multipage}-->
+							<div class="multipage">$multipage</div>
+							<!--{/if}--> 
+							<!--{if !$total}-->
+							<div class="messageborder">暂无数据</a>。</div>
+							<!--{/if}--> 
+						</div>
+					</DIV>
+				</DIV>
+				<DIV class="fr" id="right_side1">
+					<div class="side_subject">
+						<h2><a href="{url item/detail/id/$sid}" src="$subject[thumb]" onmouseover="tip_start(this,1);" style="color:#87B32E">$subject[name]&nbsp;$subject[subname]</a></h2>
+						<!--{eval $reviewcfg = $_G['loader']->variable('config','review');}-->
+						<p class="start start{print get_star($subject[avgsort],$reviewcfg[scoretype]);}"></p>
+						<table class="side_subject_field_list" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td colspan="2">
+                                    <span class="font_2">$subject[reviews]</span>点评,
+                                    <span class="font_2">$subject[guestbooks]</span>留言, <span class="font_2">$subject[pageviews]</span>浏览
+                                </td>
+							</tr>
+							$subject_field_table_tr
+						</table>
+						<a class="abtn1" href="{url review/member/ac/add/type/item_subject/id/$sid}"><span>我要点评</span></a> <a class="abtn2" href="javascript:add_favorite($sid);"><span>关注</span></a> <a class="abtn2" href="{url item/detail/id/$sid/view/guestbook}#guestbook"><span>留言</span></a>
+						<div class="clear"></div>
+					</div>
+
+					<!--{eval $model=$I->get_model($subject[catid],1);}--> 
+					<!--{if $model[usearea]}-->
+					<div class="mainrail"> 
+						<!--{eval $mapparam = array(
+                            'width' => '245',
+                            'height' => '245',
+                            'title' => $subject[name] . $subject[subname],
+                            'p' => $subject[mappoint],
+                            'show' => $subject[mappoint]?1:0,
+                        );}-->
+						<iframe src="{URLROOT}/index.php?act=map&{print url_implode($mapparam)}" frameborder="0" scrolling="no" height="245" width="245"></iframe>
+						<div style="text-align:center;margin:5px 0;"> 
+							<!--{if !$subject['mappoint']}--> 
+							<a href="javascript:post_map($subject[sid], $subject[pid]);">地图未标注，我来标注</a> 
+							<!--{else}--> 
+							<a href="javascript:show_bigmap();">查看大图</a>&nbsp; <a href="javascript:post_map($subject[sid], $subject[pid]);">报错</a> 
+							<!--{/if}--> 
+						</div>
+					</div>
+					<script type="text/javascript">
+                        function show_bigmap() {
+                            <!--{eval $mapparam = array(
+                                'width' => '600',
+                                'height' => '400',
+                                'title' => $subject[name] . $subject[subname],
+                                'p' => $subject[mappoint],
+                                'show' => $subject[mappoint]?1:0,
+                            );}-->
+                            var src = "{URLROOT}/index.php?act=map&{print url_implode($mapparam)}";
+                            var html = '<iframe src="' + src + '" frameborder="0" scrolling="no" width="100%" height="400" id="ifupmap_map"></iframe>';
+                            dlgOpen('查看大图', html, 600, 450);
+                        }
+                    </script> 
+					<!--{/if}--> 
+				</DIV>
+			</DIV>
+			<DIV class="piece_ft"><B class="fl"></B><B class="fr"></B></DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

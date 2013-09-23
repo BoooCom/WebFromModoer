@@ -48,30 +48,4 @@ list(,$subjects) = $S->find('sid,name,subname,pid,catid,avgsort,reviews,pictures
 //发表的点评
 $R =& $_G['loader']->model(':review');
 //载入标签
-$taggroups = $_G['loader']->variable('taggroup','item');
-$where = array();
-$where['uid'] = $uid;
-$where['status'] = 1;
-$select='*';
-$offset = $MOD['index_subjects'] > 0 ? $MOD['index_subjects'] : 5;
-list(,$reviews) = $R->find($select, $where, array('posttime' => 'DESC'), 0, $offset, FALSE);
-
-//好友
-$F =& $_G['loader']->model('member:friend');
-list(,$friends) = $F->friend_ls($uid);
-
-//更新浏览量
-$SA->pageview($uid);
-
-$_HEAD['description'] = $space['spacename'] . ',' . $space['spacedescribe'];
-
-if($templateid = _get('templateid',null,MF_INT_KEY)) {
-    $space['space_styleid'] = $templateid;
-}
-if($space['space_styleid']) {
-    include template('space_index', 'space', $space['space_styleid']);
-} else {
-    //载入模型的内容页模板
-    include template('space_index');
-}
-?>
+$taggroups = $_G['loader']->variable('tag

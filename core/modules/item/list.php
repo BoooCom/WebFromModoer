@@ -82,7 +82,7 @@ if($model['usearea']) {
     $area =& $_G['loader']->model('area');
     if($aid) {
         $area_attid = $area->get_attid($aid);
-        $where['aid'] = $aid;
+        $where['city_id'] = $_CITY['aid'];
     } else {
         $area_attid = $area->get_attid($_CITY['aid']);
         $where['city_id'] = $_CITY['aid'];

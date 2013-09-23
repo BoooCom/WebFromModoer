@@ -1,0 +1,150 @@
+<!--{eval
+    if(SCRIPTNAV != 'index' && $_G[show_sitename]):
+        $_HEAD[title] .= $_G['cfg']['titlesplit'] . $_G['cfg']['sitename'];
+    endif;
+    if(!$_HEAD['keywords']):
+        $_HEAD[keywords] = $_G['cfg']['meta_keywords'];
+    endif;
+    if(!$_HEAD['description']):
+        $_HEAD[description] = $_G['cfg']['meta_description'];
+    endif;
+}-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$_G[charset]" />
+<meta http-equiv="x-ua-compatible" content="ie=9" />
+<title>$_HEAD[title] - Powered by Modoer</title>
+<meta name="keywords" content="$_HEAD[keywords]" />
+<meta name="description" content="$_HEAD[description]" />
+<link rel="stylesheet" type="text/css" href="{URLROOT}/{$_G[tplurl]}css_common.css" />
+<link rel="stylesheet" type="text/css" href="{URLROOT}/static/images/mdialog.css" />
+<script type="text/javascript" src="{URLROOT}/data/cachefiles/config.js"></script>
+<script type="text/javascript">
+<!--{if !empty($MOD)}-->
+var mod = modules['{$MOD[flag]}'];
+<!--{/if}-->
+</script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/jquery.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/common.js"></script>
+<script type="text/javascript" src="{URLROOT}/static/javascript/mdialog.js"></script>
+<!--[if lte IE 6]>
+<script type="text/javascript" src="{URLROOT}/static/javascript/supersleight-min.js"></script>
+<![endif]-->
+<!--{if $_CFG[headhtml]}-->{LF}$_CFG[headhtml]{LF}<!--{/if}-->
+</head>
+<body>
+<!--{if SCRIPTNAV == 'index'}-->
+<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_index.css");</style>
+<!--{elseif SCRIPTNAV == 'assistant'||SCRIPTNAV == 'manage'}-->
+<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_assistant.css");</style>
+<!--{elseif !empty($MOD) && is_file(MUDDER_ROOT . $_G[tplurl] . 'css_' . $MOD['flag'] . '.css')}-->
+<style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_{$MOD[flag]}.css");</style>
+<!--{/if}-->
+<script type="text/javascript" src="{URLROOT}/static/javascript/member.js"></script>
+<!--{if !empty($MOD) && $MOD['flag']!='member' && is_file(MUDDER_ROOT . 'static/javascript/' . $MOD['flag'] . '.js')}-->
+<script type="text/javascript" src="{URLROOT}/static/javascript/$MOD[flag].js"></script>
+<!--{/if}-->
+<div id="header">
+	<div class="fm960" id="info_bar">
+		<div class="logo_show fl"><A class="logo" title="$_CFG[sitename]" href="{url modoer/index}">$_CFG[sitename]</A>
+			<div style="float:left; padding-top:10px; padding-left:10px">
+				<h2 style="color: #808080;font-size: 15px;margin:0;padding-bottom:1px;">$_CITY[name]</h2>
+				<span><a href="#" id="city_menu_src" rel="city_menu_box">[切换城市]</a></span>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<!--{if $_GET['act']!='reg'&&$_GET['act']!='login'}-->
+		<div  id="login_0" class="info_show fr" >
+			<UL class="login_methods" id="show_login">
+				<LI class="fl"><A class="regist" href="{url member/reg}">注册</A> <A class="login" href="{url member/login}">登录</A> </LI>
+				<!--{if $_G['passport_apis']}-->
+				<LI class="other_login fl"><A class="login_bg weibo_login" href="{url member/login/op/passport_login/type/weibo}">微博登录</A> <A 
+              class="login_bg qq_login" href="{url member/login/op/passport_login/type/qq}">QQ登录</A> <A class="login_bg tb_login" 
+              href="{url member/login/op/passport_login/type/taobao}">淘宝登录</A></LI>
+				<!--{/if}-->
+			</UL>
+		</div>
+		
+		<!--{/if}-->
+		<div id="login_1" class="info_show fr"  style="display:none">
+			<ul class="my_btn">
+				<li>
+					<p><img class="mb_avt r3" src="{print get_face($user->uid)}"><a class="mb_bd mb_name bc" href="{url space}"  id="login_name"></a></p>
+				</li>
+				<li>
+					<p class="split"><a class="libg dongtai" href="{url member/index}">助手</a></p>
+				</li>
+				<li>
+					<p class="split"><a class="libg myalbum" href="{url item/member/ac/g_subject}">主题</a></p>
+				</li>
+				<li>
+					<p class="split"><a class="libg myfavs" href="{url member/index/ac/follow}">喜欢</a></p>
+				</li>
+				<li>
+					<p class="split"><a class="libg group" href="{url member/index/ac/task}">任务</a></p>
+				</li>
+			</ul>
+			<i class="my_btn_right"></i>
+			<div class="my_shotcuts fl" style="width:280px;">
+				<a class="msg_notice h" href="{url member/index/ac/pm/folder/inbox}">消息</a><span id="login_newmsg">(0)</span>
+	            <!--{if check_module('product') && $_MODULES[product][extra]}-->
+	                <!--{eval 
+	                    $C = $_G['loader']->model('product:cart');
+	                    $cartid = $C->getcookie('shop_cart');
+	                    $totalp = $C->count_products($cartid);
+	                }-->
+	                 <span class="cart-ico"><a href="{url product/cart}">购物车(<span id="cart_num">{if isset($_COOKIE['shop_cart']) && !empty($_COOKIE['shop_cart']) && $totalp}$totalp{else}0{/if}</span></a>)</span>
+	            <!--{/if}-->
+				<a href="{url item/member/ac/subject_add}">添加主题</a>
+				<a href="{url member/login/op/logout}">退出</a>
+			</div>
+		</div>
+		<div id="login_2" style="display:none;"> <span id="login_activation"></span>,<a href="{url ucenter/activation/auth/_activationauth_}" id="login_activation_a">您的帐号需要激活</a> [<a href="{url member/login/op/logout}">退出</a>] </div>
+	</div>
+	<div class="fm960" id="navigation">
+		<ul class="navi_list fl">
+			<!--{eval $main_menus = $_CFG['main_menuid'] ? $_G['loader']->variable('menu_' . $_CFG['main_menuid']) : '';}-->
+			<li><a class="import" href="{url item/detail/random/1}">逛街啦</a> </a> </li>
+			<li class="split"> 
+				<!--{loop $main_menus $val}--> 
+				<a{if SCRIPTNAV==$val[scriptnav]} class="c"{/if} href="{url $val[url]}"{if $val[target]} target="$val[target]"{/if} onfocus="this.blur()">$val[title]</a> 
+				<!--{/loop}--> 
+			</li>
+			<li class="top_search">
+				<form method="get" action="{URLROOT}/index.php">
+					<input type="hidden" name="act" value="search" />
+					<input type="hidden" name="ordersort" value="addtime" />
+					<input type="hidden" name="ordertype" value="desc" />
+					<input type="hidden" name="searchsubmit" value="yes" />
+					<input type="hidden" name="module_flag" value="item" />
+					<input type="text" name="keyword" value="" class="ts_txt fl" x-webkit-speech="x-webkit-speech" />
+					<input type="submit"  class="ts_btn"   value=" "/>
+					&nbsp;
+				</form>
+			</li>
+		</ul>
+	</div>
+	<div id="head_bottom"></div>
+</div>
+<!-- 切换城市 下拉菜单 -->
+<div id="city_menu_box" class="comm-dropdown-city"  style="position: absolute; left: 441.5px; top: 76px; z-index: 999; display: none;">
+	<ul>
+		<!--{eval $index=0;}--> 
+		<!--{get:modoer val=citys(num/9)}--> 
+		<li{if $_CITY[aid]==$val[aid]} class="current"{/if}><a href="{print:modoer cityurl(city_id/$val[aid])}">$val[name]</a>
+		</li>
+		<!--{eval $index++;}--> 
+		<!--{/get}-->
+	</ul>
+	<!--{if $index>1}-->
+	<div class="morecitys"><a href="{url index/city}">全部城市</a></div>
+	<!--{/if}--> 
+</div>
+<!--{if $index}--> 
+<script type="text/javascript">
+$("#city_menu_src").powerFloat({offsets:{x:0,y:2}});
+</script> 
+<!--{/if}--> 
+<script type="text/javascript" src="{URLROOT}/static/javascript/login.js"></script> 
+{LF} 

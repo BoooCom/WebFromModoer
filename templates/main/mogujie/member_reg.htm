@@ -1,0 +1,103 @@
+{template modoer_header_login} 
+<script type="text/javascript" src="{URLROOT}/static/javascript/validator.js"></script>
+<div>
+	<div class="reg_wrap">
+		<div class="fm960">
+			<div class="logo"><A class="mogujie fl" title="首页" href="{url modoer/index}">首页</A> </div>
+			<div class="content">
+				<div id="register_box">
+					<div id="register_left">
+						<H1><!--{if $passport}-->完善帐号<!--{else}-->新用户注册<!--{/if}--></H1>
+						<!--{if $MOD[closereg]}-->
+						<div style="text-align:center">网站关闭了注册功能。<a href="javascript:history.go(-1);">返回</a></div>
+						<!--{else}-->
+						
+						<div id="register_center">
+							<div id="register_form">
+								<form method="post" action="{url member/reg/rand/$_G[random]}" onsubmit="return validator(this);">
+									<input type="hidden" name="forward" value="$forward" />
+									<input type="hidden" name="uniq" value="$user->uniq" />
+									<!--{if $passport}-->
+									<input type="hidden" name="passport" value="$passport_type">
+									<input type="hidden" name="passport_id" value="$passport_id">
+									<!--{/if}-->
+									<div class="ipt_mail"><SPAN>用户名：</SPAN>
+										<INPUT class="text r3"  maxLength=36 name="username" value="$username" onblur="check_username(this);" validator="{'empty':'N','errmsg':'请填写您的登录用户名。'}" >
+										<div id="msg_username" class="formmessage none"></div>
+									</div>
+									<div class="ipt_ulike"><SPAN>电子邮箱：</SPAN>
+										<INPUT class="text r3" maxLength=36 type="text" onblur="check_email(this);" name="email" value="$email" validator="{'empty':'N','errmsg':'您未填写邮箱账号。'}" >
+										<div id="msg_email" class="formmessage none"></div>
+									</div>
+									<!--{if $MOD[mobile_verify]}-->
+									<div class="ipt_mail"><SPAN>手机号：</SPAN>
+										<INPUT class="text r3" maxLength=36 type="text" onblur="check_mobile(this);" name="mobile" id="txt_mobile" validator="{'empty':'N','errmsg':'您未填写手机并验证手机号。'}"  >
+										<div id="msg_mobile" class="formmessage none"></div>
+									</div>
+									<!--{/if}--> 
+									<!--{if !$passport || ($passport && $MOD[passport_pw])}-->
+									<div class="ipt_password"><span>密码：</span>
+										<input class="text r3" style="*margin-left:-1px;" type="password" name="password" maxlength=36 validator="{'empty':'N','errmsg':'请填写您的登录密码。'}" >
+										<div id="msg_password" class="formmessage none"></div>
+									</div>
+									<div class="ipt_respassword"><SPAN>确认密码：</SPAN>
+										<input class="text r3" type="password" name="password2" maxLength=36 validator="{'empty':'N','errmsg':'请再次输入登录密码。'}">
+										<div id="msg_password2" class="formmessage none"></div>
+									</div>
+									<!--{/if}--> 
+									<!--{if $MOD['seccode_reg']}-->
+									<div class="ipt_seccode">
+										<span>验证码：</span>
+										<input type="text" name="seccode" class="r3 text" style="width:118px;" onblur="check_seccode(this.value);" onfocus="show_seccode();" validator="{'empty':'N','errmsg':'请输入注册验证码'}" />
+										<div id="seccode" class="none" style="float:left;margin-left:5px;width:80px;position:relative;top:3px;"></div>
+										<div id="msg_seccode" class="formmessage none" style="float:left;"></div>
+									</div>
+									<!--{/if}--> 
+				                    <!--{if $MOD[invite_reg] && $inviter}-->
+				                    <div class="ipt_check">
+				                    	<span>邀请人：</span>
+				                        <span>{if $invite}$inviter[username]{else}<span class="font_1">$invite_message</span>{/if}</span>
+				                    </div>
+				                    <!--{/if}-->
+									<!--{if $MOD[showregrule]}-->
+									<div class="ipt_box">
+										<span>注册协议：</span>
+										<textarea class="txt" readonly>$MOD[regrule]</textarea>
+										<br />
+										<input type="checkbox" id="regrule" value="1" validator="{'empty':'N','errmsg':'您未接受注册协议。'}" />
+										<label for="regrule">我接受注册协议</label>
+									</div>
+									<!--{/if}-->
+									<div class="ipt_sub">
+                                        <!--{if $passport && ($MOD[passport_reg_skip])}-->
+                                        <input type="hidden" name="passport_reg_skip" value="0">
+                                        <button type="button" class="button" onclick="member_reg_skip();">跳过本地注册</button>
+                                        <!--{/if}-->
+										<button type="submit" value="yes" name="dosubmit" class="sub">&nbsp;</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div id="register_right"> 
+						<!--{if $passport}-->
+						<div style="margin:10px 0 0 5px;"> <a href="{url member/login/op/passport_bind/passport/$passport_type}"><img src="{URLROOT}/$_G[tplurl]/img/bind_btn.png" title="绑定已存在帐号" /></a> </div>
+						<!--{else}-->
+						<div class="rst_login"><SPAN>已经有帐号？请直接登录</SPAN> <A href="{url member/login}"></A></div>
+						<!--{if $_G['passport_apis']}-->
+						<div class="other_login"><SPAN>您也可以用以下方式登录：</SPAN> 
+							<!--{loop $_G['passport_apis'] $passport_name $passport_title}--> 
+							<A class=o_icon href="{url member/login/op/passport_login/type/$passport_name}"><img src="{URLROOT}/static/images/passport/{$passport_name}_n.png" style="margin-right:2px;" />$passport_title</A> 
+							<!--{/loop}--> 
+						</div>
+						<!--{/if}--> 
+						<!--{/if}--> 
+					</div>
+				</div>
+				<div class="clear"></div>
+				<!--{/if}--> 
+			</div>
+		</div>
+	</div>
+</div>
+<!--{eval footer();}-->

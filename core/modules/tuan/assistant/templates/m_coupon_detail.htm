@@ -1,0 +1,94 @@
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-tab">
+                <ul>
+                    <li><a href="{url member/index}">网站助手</a><span></span></li>
+                    <li class="current"><a href="{url tuan/member/ac/coupon}">我的团购券</a><span></span></li>
+                    <li><a href="{url tuan/member/ac/order}">我的订单</a><span></span></li>
+                    <li><a href="{url tuan/member/ac/credit}">帐户余额</a><span></span></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>券信息</h2>
+                        <ul class="filter">
+                            <li class="label">分类: </li>
+                            <li$acticve[available]><a href="{url tuan/member/ac/coupon/op/detail/oid/$oid/status/available}">未使用</a></li>
+                            <li$acticve[used]><a href="{url tuan/member/ac/coupon/op/detail/oid/$oid/status/used}">已使用</a></li>
+                            <li$acticve[expired]><a href="{url tuan/member/ac/coupon/op/detail/oid/$oid/status/expired}">已过期</a></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="sect">
+                        <table cellspacing="0" cellpadding="0" border="0" class="coupons-table">
+                            <tr>
+                                <th width="50">订单号</th>
+                                <th width="*">券号</th>
+                                <th width="120">密码</th>
+                                <!--{if $status=='used'}-->
+                                <th width="120">使用时间</th>
+                                <!--{else}-->
+                                <th width="120">过期时间</th>
+                                <!--{/if}-->
+                                <th width="80">操作</th>
+                            </tr>
+                            <!--{eval $i=0;}-->
+                            <!--{dbres $list $val}-->
+                            <tr{if $i++%2==0} class="alt"{/if}>
+                                <td>$val[oid]</td>
+                                <td>$val[serial]</td>
+                                <td>{if $val[status]=='new'}$val[passward]{else}<b>隐藏显示</b>{/if}</td>
+                                <!--{if $status=='used'}-->
+                                <td>{date $val[usetime],'Y年m月d日'}</td>
+                                <!--{else}-->
+                                <td>{date $val[expiretime],'Y年m月d日'}</td>
+                                <!--{/if}-->
+                                {if $val[status]=='new'}
+                                <td>
+									<a href="{url tuan/coupon/op/print/id/$val[id]}" target="_blank">打印</a>
+									{if $order[mobile] && $MOD[send_sms] && $status=='available' && (!$val[sms_sendtime]||$_G[timestamp]-$MOD[sms_interval]>$val[sms_sendtime])}
+									&nbsp;<a href="{url tuan/coupon/op/sms/id/$val[id]}">短信</a>
+									{/if}
+								</td>
+                                {else}
+                                <td>
+                                    {eval $lang_status=lang('tuan_coupon_status');}
+                                    {print $lang_status[$val[status]]}
+                                </td>
+                                {/if}
+                            </tr>
+                            <!--{/dbres}-->
+                            <!--{if !$list}-->
+                            <tr><td colspan="5">暂无数据</td></tr>
+                            <!--{/if}-->
+                        </table>
+                        <!--{if $multipage}--><p class="info">$multipage</p><!--{/if}-->
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-top"></div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <div class="side-tip">
+                        <h3 class="first">什么是团购券？</h3>
+                        <p>团购券是当团购成功后，您自行下载打印使用的消费凭证（其中包含唯一优惠密码）。</p>
+                        <h3>如何使用团购券？</h3>
+                        <p>当您去消费时，出示该打印的团购即可。打印版团购券上通常还包含更详细的使用说明。</p>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{template tuan_footer}

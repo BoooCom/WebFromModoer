@@ -129,7 +129,7 @@ class msm_article extends ms_model {
         }
         //自动截取简介
         if(!$post['introduce'] && $post['content']) {
-            $post['introduce'] = substr_ex(str_replace("\r\n",". ",_NL(strip_tags($post['content']))), 0, 255);
+            $post['introduce'] = substr_ex(str_replace(array("\r\n"," "),array(""),_NL(strip_tags($post['content']))), 0, 255);
         }
         //上传图片部分
         if($post['picture'] && strposex($post['picture'], '/temp/')) {

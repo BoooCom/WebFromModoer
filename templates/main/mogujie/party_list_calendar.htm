@@ -1,0 +1,44 @@
+<table class="party_calendar">
+<tr>
+    <td class="party_calendar_nav"><a href="{url party/index/catid/$catid/type/$type/time/$calendar[forward]/order/$order/flag/$flag}">&lt;&lt;</a></td>
+    <td colspan="5">{date $calendar[datetime], 'Y年n月'}</td>
+    <td class="party_calendar_nav"><a href="{url party/index/catid/$catid/type/$type/time/$calendar[next]/order/$order/flag/$flag}">&gt;&gt;</a></td>
+</tr>
+<tr>
+    <th width="14%">日</th>
+    <th width="14%">一</th>
+    <th width="14%">二</th>
+    <th width="14%">三</th>
+    <th width="14%">四</th>
+    <th width="14%">五</th>
+    <th width="14%">六</th>
+</tr>
+<!--{loop $calendar[list] $key $val}-->
+{if $key%7==0}<tr>{/if}
+    <td class="day">
+        <!--{if !$val}-->
+        &nbsp;
+        <!--{else}-->
+        <div class="mainrail" id="calendar_day_{$val[0]}" style="display:none;">
+            <ul class="rail-list">
+                <!--{eval $true = false; $picture = ''; }-->
+                <!--{loop $list $_val}-->
+                    <!--{if $val[1] >= strtotime(date('Y-m-d',$_val[begintime])) && $val[1] <= strtotime(date('Y-m-d',$_val[endtime]))}-->
+                    <li><a href="{url party/detail/id/$_val[partyid]}"{if $_val[thumb]} src="{URLROOT}/$_val[thumb]" onmouseover="tip_start(this,1);"{/if}>$_val[subject]</a></li>
+                    <!--{eval 
+                        $true = true; if(!$picture && $_val['thumb']) $picture = $_val['thumb']; 
+                    }-->
+                    <!--{/if}-->
+                <!--{/loop}-->
+            </ul>
+        </div>
+            <!--{if $true}-->
+            <a href="#" onmouseover="party_calendar_show(this, $val[0], 1);">$val[0]</a>
+            <!--{else}-->
+            $val[0]
+            <!--{/if}-->
+        <!--{/if}-->
+    </td>
+{if $key%7==6}</tr>{/if}
+<!--{/loop}-->
+</table>

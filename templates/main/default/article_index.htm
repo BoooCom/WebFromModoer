@@ -19,7 +19,7 @@
                     $('#l1_pics').d_imagechange({width:350,height:200,repeat:'draw'});
                 </script>
                 <div class="l1_comment_news">
-                    <h2 class="rail-h-2 rail-h-bg-2"><b>热评文章</b></h2>
+                    <h2 class="rail-h-3 rail-h-bg-3"><b>热评文章</b></h2>
                     <ul class="rail-list2">
                         {get:modoer val=table(table/dbpre_articles/select/articleid,subject,comments/where/city_id IN (_NULL_CITYID_) AND comments>0 AND status=1/orderby/comments DESC/rows/5/cachetime/1000)}
                         <li><cite>$val[comments]&nbsp;评论</cite><a href="{url article/detail/id/$val[articleid]}">{sublen $val[subject],20}</a></li>

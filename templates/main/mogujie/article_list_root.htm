@@ -1,0 +1,72 @@
+<!--{eval
+    $_G['loader']->helper('misc','article');
+    $_HEAD['title'] = $_CITY[name].$MOD[name] . $_CFG['titlesplit'] . misc_article::category_path($catid,$_CFG['titlesplit']);
+}-->
+
+{template modoer_header}
+<DIV id="body_wrap">
+	<DIV class="fm960 clearfix" id="body">
+		<DIV class="piece piece_w960">
+			<DIV class="piece_hd"><B class=hl></B><B class=hr></B></DIV>
+			<DIV class="piece_bd clearfix">
+				<DIV class="fl" id="content_body1">
+					<DIV class="show_body clear_in pt20"><!--商品或图片 -->
+						<div class="link_path"> <em> 
+							<!--{if $access_post}--> 
+							<span class="review-ico"><a href="{url article/member/ac/article/op/add/role/$role}">我要投稿</a></span>&nbsp;&nbsp; 
+							<!--{/if}--> 
+							<!--{if $MOD['rss']}--> 
+							<span class="rss-ico"><a href="{url article/rss/catid/$catid}">新闻聚合</a></span> 
+							<!--{/if}--> 
+							</em>
+							<div><a href="{url modoer/index}">$_CITY[name]</a>&nbsp;&raquo;&nbsp;<a href="{url article/index}">$MOD[name]</a>&nbsp;&raquo;&nbsp;{print misc_article::category_path($catid,'&nbsp;&raquo;&nbsp;',url("article/list/catid/_CATID_"))}</div>
+						</div>
+						<div class="article_root"> {get:article cat=category(pid/$catid)}
+							<ul>
+								<em><a href="{url article/list/catid/$cat[catid]}">更多</a></em>
+								<h2>$cat[name]</h2>
+								{get:modoer val=table(table/dbpre_articles/select/articleid,subject,dateline/where/city_id IN (_NULL_CITYID_) AND catid='$cat[catid]' AND status=1/orderby/dateline DESC/row/10)}
+								<li><cite>{date $val[dateline]}</cite><a href="{url article/detail/id/$val[articleid]}">$val[subject]</a></li>
+								{/get}
+							</ul>
+							{/get} </div>
+					</DIV>
+				</DIV>
+				<DIV class="fr" id="right_side1">
+					<DIV class="coupon_side">
+						<H3>文章分类</H3>
+						<UL>
+							{get:article val=category(pid/0)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url article/list/catid/$val[catid]}" target=_blank>$val[name]</A></H4>
+							</LI>
+							{/get}
+						</UL>
+					</DIV>
+					<DIV class="coupon_side">
+						<H3>推荐文章</H3>
+						<UL>
+							{get:article val=getlist(select/articleid,subject,dateline/city_id/_NULL_CITYID_/catid/$catid/att/2/orderby/dateline DESC/rows/5)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url article/detail/id/$val[articleid]}" target=_blank>{sublen $val[subject],15}</A></H4>
+								<span>{date $val[dateline],'m-d'}</span></LI>
+							{/get}
+						</UL>
+					</DIV>
+					<DIV class="coupon_side">
+						<H3>热门评论</H3>
+						<UL>
+							{get:article val=getlist(select/articleid,subject,comments/city_id/_NULL_CITYID_/catid/$catid/comments/1/orderby/comments DESC/rows/5)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url article/detail/id/$val[articleid]}" target=_blank>{sublen $val[subject],15}</A></H4>
+								<span>$val[comments] 评论</span></LI>
+							{/get}
+						</UL>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV class="piece_ft"><B class=fl></B><B class=fr></B></DIV>
+		</DIV>
+	</DIV>
+</DIV>
+<!--{eval footer();}-->

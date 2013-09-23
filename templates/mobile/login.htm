@@ -1,0 +1,39 @@
+{include mobile_template('header')}
+<!-- Home -->
+<div data-role="{if $_G[in_dlg]}dialog{else}page{/if}" id="page_login">
+    <div data-theme="e" data-role="header">
+        <h2>会员登录</h2>
+        {if !$_G[in_dlg]}
+        <a data-role="button" data-icon="plus" href="{url member/reg}" class="ui-btn-right" target="_top">注册</a>
+        <a data-role="button" data-icon="home" href="{url mobile/index}" class="ui-btn-left">首页</a>
+        {/if}
+    </div>
+    <div data-role="content" style="padding: 15px">
+        <form action="{url mobile/login}" method="POST">
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup">
+                    <input name="username" id="username" placeholder="请输入用户名" value="" type="text" />
+                </fieldset>
+            </div>
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup">
+                    <input name="password" id="password" placeholder="请输入密码" value="" type="password" />
+                </fieldset>
+            </div>
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-type="vertical">
+                    <legend></legend>
+                    <input name="life" id="life" type="checkbox" value="2592000" />
+                    <label for="life">记住密码</label>
+                </fieldset>
+            </div>
+            <input type="hidden" name="forward" value="$forward" />
+            <input type="submit" data-theme="e" value="登录" data-inline="true" />
+            <a data-role="button" data-theme="c" data-rel="back" href="#page1" data-inline="true" data-theme="b">取消</a>
+        </form>
+    </div>
+</div>
+<script>
+    //App custom javascript
+</script>
+{include mobile_template('footer')}

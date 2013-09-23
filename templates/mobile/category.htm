@@ -1,0 +1,17 @@
+{include mobile_template('header')}
+<div data-role="page" id="page_category">
+    <div data-theme="e" data-role="header">
+        <h2>选择分类</h2>
+        <a data-role="button" data-transition="fade" href="{url mobile/index}" class="ui-btn-left" data-icon="home" >首页</a>
+    </div>
+    <div data-role="content" style="padding: 15px">
+        <ul data-role="listview" data-divider-theme="e" data-inset="false">
+            {get:item val=category(pid/0)}
+            <li data-theme="d">
+                <a href="{url $nextpag/catid/$val[catid]}" data-transition="fade">$val[name]</a>
+            </li>
+            {/get}
+        </ul>
+    </div>
+</div>
+{include mobile_template('footer')}

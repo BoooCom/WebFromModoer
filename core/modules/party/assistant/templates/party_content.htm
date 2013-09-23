@@ -1,0 +1,37 @@
+{template modoer_header}
+<div id="body">
+<div class="myhead"></div>
+<div class="mymiddle">
+    <div class="myleft">
+        <!--{template 'menu','member','member'}-->
+    </div>
+    <div class="myright">
+        <div class="myright_top"></div>
+        <div class="myright_middle">
+            <h3>撰写精彩回顾</h3>
+            <div class="mainrail">
+                <form method="post" name="myform" action="{url party/member/ac/$ac/op/content}">
+                <table width="100%" cellspacing="0" cellpadding="0" class="maintable">
+                    <tr>
+                        <td align="right" width="85"><span class="font_1">*</span>活动名称：</td>
+                        <td width="*">$party[subject]</td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top"><span class="font_1">*</span>回顾内容：</td>
+                        <td>$edit_html</td>
+                    </tr>
+                </table>
+                <div class="text_center">
+                    <input type="hidden" name="id" value="$party[partyid]" />
+                    <button type="submit" name="dosubmit" value="yes">提交</button>&nbsp;
+                    <button type="button" onclick="history.go(-1);">返回</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="mybottom"></div>
+</div>
+<!--{eval footer();}-->

@@ -103,7 +103,8 @@
                         var formData = {
                             'sid'       : '$sid',
                             'albumid'   : albumid,
-                            'auto_login_hash'   :'$uphash'
+                            'auto_login_hash'   :'$uphash',
+                            'output_charset': '$_G[charset]'
                         };
                         $('#file_upload').uploadify('settings','formData', formData);                    
                         $('#file_upload').uploadify('upload','*');

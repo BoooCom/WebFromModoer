@@ -1,0 +1,25 @@
+{dbres $fenlei_list $val}
+<li class="list_item_box fenlei_list">
+    <a href="{url fenlei/mobile/do/detail/id/$val[fid]}" class="list_coupon_a">
+        <div class="clear" style="width:96%">
+            <div class="thumb">
+                <!--{eval $thumb = $val[thumb]?$val[thumb]:'static/images/s_noimg.gif';}-->
+                <img src="{URLROOT}/$thumb" alt="$val[subject]"/>
+            </div>
+            <div class="fl" style="margin-left:5px;">
+                <span class="title_a" {if $val[color]} style="color:$val[color];"{/if}>{if $val[top]}[置顶] {/if}$val[subject]</span>
+                <div class="list_item_info">
+                    <!--{sublen strip_tags($val[content]),50,'...'}-->
+                    <div>
+                        <span>地区：{print:modoer area(aid/$val[aid])}</span>
+                        <span class="split"></span>
+                        <span>发表时间：{date $val[dateline],'Y-m-d H:i'}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <span class="menu-botton-arrow"></span>
+    </a>
+    <div style="clear:both;"></div>
+</li>
+{/dbres}

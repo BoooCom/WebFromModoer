@@ -1,0 +1,66 @@
+<!--{eval 
+    $_HEAD['title'] = $subject[name].$subject[subname] . '的相册列表';
+}-->
+{template modoer_header}
+<script type="text/javascript">
+loadscript('swfobject');
+$(document).ready(function() {
+    if(!$.browser.msie && !$.browser.safari) {
+        var d = $("#thumb");
+        var dh = parseInt(d.css("height").replace("px",''));
+        var ih = parseInt(d.find("img").css("height").replace("px",''));
+        if(dh - ih < 3) return;
+        var top = Math.ceil((dh - ih) / 2);
+        d.find("img").css("margin-top",top+"px");
+    }
+
+    <!--{if $MOD['show_thumb'] && $detail['pictures']}-->
+    get_pictures($sid);
+    <!--{/if}-->
+});
+</script>
+
+<div id="body">
+
+<div class="link_path">
+    <em class="font_3">
+        <!--{loop $links $i $link}-->
+        {if $i} | {/if}<a href="$link[url]"{if $link[flag]=='item/album'} style="color:#ff6600;"{/if}>$link[title]</a>
+        <!--{/loop}-->
+    </em>
+    <a href="{url modoer/index}">{lang global_index}</a>&nbsp;&raquo;&nbsp;{print implode('&nbsp;&raquo;&nbsp;', $urlpath)}
+</div>
+
+<div id="item_left">
+
+	<div class="mainrail rail-border-3">
+		<h2 class="rail-h-3 rail-h-bg-3">相册列表</h2>
+		<ul class="albumlist">
+			{dbres $list $val}
+				<li>
+					<div>
+						<a href="{url item/album/id/$val[albumid]}">{if $val[thumb]}<img src="{URLROOT}/$val[thumb]" alt="$val[name]" />{else}<img src="{URLROOT}/static/images/noimg.gif" />{/if}</a>
+					</div>
+					<p>
+						<span>{sublen $val[name],15}</span>
+						<span>{date $val[lastupdate],'Y-m-d'}</span>
+					</p>
+				</li>
+			{/dbres}
+		</ul>
+		<div class="clear"></div>
+	</div>
+
+</div>
+
+<div id="item_right">
+
+    <!--{template item_subject_side}-->
+
+</div>
+
+<div class="clear"></div>
+
+</div>
+
+<!--{eval footer();}-->

@@ -1,0 +1,96 @@
+<!--{eval
+    $_HEAD['title'] = $_CITY[name].
+    ($subject ? ($subject[name]  . ',' . $subject[subname] . ',') : '') . (isset($catid)?$category[$catid][name]:'') . 
+    $MOD[name] . 
+    $_CFG['titlesplit'] . $MOD[subtitle];
+}-->
+
+{template modoer_header}
+<div id="body_wrap">
+	<div class="fm960 clearfix" id="body">
+		<div class="piece piece_w960">
+			<div class="piece_hd"><b class=hl></b><b class=hr></b></div>
+			<div class="piece_bd clearfix">
+				<div class="fl" id="content_body2">
+					<div class="show_body clear_in pt20"><!--商品或图片 -->
+						
+						<div class="ff" style="MARGIN:0px"> <A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">分类：</A>
+							<ul class="mr10" style="height:36px">
+								<li$active[catid][0]><a href="{url coupon/index}">全部</a></li>
+								{get:coupon val=category()}
+								<li$active[catid][$val[catid]]><a href="{url coupon/index/catid/$val[catid]}">$val[name]</a></li>
+								{/get}
+							</ul>
+							<div class="clear"></div>
+							<A style="FONT-SIZE: 14px; FLOAT: left; COLOR: #666">排序：</A>
+							<ul class="mr10" style="height:36px">
+								<li$active[orderby][dateline]><a href="javascript:;" onclick="list_display('coupon_orderby','dateline')">最新发布</a>
+								</li>
+								<li$active[orderby][pageview]><a href="javascript:;" onclick="list_display('coupon_orderby','pageview')">浏览量</a>
+								</li>
+								<li$active[orderby][effect1]><a href="javascript:;" onclick="list_display('coupon_orderby','effect1')">最有用的</a>
+								</li>
+								<li$active[orderby][comments]><a href="javascript:;" onclick="list_display('coupon_orderby','comments')">最多评论</a>
+								</li>
+							</ul>
+						</div>
+						<div class="mainrail coupon-view"> {dbres $list $val}
+							<div class="il_coupon">
+								<h2>[<a href="{url coupon/index/catid/$val[catid]}">$category[$val[catid]][name]</a>]&nbsp;<a href="{url coupon/detail/id/$val[couponid]}">$val[subject]</a></h2>
+								<div class="thumb"><a href="{url coupon/detail/id/$val[couponid]}"><img src="{URLROOT}/$val[thumb]" alt="$val[subject]" /></a></div>
+								<ul class="info">
+									<li class="full">商户：<a href="{url item/detail/id/$val[sid]}">$val[name]{if $val[subname]}($val[subname]){/if}</a></li>
+									<li>开始日期：{date $val[starttime], 'Y-m-d'}</li>
+									<li>截止日期：{date $val[endtime], 'Y-m-d'}</li>
+									<li class="full">现有<span class="font_2">$val[pageview]</span>次浏览，<span class="font_2">$val[comments]</span>个评论，其中有<span class="font_2">$val[effect1]</span>人认为有用</li>
+									<li class="full">优惠：$val[des]</li>
+								</ul>
+								<div class="clear"></div>
+							</div>
+							{/dbres} 
+							<!--{if $multipage}-->
+							<div class="multipage">$multipage</div>
+							<!--{/if}--> 
+							<!--{if !$total}-->
+							<div class="messageborder">暂无数据。</div>
+							<!--{/if}--> 
+						</div>
+					</div>
+				</div>
+				<div class="fr" id="right_side1">
+					<div class="coupon_side" style="border:0px">
+						<H3>搜索优惠券<em style="font-style:normal; float:right; position:absolute;right:20px">共找到 <font>$total</font>个优惠券</em></H3>
+						<form method="get" action="{URLROOT}/coupon.php">
+							<input type="hidden" name="catid" value="$catid" />
+							<input type="text" name="keyword" class="t_input" value="$keyword" />
+							&nbsp;
+							<button type="submit" class="button">搜索</button>
+						</form>
+					</div>
+					<div class="coupon_side">
+						<H3>最新发布</H3>
+						<ul>
+							{get:coupon val=list_new(row/10/cachetime/1000)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url coupon/detail/id/$val[couponid]}" target=_blank>{sublen $val[subject],15}</A></H4>
+								<span>{date $val[dateline],'m-d'}</span></LI>
+							{/get}
+						</ul>
+					</div>
+					<div class="coupon_side">
+						<H3>最受关注</H3>
+						<ul>
+							{get:coupon val=list_hot(row/10/cachetime/1000)}
+							<LI>
+								<H4 class=ag_t><A class=glink href="{url coupon/detail/id/$val[couponid]}" target=_blank>{sublen $val[subject],15}</A></H4>
+								<span>$val[effect1]&nbsp;人有用</span></LI>
+							{/get}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="piece_ft"><b class=fl></b><b class=fr></b></div>
+		</div>
+	</div>
+</div>
+<!--{eval footer();}-->

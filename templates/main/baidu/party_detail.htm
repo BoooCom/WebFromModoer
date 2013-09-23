@@ -1,0 +1,195 @@
+<!--{eval
+    $_HEAD['title'] = $detail[subject];
+}-->
+{template modoer_header}
+<div id="body">
+
+    <div class="link_path">
+        <em><span class="review-ico"><a href="{url party/member/ac/party/op/add}"><b>发起活动</b></a></span></em>
+        <a href="{url modoer}">首页</a>&nbsp;&raquo;&nbsp;{print implode('&nbsp;&raquo;&nbsp;', $urlpath)}
+    </div>
+
+    <div id="party_right">
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">组织者信息</h3>
+            <table class="sponsor-table">
+                <tr>
+                    <td class="face" valign="top"><img src="{print get_face($detail[uid])}" title="$detail[uid]" /></td>
+                    <td class="sponsor" valign="top">
+                        <ul>
+                            <!--{if $detail[uid]}-->
+                            <li><a href="{url space/index/uid/$detail[uid]}">$detail[username]</a></li>
+                            <!--{else}-->
+                            <li><span class="font_1"><b>网站发起的活动</b></span></li>
+                            <!--{/if}-->
+                            <li>联系人：$detail[linkman]</li>
+                            <!--{if !$MOD[joined_showcontact] || $joined}-->
+                            <li>联系方式：$detail[contact]</li>
+                            <!--{else}-->
+                            <li>联系方式：报名后可见</li>
+                            <!--{/if}-->
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">组织者其他活动</h3>
+            <ul class="rail-list ">
+                {get:party val=getlist(uid/$detail[uid]/orderby/dateline DESC/rows/10)}
+                <li>
+                    <a href="{url party/detail/id/$val[partyid]}">{sublen $val[subject],20}</a>
+                    <p style="margin:0px;padding:1px 0;">{date $val[begintime]}&nbsp;~&nbsp;{date $val[endtime]}</p>
+                </li>
+                {/get}
+            </ul>
+        </div>
+        <!--{if $detail[num]}-->
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">最近报名的会员</h3>
+            <ul class="rail-list ">
+                {get:party val=joins(partyid/$detail[partyid]/orderby/dateline DESC/rows/10)}
+                <li><a href="{url space/index/uid/$val[uid]}">$val[username]</a> 在 {date $val[dateline]} 报名了</li></li>
+                {/get}
+            </ul>
+        </div>
+        <!--{/if}-->
+        <!--{if $subject}-->
+        <script type="text/javascript">loadscript('item');</script>
+        <div class="mainrail rail-border-3">
+            <h2 class="rail-h-2"><b><a href="{url item/detail/id/$subject[sid]}"><span class="font_2">$subject[name]&nbsp;$subject[subname]</span></a></b></h2>
+            <div class="subject">
+                <!--{eval $itemcfg=$_G['loader']->variable('config','item');}-->
+                <p class="start start{print get_star($subject[avgsort],$itemcfg[scoretype])}"></p>
+                <table class="subject_field_list" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td colspan="2"><span class="font_2">$subject[reviews]</span>点评,
+                        <span class="font_2">$subject[guestbooks]</span>留言,
+                        <span class="font_2">$subject[pageviews]</span>浏览</td>
+                    </tr>
+                    $subject_field_table_tr
+                </table>
+                <a class="abtn2" href="{url review/member/ac/add/type/item_subject/id/$subject[sid]}"><span>点评</span></a>
+                <a class="abtn2" href="javascript:add_favorite($subject[sid]);"><span>关注</span></a>
+                <a class="abtn2" href="{url item/detail/id/$subject[sid]/view/guestbook}#guestbook"><span>留言</span></a>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!--{if $subject[mappoint]}-->
+        <div class="mainrail">
+            <!--{eval $mapparam = array(
+                'width' => '300',
+                'height' => '245',
+                'title' => $subject[subject],
+                'p' => $subject[mappoint],
+                'show' => $subject[mappoint]?1:0,
+            );}-->
+            <iframe src="{URLROOT}/index.php?act=map&{print url_implode($mapparam)}" frameborder="0" scrolling="no" height="245" width="300"></iframe>
+        </div>
+        <!--{/if}-->
+        <!--{/if}-->
+    </div>
+
+    <div id="party_left">
+        <div class="mainrail party">
+            <div class="party-subject">
+                <h3>[{print lang('party_flag_'.$detail[flag])}]&nbsp;$detail[subject]</h3>
+                <div class="op">
+                    发起者：$detail[username]&nbsp;&nbsp;&nbsp;
+                    发起时间：{date $detail[dateline],'Y-m-d H:i'}&nbsp;&nbsp;&nbsp;
+                    <span><a href="#" onclick="window.print();">打印</a></span>
+                    <!--{if $party_owner}-->
+                    &nbsp;&nbsp;&nbsp;
+                    <span><a href="{url party/member/ac/apply/id/$detail[partyid]}">管理会员</a></span>&nbsp;&nbsp;&nbsp;
+                    <span><a href="{url party/member/ac/picture/id/$detail[partyid]}">管理照片</a></span>&nbsp;&nbsp;&nbsp;
+                    <span><a href="{url party/member/ac/party/op/content/id/$detail[partyid]}">撰写回顾</a></span>
+                    <!--{/if}-->
+                </div>
+            </div>
+            <table border="0" cellspacing="0" cellpadding="0" class="party-info-table">
+                <tr>
+                    <td class="party-info-thumb"><img src="{URLROOT}/{if $detail[thumb]}$detail[thumb]{else}static/images/noimg.gif{/if}" /></td>
+                    <td class="party-info-detail" valign="top">
+                        <ul class="party-detail-ul">
+                            {if $applyprice}<li>报名费用：<span class="font_2">$applyprice[0]{print:member point(point/$applyprice[1]/keyname/u|n)}</li></span>{/if}
+                            <li>报名截止：{date $detail[joinendtime]}</li>
+                            <li>活动时间：{date $detail[begintime]}&nbsp;~&nbsp;{date $detail[endtime]}</li>
+                            <li>活动地址：{print:modoer area(aid/$detail[aid])}&nbsp;$detail[address]</li>
+                            <li>性别限制：{print lang('party_sex_'.$detail[sex])}</li>
+                            <li>活动费用：$detail[price] 元人民币/人</li>
+                            <li>活动人数：$detail[plannum] 人</li>
+                            <li>
+                                <!--{if $detail[flag]==1 && !$joined && !$party_owner}-->
+                                <a class="abtn1" href="{url party/member/ac/apply/op/apply/id/$detail[partyid]}" onclick="return apply_party($detail[partyid]);"><span>我要报名</span></a>&nbsp;&nbsp;
+                                <!--{/if}-->
+                                <div>{if $joined}<span class="font_1">我已经报名</span>&nbsp;&nbsp;{/if}目前已有 <span class="font_1"><b>$detail[num]</b></span> 人报名</div></li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <ul class="party-tab" id="party-tab">
+            <li{if !$_GET[view]} class="selected"{/if} id="party_table_des"><a href="###" onclick="party_tab('party_table_des');" onfocus="this.blur()">活动介绍</a></li>
+            <li{if $_GET[view]=='apply'} class="selected"{/if} id="party_table_member"><a href="###" onclick="party_tab('party_table_member');" onfocus="this.blur()">已报名会员</a></li>
+            <li{if $_GET[view]=='pic'} class="selected"{/if} id="party_table_pic"><a href="###" onclick="party_tab('party_table_pic');" onfocus="this.blur()">活动图片</a></li>
+            <li{if $_GET[view]=='content'} class="selected"{/if} id="party_table_content"><a href="###" onclick="party_tab('party_table_content');" onfocus="this.blur()">精彩回顾</a></li>
+        </ul>
+        <div class="party-tab-line"></div>
+
+        <div class="party-tab-foo">
+            <div class="party-des{if $_GET[view]} none{/if}" id="party_table_des_foo">
+                $detail[des]
+            </div>
+            <div class="party-pictures{if $_GET[view]!='pic'} none{/if}" id="party_table_pic_foo">
+                <!--{if $joined || $party_owner}-->
+                <div class="party-pictures-upload"><span class="update-img-ico"><a href="{url party/member/ac/picture/op/upload/id/$detail[partyid]}">我要上传活动照片</a></span></div>
+                <!--{/if}-->
+                <ul class="party_picture_ul" id="party_picture_ul">
+                    <!--{dbres $pics $val}-->
+                    <li id="pic_$val[picid]">
+                        <div><a href="{URLROOT}/$val[pic]" target="_blank" title="$val[title] $val[username]"><img src="{URLROOT}/{$val[thumb]}" /></a></div>
+                        <p><span><a href="{url space/index/uid/$val[uid]}">$val[username]</a> 上传</span></p>
+                    </li>
+                    <!--{/dbres}-->
+                </ul>
+                <div class="clear"></div>
+                <!--{if multipage}--><div class="multipage">$pic_multipage</div><!--{/if}-->
+                <!--{if $pic_total}-->
+                <link rel="stylesheet" type="text/css" href="{URLROOT}/static/images/lightbox.css" />
+                <script type="text/javascript" src="{URLROOT}/static/javascript/lightbox.js"></script>
+                <script type="text/javascript">
+                    $(function() { $('#party_picture_ul li div a').lightBox(); });
+                </script>
+                <!--{/if}-->
+            </div>
+            <div class="party-content{if $_GET[view]!='content'} none{/if}" id="party_table_content_foo">
+                {if $content}
+                $content[content]
+                {else}
+                <div class="messageborder">组织者没有提交精彩回顾。</div>
+                {/if}
+            </div>
+            <div class="party-member{if $_GET[view]!='apply'} none{/if}" id="party_table_member_foo">
+                <ul>
+                    <!--{dbres $applys $val}-->
+                    <li><div><a href="{url space/index/uid/$val[uid]}" target="_blank"><img src="{print get_face($val[uid])}" /></a></div><p>$val[username]</p></li>
+                    <!--{/dbres}-->
+                </ul>
+                <div class="clear"></div>
+                <!--{if multipage}--><div class="multipage">$apply_multipage</div><!--{/if}-->
+            </div>
+        </div>
+
+        <div class="mainrail rail-border-3">
+            <h3 class="rail-h-3 rail-h-bg-3">咨询交流区</h3>
+            <div id="party-comment-all-foo">
+                <!--{template party_detail_comment}-->
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+</div>
+<!--{eval footer();}-->

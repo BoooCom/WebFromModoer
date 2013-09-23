@@ -1,0 +1,107 @@
+{template tuan_header}
+<div id="tuan_body">
+    <div class="layout">
+        <div id="content" class="content">
+            <div class="tuan-tab">
+                <ul>
+                    <li><a href="{url member/index}">网站助手</a><span></span></li>
+                    <li><a href="{url tuan/member/ac/coupon}">我的团购券</a><span></span></li>
+                    <li class="current"><a href="{url tuan/member/ac/order}">我的订单</a><span></span></li>
+                    <li><a href="{url tuan/member/ac/credit}">帐户余额</a><span></span></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="tuan-main-box">
+                <div class="tuan-main-box-top"></div>
+                <div class="tuan-main-box-body">
+                    <div class="head">
+                        <h2>我的订单</h2>
+                        <ul class="filter">
+                            <li class="label">分类: </li>
+                            <li{if !$status} class="current"{/if}><a href="{url tuan/member/ac/order}">全部</a></li>
+                            <li{if $status=='new'} class="current"{/if}><a href="{url tuan/member/ac/order/status/new}">未付款</a></li>
+                            <li{if $status=='overdue'} class="current"{/if}><a href="{url tuan/member/ac/order/status/overdue}">已过期</a></li>
+                            <li{if $status=='payed'} class="current"{/if}><a href="{url tuan/member/ac/order/status/payed}">已付款</a></li>
+                            <li{if $status=='refunded'} class="current"{/if}><a href="{url tuan/member/ac/order/status/refunded}">已退款</a></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="sect">
+                        <table cellspacing="0" cellpadding="0" border="0" class="coupons-table" id="order-list">
+                            <tr>
+                                <th width="auto">团购项目</th>
+                                <th width="30">数量</th>
+                                <th width="70">总价</th>
+                                <th width="70">订单状态</th>
+                                <th width="80">操作</th>
+                            </tr>
+                            <!--{eval $i=0;}-->
+                            <!--{dbres $list $val}-->
+                            <tr {if $i++%2==0} class="alt"{/if}>
+                                <td>
+                                    <table class="deal-info"><tbody><tr><td class="pic"><a title="$val[subject]" target="_blank" href="{url tuan/detail/id/$val[tid]}"><img width="75" height="46" src="{URLROOT}/$val[thumb]"></a></td><td class="text"><a target="_blank" title="$val[subject]" href="{url tuan/detail/id/$val[tid]}" class="deal-title">$val[subject]</a><br /><span class="font_3">[订单号:{$val[oid]}]</span>{if $val[city_id]}<span class="font_3">[{print:modoer area(aid/$val[city_id])}]</span>{/if}<span class="font_3">[{print lang('tuan_mode_'.$val[mode])}]</span></td></tr></tbody></table>
+                                </td>
+                                <td>$val[num]</td>
+                                <td><span class="money">&yen;</span>{print get_numeric($val[price])}</td>
+                                <td>{print lang('tuan_order_status_'.$val[status])}</td>
+                                <td>
+                                    <!--{if $val[status]=='new'}-->
+                                    <a href="{url tuan/member/ac/pay/id/$val[oid]}">支付</a>
+                                    <a href="{url tuan/member/ac/pay/op/cancel/id/$val[oid]}"onclick="return confirm('是否要取消这份订单？');">取消</a>
+                                    <!--{elseif $val[status]=='payed'}-->
+                                    <a href="{url tuan/member/ac/order/op/detail/oid/$val[oid]}">详情</a>
+                                    <a href="javascript:;" onclick="order_apply_refund($val[oid]);" title="申请订单退款">退款</a>
+                                    
+                                    <!--{/if}-->
+                                </td>
+                            </tr>
+                            <!--{/dbres}-->
+                            <!--{if !$list}-->
+                            <tr><td colspan="5">暂无数据</td></tr>
+                            <!--{/if}-->
+                        </table>
+                    </div>
+                </div>
+                <div class="tuan-main-box-bottom"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-top"></div>
+            <div class="sbox-border">
+                <div class="sbox-top"></div>
+                <div class="sbox-body">
+                    <div class="side-tip">
+                        <h3 class="first">我已支付成功，为什么没有团购券？</h3>
+                        <p>因为还没有到达最低团购人数，一旦凑够人数，您就会看到团购券了。</p>
+                        <h3>什么是已过期订单？</h3>
+                        <p>如果某个订单未及时付款，那么等团购结束时就无法再付款了，这种订单就是过期订单。</p>
+                        <h3>哪种订单可以评价？</h3>
+                        <p>只有已消费过的订单才可以评价，参与评价可以获得积分奖励！</p>
+                    </div>
+                </div>
+                <div class="sbox-bottom"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+function order_apply_refund(oid) {
+    if (!is_numeric(oid)) {
+        alert('无效的订单号'); 
+        return;
+    }
+    $.post(Url('tuan/member/ac/order/op/apply_refund'), 
+    { oid:oid,in_ajax:1 },
+    function(result) {
+        if(result == null) {
+            alert('信息读取失败，可能网络忙碌，请稍后尝试。');
+        } else if (result.match(/\{\s+caption:".*",message:".*".*\s*\}/)) {
+            myAlert(result);
+        } else {
+            dlgOpen('申请退款',result,500);
+        }
+    });
+}
+</script>
+{template tuan_footer}

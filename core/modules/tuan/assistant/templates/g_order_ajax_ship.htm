@@ -1,0 +1,24 @@
+<div class="content1">
+    <form method="post" action="{url tuan/member/ac/g_order/op/$op/in_ajax/1}" class="post" id="frm_changeship" 
+        name="frm_changeship" target="ajaxiframe">
+        <input type="hidden" name="oid" value="$oid" />
+        <input type="hidden" name="dosubmit" value="yes" />
+        <p>订 单 号：<span class="font_2">$oid</span></p>
+        <p>下单会员：<span class="font_2">$order[username]</span></p>
+        <p>物流单位：<input type="text" name="express[name]" class="t_input" value="$express[name]" /></p>
+        <p>物流单号：<input type="text" name="express[number]" class="t_input" value="$express[number]" /></p>
+        <div class="btn">
+            <button type="button" class="btn1" onclick="ajaxPost('frm_changeship', '','document_reload');">发货</button>&nbsp;
+            <button type="button" class="btn1" onclick="dlgClose();">关闭</button>
+        </div>
+        <p style="background:#FFFEF8;padding:5px;line-height:24px;color:#808080;">
+            团购项目：$tuan[subject]<br />
+            购买数量：<span class="font_2">$order[num]</span>&nbsp;
+            收货人名：<span class="font_2">$contact[linkman]</span>&nbsp;
+            电话号码：<span class="font_2">$order[mobile]</span><br />
+            收货地址：<span class="font_2">$contact[address]</span>&nbsp;
+            邮政编码：<span class="font_2">$contact[postcode]</span><br />
+            买家备注：$contact[des]
+        </div>
+    </form>
+</div>

@@ -1,0 +1,33 @@
+		<div class="fr" id="right_side" style="width:225px !important">
+			<div class="piece piece_ws">
+				<div class="piece_hd"> <b class="hl"></b><b class="hr"></b> </div>
+				<div class="piece_bd">
+					<div class="user_info_detail">
+						<div class="info_title clearfix">
+							<h1 class="setting_tilte fl">个人信息</h1>
+						</div>
+						<dl class="info_detail_show clearfix">
+							<dd>等级： </dd>
+							<dt>{print:member group(groupid/$member[groupid])} </dt>
+							<dd>加入： </dd>
+							<dt>{date $member[regdate], 'Y-m-d H:i'}</dt>
+							<dd>登录： </dd>
+							<dt>{date $member[logintime], 'Y-m-d H:i'} </dt>
+						</dl>
+					</div>
+
+					<div class="info_title">
+						<h3 class="rail-h-1">我的好友</h3>
+						<ul class="rail-faces">
+							<!--{loop $friends $val}-->
+							<li>
+								<div> <a href="{url space/index/uid/$val[friend_uid]}" target="_blank"><img src="{print get_face($val[friend_uid])}"/></a><a href="{url space/index/uid/$val[friend_uid]}" title="$val[username]" target="_blank"> </div>
+								<span>$val[username]</span></a></li>
+							<!--{/loop}-->
+						</ul>
+						<div class="clear"> </div>
+					</div>
+				</div>
+				<div class="piece_ft"> <b class="fl"></b><b class="fr"></b> </div>
+			</div>
+		</div>

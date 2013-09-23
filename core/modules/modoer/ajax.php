@@ -6,6 +6,7 @@
 !defined('IN_MUDDER') && exit('Access Denied');
 
 $_G['in_ajax'] = 1;
+$_G['fullalways'] = TRUE;
 $op = trim($_GET['op']);
 
 // 允许的操作行为
@@ -54,6 +55,16 @@ switch($op) {
         }
         output();
         break;
+    case 'convert':
+        $s = _input('s', '', MF_TEXT);
+        $d = _input('d', '', MF_TEXT);
+        $str = _input('str', '', MF_TEXT);
+        if($str) {
+            echo charset_convert($str, $s, $d);
+        } else {
+            echo $str;
+        }
+        output();
     default:
         redirect('golbal_op_unkown');
 }

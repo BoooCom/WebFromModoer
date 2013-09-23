@@ -196,6 +196,10 @@ class msm_member extends ms_model {
     }
 
     function check_username($username, $echo = FALSE) {
+        if(strlen($username) <= 2) {
+            if($echo) {echo lang('member_reg_name_len_min'); exit;}
+            return redirect('member_reg_name_len_min');
+        }
         if(strlen($username) > 15) {
             if($echo) {echo lang('member_reg_name_len_max'); exit;}
             return redirect('member_reg_name_len_max');
@@ -207,6 +211,7 @@ class msm_member extends ms_model {
         }
         if($censorwords = $this->modcfg['censoruser'] ? explode("\r\n", $this->modcfg['censoruser']) : '') {
             foreach($censorwords as $censor) {
+                if(!$censor) continue;
                 $preg = "/".str_replace("*", ".*?", $censor)."/is";
                 if(preg_match($preg, $username)) {
                     if($echo) {echo lang('member_reg_name_limit'); exit;}

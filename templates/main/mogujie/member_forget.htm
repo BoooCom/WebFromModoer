@@ -1,0 +1,63 @@
+{template modoer_header_login}
+<script type="text/javascript" src="{URLROOT}/static/javascript/validator.js"></script>
+<div>
+	<div class="reg_wrap">
+		<div class="fm960">
+			<div class="logo"><a class="mogujie fl" title="首页" href="{url modoer/index}">首页</a> </div>
+			<div class="content">
+				<div id="register_box">
+					<div id="register_left">
+						<h1>找回密码</h1>
+						<div id="register_center">
+							<div id="register_form"> 
+								<!--{if $op=='forget'}-->
+								<form method="post" action="{url member/login/op/forget/rand/$_G[random]}" onsubmit="return validator(this);">
+									<div class="ipt_mail"><span>用户名：</span>
+										<input class="text r3"  maxlength=36 name="username" value="$username"  validator="{'empty':'n','errmsg':'请填写您的登录用户名。'}" >
+									</div>
+									<div class="ipt_ulike"><span>电子邮箱：</span>
+										<input class="text r3" maxlength=36 type="text"  name="email" value="$email" validator="{'empty':'n','errmsg':'您未填写邮箱账号。'}" >
+									</div>
+									<div class="ipt_sub">
+										<button type="submit" value="yes" name="dosubmit" class="blue_button">马上找回</button>
+									</div>
+								</form>
+							</div>
+							<!--{elseif $op=='updatepw'}-->
+							<form method="post" action="{url member/login/op/updatepw/rand/$_G[random]}" onsubmit="return validator(this);">
+								<input type="hidden" name="getpwid" value="$getpwid" />
+								<input type="hidden" name="secode" value="$secode" />
+								<div class="ipt_mail"><span>用户名：</span><a href="{url space/index/uid/$member[uid]}" target="_blank">$member[username]</a> </div>
+								<div class="ipt_password"><span>新密码：</span>
+									<input class="text r3" maxlength=36 type="password" name="newpassword" value="$email" validator="{'empty':'n','errmsg':'请填写您的新密码。'}" >
+								</div>
+								<div class="ipt_respassword"><span>确认密码：</span>
+									<input class="text r3" maxlength=36 type="password" name="newpassword2" value="$email" validator="{'empty':'n','errmsg':'请在此输入您的新密码。''}" >
+								</div>
+								<div class="ipt_sub">
+									<button type="submit" value="yes" name="dosubmit" class="blue_button">马上找回</button>
+								</div>
+							</form>
+							<!--{/if}--> 
+						</div>
+					</div>
+					<div id="register_right">
+						<div class="rst_login"><span>已经有帐号？请直接登录</span> <a href="{url member/login}"></a></div>
+						<!--{if $_G['passport_apis']}-->
+						<div class="other_login"><span>您也可以用以下方式登录：</span> 
+							<!--{loop $_G['passport_apis'] $passport_name $passport_title}--> 
+							<A class=o_icon href="{url member/login/op/passport_login/type/$passport_name}"><img src="{URLROOT}/static/images/passport/{$passport_name}_n.png" style="margin-right:2px;" />$passport_title</A> 
+							<!--{/loop}--> 
+						</div>
+						<!--{/if}-->
+						<div class="reg"><span>还没有帐号？现在注册</span> <a href="{url member/reg}"></a></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<!--{eval output();}-->
