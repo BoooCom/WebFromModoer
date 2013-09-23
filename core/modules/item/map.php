@@ -25,7 +25,9 @@ default:
     $aid = _input('aid', 0, MF_INT_KEY);
     $catid = _input('catid', 0, MF_INT_KEY);
     $total = _input('total', null, MF_INT_KEY);
-
+    //leon, here parse pid
+    $pid =  _input('pid', null, MF_INT_KEY);
+    
     $S = $_G['loader']->model('item:subject');
 
     $pcatid = $S->get_pid($catid);
@@ -39,6 +41,9 @@ default:
         $where['aid'] = $aid;
     }
     if($catid>0) $where['catid'] = $catid;
+    //leo, here add pid into where
+    if($pid>0) $where['pid'] = $pid;
+    
     $where['status'] = 1;
     $where['map_lng'] = array('where_not_equal',array('0'));
 
@@ -48,9 +53,9 @@ default:
         list(,$list) = $S->find('*', $where, array('addtime'=>'DESC'), $start, $num, false);
     else
         list($total,$list) = $S->find('*', $where, array('addtime'=>'DESC'), $start, $num);
-
+//find($select, $where, $orderby, $start, $offset, $total = TRUE, $field_catid = NULL, $atts = NULL)
     if($total) {
-        $multipage = multi($total, $num, $_GET['page'], url("item/map/catid/$catid/aid/$aid/total/$total/page/_PAGE_"));
+        $multipage = multi($total, $num, $_GET['page'], url("item/map/catid/$catid/aid/$aid/total/$total/pid/$pid/page/_PAGE_"));
     }
 
     //seo设置

@@ -7,9 +7,9 @@ $_G['dns']['dbhost'] = 'localhost';
 // 数据库帐号
 $_G['dns']['dbuser'] = 'root';
 // 数据库密码
-$_G['dns']['dbpw'] = '760315';
+$_G['dns']['dbpw'] = 'password';
 // 数据库名字
-$_G['dns']['dbname'] = 'booodb431';
+$_G['dns']['dbname'] = 'freebabydiy';
 // 数据表前缀
 $_G['dns']['dbpre'] = 'modoer_';
 // 数据库持久连接 0=关闭, 1=打开
