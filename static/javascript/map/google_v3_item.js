@@ -2,6 +2,7 @@ var marker = Array(item_num);
 var infow = Array(item_num);
 var ifw = Array(item_num);
 var map = null;
+var bounds = new google.maps.LatLngBounds();
 
 var myOptions = {
 	zoom: 15,
@@ -20,7 +21,9 @@ $(document).ready(function(){
         addMarker(name, new google.maps.LatLng(mappoint.lat,mappoint.lng), i, $(this).attr('sid'));
     });
     if(marker[0]) {
-        map.setCenter(marker[0].getPosition(), 15);
+        //map.setCenter(marker[0].getPosition(), 15);
+        //map.setCenter(bound.getCenter(), 15);
+        map.fitBounds(bounds);
     }
 });
 
@@ -32,7 +35,7 @@ function addMarker(name, point, index, sid) {
 		map: map,
 		draggable: false
     });
-
+    bounds.extend(point);
     google.maps.event.addListener(marker[index], 'click', function() {
 		showMarker(sid,index);
     });
