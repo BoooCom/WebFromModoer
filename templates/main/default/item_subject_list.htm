@@ -4,7 +4,7 @@
     <div class="catefoot">
         <div class="link_path">
             <!-- leo, here forward the pid -->
-            <em><a href="{url item/map/pid/$pid}">{$model[item_name]}地图</a>&nbsp;-&nbsp;<a href="{url review/list/type/item_subject/catid/$catid}">最新点评</a>&nbsp;-&nbsp;<a href="{url item/album/catid/$catid}">{$pcat[$pid][name]}相册</a>&nbsp;-&nbsp;<a href="{url item/top/catid/$catid}">最佳排行</a>&nbsp;-&nbsp;<a href="{url item/detail/random/1}">随便看看</a></em>
+            <em><a class="ext-highlight-link" href="{url item/map/pid/$pid}">{$model[item_name]}地图</a>&nbsp;-&nbsp;<a href="{url review/list/type/item_subject/catid/$catid}">最新点评</a>&nbsp;-&nbsp;<a href="{url item/album/catid/$catid}">{$pcat[$pid][name]}相册</a>&nbsp;-&nbsp;<a href="{url item/top/catid/$catid}">最佳排行</a>&nbsp;-&nbsp;<a href="{url item/detail/random/1}">随便看看</a></em>
             <a href="{url modoer/index}">$_CITY[name]</a>&nbsp;&raquo;&nbsp;{print implode('&nbsp;&raquo;&nbsp;', $urlpath)}<span class="font_3">($total)</span>
         </div>
         <div class="list-filter">

@@ -422,3 +422,11 @@ a.abtn2 span{background:transparent url('img/btn_left_bg.png') no-repeat scroll 
 .index_cart_num strong{padding:0;color:#c00;}
 .close_account{padding-left:6px;width:57px;height:28px;line-height:30px!important;line-height:28px;font-weight:bold;color:#fff;}
 .close_account:hover{text-decoration:none;color:#fef9f9;}
+
+
+/*leo, for highlight link*/
+a.ext-highlight-link{
+    font-weight:bold;
+    color:red;
+    font-size:150%;
+}
