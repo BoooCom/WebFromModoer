@@ -27,6 +27,7 @@ default:
     $total = _input('total', null, MF_INT_KEY);
     //leon, here parse pid
     $pid =  _input('pid', null, MF_INT_KEY);
+    $keyword = $_GET['keyword'];
     
     $S = $_G['loader']->model('item:subject');
 
@@ -46,8 +47,10 @@ default:
     
     $where['status'] = 1;
     $where['map_lng'] = array('where_not_equal',array('0'));
-
-    $num = 10;
+    
+    if($keyword)$where['name']=array('where_like', array("%$keyword%"));
+    
+    $num = 8;
     $start = get_start($_GET['page'], $num);
     if($total>0)
         list(,$list) = $S->find('*', $where, array('addtime'=>'DESC'), $start, $num, false);
