@@ -187,13 +187,13 @@
                 <div class="ix_right_top"></div>
                 <div class="ix_right_body">
                     <em class="ix_category-folding none" id="category-folding">
-                        <span id="category-folding-up" title="向上翻页"><img src="{URLROOT}/{$_G[tplurl]}img/up.gif" /></span>
-                        <span id="category-folding-down" title="向下翻页"><img src="{URLROOT}/{$_G[tplurl]}img/down.gif" /></span>
+                        <!--span id="category-folding-up" title="向上翻页"><img src="{URLROOT}/{$_G[tplurl]}img/up.gif" /></span -->
+                        <!--span id="category-folding-down" title="向下翻页"><img src="{URLROOT}/{$_G[tplurl]}img/down.gif" /></span-->
                     </em>
                     <h2 style="margin-bottom:10px;"><a href="{url item/category}">主题分类</a></h2>
-                                        <div style="height:300px;">
+                                        <div style="height:340px;">
                         {get:item val=category(pid/0)}
-                        <div class="ix_category"{if $val_k>7} style="display:none" hide='Y'{/if}>
+                        <div class="ix_category"{if $val_k>8} style="display:none" hide='Y'{/if}>
                             <h3 class="ix_category_title" rel="ix_category_$val[catid]" />
                             <table style="border:none;padding:none;margin:0">  <tr><td><a href="{url item/list/catid/$val[catid]}"><span{if $val[config][icon]} style="background:url({URLROOT}/static/images/category/$val[config][icon]) no-repeat transparent;"{/if}>$val[name]
                                                 </span></a></td><td><a href="{url item/map/pid/$val[catid]}">地图</a></td></tr></table>                            
@@ -215,14 +215,14 @@
                     $(document).ready(function(){
                         //二级分类弹出效果
                         $('.ix_category_title').powerFloat({
-                            position:'8-6',
+                            position:'9-6',
                             offsets:{x:-6, y:0},
                             reverseSharp:true
                         });
                         //超出分类的展开效果
-                        var start_index = 0, show_num = 8;
+                        var start_index = 0, show_num = 9;
                         var end_index = show_num - 1;
-                        var cate_count = $('#category_foo').find('.ix_category').length - 1;
+                        var cate_count = $('#category_foo').find('.ix_category').length; // - 1;
                         if(cate_count > show_num-1) $('#category-folding').show();
                         $('#category-folding-down').click(function() {
                             if(end_index == cate_count) return;
