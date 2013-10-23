@@ -191,10 +191,13 @@
                         <span id="category-folding-down" title="向下翻页"><img src="{URLROOT}/{$_G[tplurl]}img/down.gif" /></span>
                     </em>
                     <h2 style="margin-bottom:10px;"><a href="{url item/category}">主题分类</a></h2>
-                    <div style="height:255px;">
+                                        <div style="height:300px;">
                         {get:item val=category(pid/0)}
                         <div class="ix_category"{if $val_k>7} style="display:none" hide='Y'{/if}>
-                            <h3 class="ix_category_title" rel="ix_category_$val[catid]" /><a href="{url item/list/catid/$val[catid]}"><span{if $val[config][icon]} style="background:url({URLROOT}/static/images/category/$val[config][icon]) no-repeat transparent;"{/if}>$val[name]</span></a></h3>
+                            <h3 class="ix_category_title" rel="ix_category_$val[catid]" />
+                            <table style="border:none;padding:none;margin:0">  <tr><td><a href="{url item/list/catid/$val[catid]}"><span{if $val[config][icon]} style="background:url({URLROOT}/static/images/category/$val[config][icon]) no-repeat transparent;"{/if}>$val[name]
+                                                </span></a></td><td><a href="{url item/map/pid/$val[catid]}">地图</a></td></tr></table>                            
+                            </h3>
                             <ul class="ix_category_list" id="ix_category_$val[catid]">
                                 {get:item _val=category(pid/$val[catid]/num/20)}
                                 <li><a href="{url item/list/catid/$_val[catid]}">{sublen $_val[name],7}</a></li>
