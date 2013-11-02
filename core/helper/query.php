@@ -57,6 +57,7 @@ class query {
         //append feeds
         //$params['sql'] = "select 'feed' as itmtype, flag as 'idtype', id as 'idid', substring(title from instr(title, '/a>') + 3) as 'verb', id as 'oid', uid as 'uid', username as 'user', 'feed' as 'itype', dateline as 'utime', images as 'detail' from dbpre_member_feed where trim(images)!='' order by dateline desc";
         //foreach($q->sql($params) as $rec)array_push($limited, $rec);
+        usort($limited, dsort);
         
         return $limited;
     }
