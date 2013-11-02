@@ -59,42 +59,73 @@
 
     </div>
 
+    <!-- here change index_1 to show all latest updates, including subject, item, review and pictures-->
     <div class="index_1">
         <div class="ixf_left">
             <!-- 最新点评 begin -->
             <div class="ix_foo">
                 <div class="ix_review">
-                    <div class="ix_left1_more"><span class="arrow-ico"><a href="{url review/list}">更多</a></span></div>
+                    <div class="ix_left1_more"><span class="arrow-ico"><a href="{url review/list}">最近点评</a></span></div>
                 </div>
-                <div class="ix_left1_body" style="height:400px;">
-                    <!--{get:review val=review(city_id/_NULL_CITYID_/orderby/posttime DESC/rows/5/cachetime/500)}-->
+                <div class="ix_left1_body" style="height:930px;">
+                    <!--{get:allupdate val=allupdate(updates/subject,review/city_id/_NULL_CITYID_/orderby/posttime DESC/rows/5/cachetime/500)}-->
                     <div class="review">
                         <div class="member">
                             <a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" class="face"></a>
                         </div>
                         <div class="field">
                             <div class="feed">
-                                <!--{if $val[uid]}-->
-                                <span class="member-ico"><a href="{url space/index/uid/$val[uid]}">$val[username]</a></span>&nbsp;在&nbsp;{date $val[posttime], 'w2style'}
+                                <!--{if $val[user]}-->
+                                <span class="member-ico"><a href="{url space/index/uid/$val[uid]}">$val[user]</a></span>&nbsp;在&nbsp;{date $val[utime], 'w2style'}
                                 <!--{else}-->
                                 <span class="font_3">游客({print preg_replace("/^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/","\\1.\\2.*.*", $val[ip])})</span>
                                 <!--{/if}-->
-                                点评了&nbsp;<strong><a href="{print:review typeurl(idtype/$val[idtype]/id/$val[id])}">$val[subject]</a></strong>
+                                {$val[verb]}了&nbsp;
+                                    <!-- {if $val[itmtype]=='article'}-->
+                                        <strong><a href="{url article/detail/id/$val[idid]}">$val[name]</a></strong>
+                                    <!-- {else}-->
+                                        <strong><a href="{print:review typeurl(idtype/$val[idtype]/id/$val[idid])}">$val[name]</a></strong>
+                                    <!-- {/if} -->
+                                    <!-- {if $val[itmtype]!='feed'}-->
+                                        <a href="{url review/member/ac/add/type/$val[idtype]/id/$val[idid]}" style="color:red"'>(点评)</a>
+                                    <!-- {/if} -->
                             </div>
                             <div class="info">
-                                <ul class="score">
-                                    <!--{get:review _val=reviewopt(catid/$val[pcatid])}-->
-                                    <li>$_val[name]</li><li class="start{print cfloat($val[$_val[flag]])}"></li>
-                                    <!--{/get}-->
-                                </ul>
                                 <div class="clear"></div>
-                                <!--{eval $reviewurl = '...<a href="' . url("review/detail/id/".$val[rid]) . '">查看全文</a>';}-->
-                                <p>{sublen $val[content],42,$reviewurl}</p>
+                                <!-- {if $val[itmtype]=='review'}-->
+                                    <!--{eval $reviewurl = '...<a href="' . url("review/detail/id/".$val[oid]) . '">(查看全文)</a>';}-->
+                                    <p>{sublen $val[detail],42,$reviewurl}</p>
+                                <!-- {else} -->
+                                    <p>{sublen $val[detail],42}...</p>
+                                <!-- {/if} -->
+                                
                             </div>
                         </div>
                         <div class="clear"></div>
                     </div>
                     <!--{/get}-->
+                    <ul class="index_feed">
+                        <!--{get:allpicupdates val=allpicupdates(updates/subject,review/city_id/_NULL_CITYID_/orderby/posttime DESC/rows/4/cachetime/500)}-->
+                        <li>
+                            <div class="member">
+                                <a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" class="face"></a>
+                            </div>
+                            <div class="content">
+                                <h4><span class="member-ico"><a href="{url space/index/uid/$val[uid]}">$val[user]</a></span> &nbsp;在&nbsp;{date $val[utime], 'w2style'} $val[verb]</h4>
+                                <!--{if $val[detail]}-->
+                                <div class="content-images">
+                                    <!--{eval $images=unserialize($val[detail]);}-->
+                                    <!--{loop $images $img}-->
+                                        <a href="$img[link]"><img src="$img[url]" /></a>
+                                    <!--{/loop}-->
+                                </div>
+                                <!--{/if}-->
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                        <!--{/get}-->
+                        <div class="clear"></div>
+                    </ul>
                 </div>
                 <div class="ix_left1_bottom"></div>
             </div>
@@ -104,14 +135,15 @@
 
             <!-- 会员动态 begin -->
             <script type="text/javascript" src="{URLROOT}/static/javascript/marquee.js"></script>
-            <div class="ix_foo">
+            
+            <div class="ix_foo" style="display: none">
                 <div class="ix_feed">
                     <div class="ix_left1_more">&nbsp;</div>
                 </div>
                 <!--<div class="ix_left1_body" id="index_feed" style="height:158px;overflow:hidden;">-->
-				<div class="ix_left1_body" id="index_feed" style="height:320px;">
+		<div class="ix_left1_body" id="index_feed" style="height:0px;">
                     <ul class="index_feed">
-                        <!--{get:member val=feed(city_id/_NULL_CITYID_/rows/10)}-->
+                        <!--{get:emptylist val=emptylist(city_id/_NULL_CITYID_/rows/10)}-->
                         <li>
                             <div class="member">
                                 <a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" class="face"></a>

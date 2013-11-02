@@ -7,7 +7,71 @@
 !defined('IN_MUDDER') && exit('Access Denied');
 
 class query {
-
+    
+    function allupdate($params){
+        extract($params);
+        $q = new query();
+        $itms = array("review", "article", "subject"/*, "feed"*/);
+        $result = array();
+        $limited = array();
+        $topn_max = 3;
+        foreach($itms as $itm){
+            if($itm == "subject"){
+                $params['sql']= "select 'subject' as itmtype, sid as 'idid', 'item_subject' as 'idtype', '添加' as 'verb', sid as 'oid', cuid as 'uid', creator as 'user', name, thumb, 'subject' as 'itype', addtime as 'utime', description as 'detail'  from dbpre_subject order by addtime desc";
+            }
+            if($itm == "article"){
+                $params['sql']= "select 'article' as itmtype, articleid as 'idid', 'article' as 'idtype', '发表' as 'verb', articleid as 'oid', uid as 'uid', author as 'user', subject as 'name', thumb, 'article' as 'itype', dateline as 'utime', introduce as 'detail'  from dbpre_articles order by dateline desc";
+            }
+            if($itm == "review"){
+                $params['sql']= "select 'review' as itmtype, idtype as 'idtype', id as 'idid', '点评' as 'verb',rid as 'oid', uid as 'uid', username as 'user', subject as 'name', 'review' as 'itype', posttime as 'utime', content as 'detail' from dbpre_review order by posttime desc";
+            }
+            if($itm == 'feed'){
+                $params['sql'] = "select 'feed' as itmtype, flag as 'idtype', id as 'idid', substring(title from instr(title, '/a>') + 3) as 'verb', id as 'oid', uid as 'uid', username as 'user', 'feed' as 'itype', dateline as 'utime', images as 'detail' from dbpre_member_feed where trim(images)!='' order by dateline desc";
+            }
+            $topn = 0;
+            foreach($q->sql($params) as $rec){
+                if($topn<$topn_max){
+                    array_push($limited, $rec);
+                }else{
+                    array_push($result, $rec);
+                }
+                $topn++;
+            }
+        }
+        
+        function dsort($a, $b){
+            if($a[utime]==$b[utime])return 0;
+            if($a[utime]>$b[utime])return -1;
+            return 1;
+        }
+        usort($result, dsort);
+        
+        $size = 9; //($params[rows]?$params[rows]:5)*count($itms);
+        $count = 0;
+        foreach($result as $r){
+            if($count>=$size)break;
+            array_push($limited, $r);
+            $count++;
+        }
+        
+        //append feeds
+        //$params['sql'] = "select 'feed' as itmtype, flag as 'idtype', id as 'idid', substring(title from instr(title, '/a>') + 3) as 'verb', id as 'oid', uid as 'uid', username as 'user', 'feed' as 'itype', dateline as 'utime', images as 'detail' from dbpre_member_feed where trim(images)!='' order by dateline desc";
+        //foreach($q->sql($params) as $rec)array_push($limited, $rec);
+        
+        return $limited;
+    }
+    function allpicupdates($params){
+        extract($params);
+        $q = new query();
+        $result = array();
+        //append feeds
+        $params['sql'] = "select 'feed' as itmtype, flag as 'idtype', id as 'idid', substring(title from instr(title, '/a>') + 3) as 'verb', id as 'oid', uid as 'uid', username as 'user', 'feed' as 'itype', dateline as 'utime', images as 'detail' from dbpre_member_feed where trim(images)!='' order by dateline desc";
+        foreach($q->sql($params) as $rec)array_push($result, $rec);
+        return $result;
+    }
+    function emptylist($params){
+        return array();
+    }
     function sql($params) {
         extract($params);
         if(!$sql) echo lang('global_sql_empty');
