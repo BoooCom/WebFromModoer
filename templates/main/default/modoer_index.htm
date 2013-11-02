@@ -227,8 +227,8 @@
                         {get:item val=category(pid/0)}
                         <div class="ix_category"{if $val_k>8} style="display:none" hide='Y'{/if}>
                             <h3 class="ix_category_title" rel="ix_category_$val[catid]" />
-                            <table style="border:none;padding:none;margin:0">  <tr><td><a href="{url item/list/catid/$val[catid]}"><span{if $val[config][icon]} style="background:url({URLROOT}/static/images/category/$val[config][icon]) no-repeat transparent;"{/if}>$val[name]
-                                                </span></a></td><td><a href="{url item/map/pid/$val[catid]}">地图</a></td></tr></table>                            
+                            <table style="border:none;padding:none;margin:0" width="100%">  <tr><td><a href="{url item/list/catid/$val[catid]}"><span{if $val[config][icon]} style="background:url({URLROOT}/static/images/category/$val[config][icon]) no-repeat transparent;"{/if}>$val[name]
+                                                </span></a></td><td align="right"><a href="{url item/map/pid/$val[catid]}" >地图<span class="map-link"></span></a></td></tr></table>                            
                             </h3>
                             <ul class="ix_category_list" id="ix_category_$val[catid]">
                                 {get:item _val=category(pid/$val[catid]/num/20)}

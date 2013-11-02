@@ -430,3 +430,9 @@ a.ext-highlight-link{
     color:red;
     font-size:150%;
 }
+
+.map-link{
+    background:url(img/map_ico.jpg) no-repeat right;
+    height: 16px;
+    width: 16px;
+}
