@@ -1,4 +1,4 @@
-<!--{eval
+﻿<!--{eval
     if(SCRIPTNAV != 'index' && $_G[show_sitename]):
         $_HEAD[title] .= $_G['cfg']['titlesplit'] . $_G['cfg']['sitename'];
     endif;
@@ -20,11 +20,7 @@
 <link rel="stylesheet" type="text/css" href="{URLROOT}/{$_G[tplurl]}css_common.css" />
 <link rel="stylesheet" type="text/css" href="{URLROOT}/static/images/mdialog.css" />
 <script type="text/javascript" src="{URLROOT}/data/cachefiles/config.js"></script>
-<script type="text/javascript">
-<!--{if !empty($MOD)}-->
-var mod = modules['{$MOD[flag]}'];
-<!--{/if}-->
-</script>
+
 <script type="text/javascript" src="{URLROOT}/static/javascript/jquery.js"></script>
 <script type="text/javascript" src="{URLROOT}/static/javascript/common.js"></script>
 <script type="text/javascript" src="{URLROOT}/static/javascript/mdialog.js"></script>
@@ -34,6 +30,18 @@ var mod = modules['{$MOD[flag]}'];
 <!--{if $_CFG[headhtml]}-->{LF}$_CFG[headhtml]{LF}<!--{/if}-->
 </head>
 <body>
+<!-- If Not Logged On then redirect to Home-->
+{if $user->isLogin} 
+{else} 
+	<script>
+		if(window.location.pathname!="/index.php")
+		{
+			alert("请登录或免费注册用户后再访问本站内容，谢谢。"); 		
+			document.location = "/index.php";
+		}
+	</script>
+{/if}
+
 <!--{if SCRIPTNAV == 'index'}-->
 <style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_index.css");</style>
 <!--{elseif SCRIPTNAV == 'assistant'||SCRIPTNAV == 'manage'}-->
@@ -111,7 +119,7 @@ var mod = modules['{$MOD[flag]}'];
                 </div>
             </div>
             <!--{/if}-->
-            <div id="login_1" class="mainuser" style="display:none;">
+            <div id="login_1" class="mainuser" >
                 <div class="mainuser-face">
                     <a href="{url space}"><img src="{print get_face($user->uid)}" title="个人空间" /></a>
                 </div>
@@ -126,11 +134,47 @@ var mod = modules['{$MOD[flag]}'];
         </div>
         <div class="clear"></div>
     </div>
+	
     <!--{eval $main_menus = $_CFG['main_menuid'] ? $_G['loader']->variable('menu_' . $_CFG['main_menuid']) : '';}-->
     <ul class="tabmenu">
         <!--{loop $main_menus $val}-->
+		<!--
         <li{if SCRIPTNAV==$val[scriptnav]} class="current"{/if}><a href="{url $val[url]}"{if $val[target]} target="$val[target]"{/if} onfocus="this.blur()">$val[title]</a></li>
-        <!--{/loop}-->
+		-->
+		<!--{/loop}-->
+	
+		<!---->
+		<li id="home">
+			<a href="/index.php" onfocus="this.blur()">首页</a>
+		</li>
+		<li id="articleIndex">
+			<a href="/article.php?act=index" onfocus="this.blur()">攻略宝典</a>
+		</li>
+		<li id="askIndex">
+			<a href="/ask.php?act=index" onfocus="this.blur()">美妈解惑</a>
+		</li>
+		<li id="hospitalList">
+			<a href="/item.php?act=list&catid=1" onfocus="this.blur()">找医院</a>
+		</li>
+		<li id="doctorList">
+			<a href="/item.php?act=list&catid=7" onfocus="this.blur()">找医生</a>
+		</li>
+		<li id="confinementCenterList">
+			<a href="/item.php?act=list&catid=4" onfocus="this.blur()">找月子中心</a>
+		</li>
+		<li id="houseList">
+			<a href="/item.php?act=list&catid=10" onfocus="this.blur()">找民宿</a>
+		</li>
+		<li id="groupIndex">
+			<a href="/group.php?act=index" onfocus="this.blur()">聊天吹水</a>
+		</li>
+		<li id="itmeIndex">
+			<a href="/item.php?act=category" onfocus="this.blur()">全部分类</a>
+		</li>
+		<li id="map">
+			<a href="/item.php?act=map" onfocus="this.blur()">浏览地图</a>
+		</li>		
+		
     </ul>
     <div class="search">
         <form method="get" action="{URLROOT}/index.php">
@@ -167,6 +211,8 @@ var mod = modules['{$MOD[flag]}'];
         </div>
     </div>
 </div>
+
+
 <!-- 切换城市 下拉菜单 -->
 <div id="city_menu_box" class="comm-dropdown-city">
     <ul>
@@ -210,4 +256,70 @@ $("#city_menu_src").powerFloat({offsets:{x:0,y:2}});
 </ul>
 </script>
 <script type="text/javascript" src="{URLROOT}/static/javascript/login.js"></script>
+
+<!-- View and hide the login Div base on current login status -->
+{if $user->isLogin} 
+	<script>
+		document.getElementById("login_0").style.display="none";
+		document.getElementById("login_1").style.display="";
+	</script>
+{/if}
+
+</script>
+
+<!-- Set the selected status view for the main menu items -->
+<script>
+	var link = window.location.pathname+window.location.search;
+	var path = window.location.pathname;
+	
+	if(link=="/index.php")
+	{
+		document.getElementById("home").className="current";
+	}
+	else if(link=="/article.php?act=index")
+	{
+		document.getElementById("articleIndex").className="current";
+	}
+	else if(link=="/ask.php?act=index")
+	{
+		document.getElementById("askIndex").className="current";
+	}
+	else if(link=="/group.php?act=index")
+	{
+		document.getElementById("groupIndex").className="current";
+	}
+	else if(path =="/item.php")
+	{
+		if(link=="/item.php?act=category")
+		{
+			document.getElementById("itmeIndex").className="current";
+		}
+		else if(link.indexOf("act=map") != -1)
+		{
+			document.getElementById("map").className="current";
+		}
+		else if(link.indexOf("act=list") != -1);
+		{ 
+			if(link.indexOf("catid=10") != -1)
+			{
+				document.getElementById("houseList").className="current";
+			}
+			else if(link.indexOf("catid=7") != -1)
+			{
+				document.getElementById("doctorList").className="current";
+			}
+			else if(link.indexOf("catid=4") != -1)
+			{
+				document.getElementById("confinementCenterList").className="current";
+			}
+			else if(link.indexOf("catid=1") != -1)
+			{
+				document.getElementById("hospitalList").className="current";
+			}
+		}
+	}
+</script>
+
+
+
 {LF}
