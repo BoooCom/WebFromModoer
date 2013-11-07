@@ -30,17 +30,21 @@
 <!--{if $_CFG[headhtml]}-->{LF}$_CFG[headhtml]{LF}<!--{/if}-->
 </head>
 <body>
-<!-- If Not Logged On then redirect to Home-->
+<!-- If Not Logged On then redirect to Login-->
+
+<!---->
 {if $user->isLogin} 
 {else} 
 	<script>
-		if(window.location.pathname!="/index.php")
+		if ((window.location.pathname!="/")&&(window.location.pathname!="/index.php")&&(window.location.pathname!="/member.php") )
 		{
-			alert("请登录或免费注册用户后再访问本站内容，谢谢。"); 		
-			document.location = "/index.php";
+			//alert("请登录或免费注册用户后再访问本站内容，谢谢。"); 		
+			document.location = "member.php?act=login";
 		}
+		
 	</script>
 {/if}
+
 
 <!--{if SCRIPTNAV == 'index'}-->
 <style type="text/css">@import url("{URLROOT}/{$_G[tplurl]}css_index.css");</style>

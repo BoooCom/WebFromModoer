@@ -19,7 +19,7 @@
                     </tr>
                     <!--{/if}-->
                     <tr>
-                        <td align="right" width="100">用户名：</td>
+                        <td align="right" width="250">用户名：</td>
                         <td width="*"><input type="text" name="username" class="t_input" style="width:200px;" validator="{'empty':'N','errmsg':'请填写您的登录用户名。'}" /></td>
                     </tr>
                     <tr>
@@ -47,8 +47,12 @@
             </form>
         </div>
         <div style="float:right;width:30%;font-size:14px;color:#808080;">
-            <div style="margin:10px 5px;">还没有帐号？<a href="{url member/reg}">现在注册</a></div>
+            <!---->
+			<div style="margin:10px 5px;"><h2>本网站暂不开放游客访问，请登录后尽情访问。</h2></div>
+			
+			<div style="margin:10px 5px;">还没有帐号？<a href="{url member/reg}">现在注册</a></div>
             <div style="margin:10px 5px;">忘记密码了？<a href="{url member/login/op/forget}">找回密码</a></div>
+			
             <!--{if $_G['passport_apis']}-->
             <ul style="list-style:none;margin:20px 0 0 5px;padding:0;">
                 <span>使用合作网站帐号登录：</span>
