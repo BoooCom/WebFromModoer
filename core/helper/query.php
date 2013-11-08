@@ -6,16 +6,44 @@
 */
 !defined('IN_MUDDER') && exit('Access Denied');
 
+function laterfirst($a, $b){
+    if($a[utime]==$b[utime])return 0;
+    if($a[utime]>$b[utime])return -1;
+    return 1;
+}
+function two($arr, &$tops, &$others, $limited){
+    $topn_max = $limited;
+    $topn = 0;
+    foreach($arr as $rec){
+        if($topn<$topn_max){
+            array_push($tops, $rec);
+        }else{
+            array_push($others, $rec);
+        }
+        $topn++;
+    }
+} 
+
+function itemexists($arr, $itm, $key){
+    foreach($arr as $rec){
+        if($rec[$key]==$itm[$key])return true;
+    }
+    return false;
+}
+
+
+        
 class query {
     
     function allupdate($params){
         extract($params);
         $q = new query();
-        $itms = array("review", "article", "subject"/*, "feed"*/);
+        $itms = array("review", "article", "subject", "comment");
         $result = array();
         $limited = array();
-        $topn_max = 3;
+        $topn_max = 2;
         foreach($itms as $itm){
+            $params['sql']= "";
             if($itm == "subject"){
                 $params['sql']= "select 'subject' as itmtype, sid as 'idid', 'item_subject' as 'idtype', '添加' as 'verb', sid as 'oid', cuid as 'uid', creator as 'user', name, thumb, 'subject' as 'itype', addtime as 'utime', description as 'detail'  from dbpre_subject order by addtime desc";
             }
@@ -28,23 +56,15 @@ class query {
             if($itm == 'feed'){
                 $params['sql'] = "select 'feed' as itmtype, flag as 'idtype', id as 'idid', substring(title from instr(title, '/a>') + 3) as 'verb', id as 'oid', uid as 'uid', username as 'user', 'feed' as 'itype', dateline as 'utime', images as 'detail' from dbpre_member_feed where trim(images)!='' order by dateline desc";
             }
-            $topn = 0;
-            foreach($q->sql($params) as $rec){
-                if($topn<$topn_max){
-                    array_push($limited, $rec);
-                }else{
-                    array_push($result, $rec);
-                }
-                $topn++;
+            if($itm =='comment'){
+                $params['sql'] = "select 'comment' as itmtype, idtype as 'idtype', id as 'idid', '评论' as 'verb', cid as 'oid', uid as 'uid', username as 'user', 'comment' as 'itype', dateline as 'utime', title as name, content as 'detail', grade as grade from dbpre_comment order by dateline desc";
             }
+            if($params['sql']!="")two($q->sql($params), $limited, $result, $topn_max);
         }
+        //group topic & reply
+        two($q->alltopicreply($params), $limited, $result, $topn_max);
         
-        function dsort($a, $b){
-            if($a[utime]==$b[utime])return 0;
-            if($a[utime]>$b[utime])return -1;
-            return 1;
-        }
-        usort($result, dsort);
+        usort($result, laterfirst);
         
         $size = 9; //($params[rows]?$params[rows]:5)*count($itms);
         $count = 0;
@@ -53,14 +73,33 @@ class query {
             array_push($limited, $r);
             $count++;
         }
-        
-        //append feeds
-        //$params['sql'] = "select 'feed' as itmtype, flag as 'idtype', id as 'idid', substring(title from instr(title, '/a>') + 3) as 'verb', id as 'oid', uid as 'uid', username as 'user', 'feed' as 'itype', dateline as 'utime', images as 'detail' from dbpre_member_feed where trim(images)!='' order by dateline desc";
-        //foreach($q->sql($params) as $rec)array_push($limited, $rec);
-        usort($limited, dsort);
+        usort($limited, laterfirst);
         
         return $limited;
     }
+    
+    function alltopicreply($params){
+        extract($params);
+        $q = new query();
+        $result = array();
+        //append feeds
+        $sqlx = "select 'grouptopic' as itmtype, 'grouptopic' as idtype, tpid as 'idid', '回复' as 'verb', tpid as 'oid', uid as 'uid', username as 'user', 'grouptopic' as 'itype', dateline as 'utime', content as 'detail', (select subject from dbpre_group_topic t where t.tpid = x.tpid) as 'name' from dbpre_group_reply x order by dateline desc";
+        $params['sql'] = $sqlx;
+        foreach($q->sql($params) as $rec)array_push($result, $rec);
+        
+        $grouptopics = array();
+        $params['sql'] = "select 'grouptopic' as itmtype, 'grouptopic' as idtype, tpid as 'idid', '发布' as 'verb', tpid as 'oid', uid as 'uid', username as 'user', 'grouptopicreply' as 'itype', dateline as 'utime', subject as 'name', content as 'detail' from dbpre_group_topic order by dateline desc";
+        foreach($q->sql($params) as $rec)array_push($grouptopics, $rec);
+
+        foreach($grouptopics as $rec){
+            if(!itemexists($result, $rec, 'idid'))
+                    array_push($result, $rec);
+        }
+
+        usort($result, laterfirst);
+        return $result;
+    }
+    
     function allpicupdates($params){
         extract($params);
         $q = new query();

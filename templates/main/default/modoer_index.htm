@@ -67,7 +67,7 @@
                 <div class="ix_review">
                     <div class="ix_left1_more"><span class="arrow-ico"><a href="{url review/list}">最近点评</a></span></div>
                 </div>
-                <div class="ix_left1_body" style="height:930px;">
+                <div class="ix_left1_body" stylex="height:930px;">
                     <!--{get:allupdate val=allupdate(updates/subject,review/city_id/_NULL_CITYID_/orderby/posttime DESC/rows/5/cachetime/500)}-->
                     <div class="review">
                         <div class="member">
@@ -80,13 +80,19 @@
                                 <!--{else}-->
                                 <span class="font_3">游客({print preg_replace("/^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$/","\\1.\\2.*.*", $val[ip])})</span>
                                 <!--{/if}-->
-                                {$val[verb]}了&nbsp;
+                                <span style="color:#B9B9B9">{$val[verb]}</span>了&nbsp;
                                     <!-- {if $val[itmtype]=='article'}-->
                                         <strong><a href="{url article/detail/id/$val[idid]}">$val[name]</a></strong>
+                                    <!-- {elseif $val[itmtype]=='comment' and $val[idtype]=='article'}-->
+                                            <strong><a href="{url article/detail/id/$val[idid]}">{sublen $val[name], 30}</a></strong><div style="float:right;" class="start{$val[grade]}"></div>
+                                    <!-- {elseif $val[itmtype]=='comment' and $val[idtype]=='album'}-->
+                                            <strong><a href="{url item/album/id/$val[idid]}">{sublen $val[name], 30}</a></strong><div style="float:right;" class="start{$val[grade]}"></div>
+                                    <!-- {elseif $val[itmtype]=='grouptopic'}-->
+                                        <strong><a href="{url group/topic/id/$val[idid]}">$val[name]</a></strong>
                                     <!-- {else}-->
                                         <strong><a href="{print:review typeurl(idtype/$val[idtype]/id/$val[idid])}">$val[name]</a></strong>
                                     <!-- {/if} -->
-                                    <!-- {if $val[itmtype]!='feed'}-->
+                                    <!-- {if $val[itmtype]=='subject'}-->
                                         <a href="{url review/member/ac/add/type/$val[idtype]/id/$val[idid]}" style="color:red"'>(点评)</a>
                                     <!-- {/if} -->
                             </div>
@@ -96,7 +102,7 @@
                                     <!--{eval $reviewurl = '...<a href="' . url("review/detail/id/".$val[oid]) . '">(查看全文)</a>';}-->
                                     <p>{sublen $val[detail],42,$reviewurl}</p>
                                 <!-- {else} -->
-                                    <p>{sublen $val[detail],42}...</p>
+                                    <p>{sublen $val[detail],110}...</p>
                                 <!-- {/if} -->
                                 
                             </div>
