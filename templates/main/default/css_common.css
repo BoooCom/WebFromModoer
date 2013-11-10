@@ -432,7 +432,14 @@ a.ext-highlight-link{
 }
 
 .map-link{
-    background:url(img/map_ico.jpg) no-repeat right;
+    background:url(img/map_ico.png) no-repeat right;
     height: 16px;
     width: 16px;
 }
+/*--- star ---*/
+.xstart0 { background:url('img/review_start.gif') no-repeat 0 -1px;  width:58px; height:16px; }
+.xstart1 { background:url('img/review_start.gif') no-repeat 0 -15px; width:58px; height:16px; }
+.xstart2 { background:url('img/review_start.gif') no-repeat 0 -29px; width:58px; height:16px; }
+.xstart3 { background:url('img/review_start.gif') no-repeat 0 -43px; width:58px; height:16px; }
+.xstart4 { background:url('img/review_start.gif') no-repeat 0 -57px; width:58px; height:16px; }
+.xstart5 { background:url('img/review_start.gif') no-repeat 0 -71px; width:58px; height:16px; }

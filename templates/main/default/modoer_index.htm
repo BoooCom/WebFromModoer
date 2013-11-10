@@ -84,9 +84,9 @@
                                     <!-- {if $val[itmtype]=='article'}-->
                                         <strong><a href="{url article/detail/id/$val[idid]}">$val[name]</a></strong>
                                     <!-- {elseif $val[itmtype]=='comment' and $val[idtype]=='article'}-->
-                                            <strong><a href="{url article/detail/id/$val[idid]}">{sublen $val[name], 30}</a></strong><div style="float:right;" class="start{$val[grade]}"></div>
+                                            <strong><a href="{url article/detail/id/$val[idid]}">{sublen $val[name], 30}</a></strong><div style="float:right;" class="xstart{$val[grade]}"></div>
                                     <!-- {elseif $val[itmtype]=='comment' and $val[idtype]=='album'}-->
-                                            <strong><a href="{url item/album/id/$val[idid]}">{sublen $val[name], 30}</a></strong><div style="float:right;" class="start{$val[grade]}"></div>
+                                            <strong><a href="{url item/album/id/$val[idid]}">{sublen $val[name], 30}</a></strong><div style="float:right;" class="xstart{$val[grade]}"></div>
                                     <!-- {elseif $val[itmtype]=='grouptopic'}-->
                                         <strong><a href="{url group/topic/id/$val[idid]}">$val[name]</a></strong>
                                     <!-- {else}-->
