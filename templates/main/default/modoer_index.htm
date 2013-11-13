@@ -68,7 +68,7 @@
                     <div class="ix_left1_more"><span class="arrow-ico"><a href="{url review/list}">最近点评</a></span></div>
                 </div>
                 <div class="ix_left1_body" stylex="height:930px;">
-                    <!--{get:allupdate val=allupdate(updates/subject,review/city_id/_NULL_CITYID_/orderby/posttime DESC/rows/5/cachetime/500)}-->
+                    <!--{get:allupdate val=allupdate(updates/subject,review/city_id/_NULL_CITYID_/orderby/posttime DESC/rows/5/cachetime/100)}-->
                     <div class="review">
                         <div class="member">
                             <a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" class="face"></a>
@@ -111,7 +111,7 @@
                     </div>
                     <!--{/get}-->
                     <ul class="index_feed">
-                        <!--{get:allpicupdates val=allpicupdates(updates/subject,review/city_id/_NULL_CITYID_/orderby/posttime DESC/rows/4/cachetime/500)}-->
+                        <!--{get:allpicupdates val=allpicupdates(updates/subject,review/city_id/_NULL_CITYID_/orderby/posttime DESC/rows/4/cachetime/100)}-->
                         <li>
                             <div class="member">
                                 <a href="{url space/index/uid/$val[uid]}"><img src="{print get_face($val[uid])}" class="face"></a>
