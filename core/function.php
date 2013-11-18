@@ -1151,7 +1151,7 @@ function get_face($uid, $create_src = FALSE, $show_root = TRUE) {
         $root = url('modoer', '', TRUE, TRUE, 0);
         $src = 'uploads/faces/'.$dir1.'/'.$dir2.'/'.$dir3.'/'.substr($uid, -2) . ".jpg";
         if($create_src || is_file(MUDDER_ROOT . $src)) return ($show_root ? $root : (URLROOT.'/')) . $src;
-        return ($show_root ? $root : URLROOT) . 'static/images/noface.jpg';
+        return ($show_root ? $root : URLROOT) . 'static/images/noface'.rand(0,56).'.jpg';
     }
 }
 //转换页码为数据开始下标

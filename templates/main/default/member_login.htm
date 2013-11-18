@@ -5,7 +5,13 @@
 <div class="mainrail rail-border-3">
     <h1 class="rail-h-3 rail-h-bg-3">登录</h1>
     <div class="post">
-        <div style="float:left;margin-bottom:10px;width:68%;border-right:1px solid #eee;">
+		<div style="float:left;width:26%;font-size:14px;color:#808080;">
+            <!---->
+			<div style="margin-left:60px;margin-top:20px;"><img src="{URLROOT}/static/images/login<?php echo rand(1,12) ?>.jpg" style="margin-right:2px;" /></div>
+			
+			
+        </div>
+        <div style="float:left;margin-bottom:1px;width:42%;border-right:1px solid #eee;">
             <form method="post" action="{url member/login/op/login/rand/$_G[random]}" onsubmit="return validator(this);">
                 <!--{if $passport}-->
                 <input type="hidden" name="passport" value="$passport_type">
@@ -19,7 +25,7 @@
                     </tr>
                     <!--{/if}-->
                     <tr>
-                        <td align="right" width="250">用户名：</td>
+                        <td align="right" width="60" height="50">用户名：</td>
                         <td width="*"><input type="text" name="username" class="t_input" style="width:200px;" validator="{'empty':'N','errmsg':'请填写您的登录用户名。'}" /></td>
                     </tr>
                     <tr>
@@ -39,9 +45,9 @@
                         <td align="right"></td>
                         <td><input type="checkbox" name="life" id="life" value="2592000" /><label for="life">记住密码(30天)</label></td>
                     </tr>
-                    <tr>
+                    <tr height="50">
                         <td><input type="hidden" name="forward" value="$forward" /></td>
-                        <td><button type="submit" name="onsubmit" value="yes" class="button">登录</button></td>
+                        <td><button type="submit" name="onsubmit" value="yes" class="button" >登录</button></td>
                     </tr>
                 </table>
             </form>
